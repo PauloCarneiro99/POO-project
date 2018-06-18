@@ -11,6 +11,7 @@ public class Random {
 	private long m = 843314861;
 	private long a = 453816693;
 	private long x = 1023;
+	private int last = 0;
 
 	/**
 	 * Class constructor that sets a random seed.
@@ -39,6 +40,14 @@ public class Random {
 		this.x = (a + m * x) % p;
 		return ((double)x)/p;
 	}
+	
+	/**
+	 * Returns the last number generated.
+	 * @return Last generated number.
+	 */
+	public int getLastInt(){
+		return last;
+	}
 
 	/**
 	 * Returns a random number in range [0;max[.
@@ -46,7 +55,7 @@ public class Random {
 	 * @return Generated number.
 	 */
 	public int getIntRandom(int max){
-		return (int)(getRandom() * max);
+		return (last = (int)(getRandom() * max));
 	}
 
 	/**
@@ -61,7 +70,7 @@ public class Random {
 			min = max;
 			max = tmp;
 		}
-		return (int)(min + (getRandom() * (max - min)));
+		return (last = (int)(min + (getRandom() * (max - min))));
 	}
 
 	/**

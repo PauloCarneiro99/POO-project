@@ -21,6 +21,7 @@ public class OlhosdeAguia extends BaseJogos {
 			numeros[atual] = true;//anoto no vetor que agora esse numero ja foi usado
 			botoes.elementAt(i).setText(Integer.toString(atual));//coloco no botao o numero
 			botoes.elementAt(i).setForeground(cores[r.getIntRandom(4)]);
+			botoes.elementAt(i).setVisible(true);
 		}
 	}
 	
@@ -50,7 +51,7 @@ public class OlhosdeAguia extends BaseJogos {
 	
 	@Override
 	String oqTemnoBotao(int i) {
-		return botoes.elementAt(i-1).getText();
+		return botoes.elementAt(i).getText();
 	}
 
 	@Override
@@ -59,8 +60,8 @@ public class OlhosdeAguia extends BaseJogos {
 		try {
 			if(ehPrimeiro(Integer.parseInt(oqTemnoBotao(i)))){
 				numeros[Integer.parseInt(oqTemnoBotao(i))] = false;
-				botoes.elementAt(i-1).setText("");
-				botoes.elementAt(i-1).setVisible(false);
+				botoes.elementAt(i).setText("");
+				botoes.elementAt(i).setVisible(false);
 				errado = 0;
 			}
 			else{

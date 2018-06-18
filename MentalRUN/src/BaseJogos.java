@@ -55,9 +55,10 @@ abstract class BaseJogos {
 		janelaBaseJogos.add(pnlBotoes);
 		
 		botoes = new Vector<JButton>();
-		for(int i = 1; i <= 42; i++){
+		for(int i = 0; i < 42; i++){
 			botoes.addElement(new JButton());//cria botoes e vai colocando eles em um vetor
-			botoes.elementAt(i-1).setActionCommand(""+i);
+			botoes.elementAt(i).setActionCommand(""+i);
+			botoes.elementAt(i).setVisible(false);
 		}
 		
 		for(JButton botao : botoes){//pra cada botao nos botoes
