@@ -1,9 +1,15 @@
+import java.awt.Font;
 
 public class SequenciaNumerica extends BaseJogos {
 	
+	/*
+	 * Mudar a insersao para usar map pra ver se um numero ja foi inserido ou nao 
+	 * Deixar de usar o vetor de booleanos
+	 */
+	
 	private Random r = null;
 	private boolean numeros[] = null;
-	private int max = 43, errado = 0;
+	private int max = 43;
 	
 
 	public SequenciaNumerica() {
@@ -22,6 +28,7 @@ public class SequenciaNumerica extends BaseJogos {
 			botoes.elementAt(i).setText(Integer.toString(atual));//coloco no botao o numero
 			botoes.elementAt(i).setForeground(cores[r.getIntRandom(4)]);
 			botoes.elementAt(i).setVisible(true);
+			botoes.elementAt(i).setFont(new Font("Arial", Font.PLAIN, 20));
 		}
 	}
 	
@@ -62,14 +69,9 @@ public class SequenciaNumerica extends BaseJogos {
 				numeros[Integer.parseInt(oqTemnoBotao(i))] = false;
 				botoes.elementAt(i).setText("");
 				botoes.elementAt(i).setVisible(false);
-				errado = 0;
 			}
 			else{
-				if(errado < 1)
-					errado++;
-				else{
-					penalidade(5);
-				}
+				penalidade(3);
 			}
 		} catch (Exception e) {}
 		if(ehPrimeiro() == -1){

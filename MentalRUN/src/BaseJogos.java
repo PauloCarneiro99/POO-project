@@ -168,7 +168,6 @@ abstract class BaseJogos {
 		final Timer timer = new Timer(0, new ActionListener() {//cria um timer com delay inicial 0
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("yo");
 				if(BaseJogos.segundos > 0){//altera o q ta escrito no painel de mensagens
 					optionPane.setMessage("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
 					BaseJogos.segundos--;

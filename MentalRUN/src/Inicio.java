@@ -72,7 +72,11 @@ public class Inicio {
 		Object simnao[] = {"Sozinho", "Em dupla"};
 		int op = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
 		System.out.println(op);
-		//new OlhosdeAguia();
+		proximoJogo();
+	}
+	
+	public void proximoJogo(){
+		new Random().getIntRandom(5);
 		new TodosIguais();
 	}
 	
