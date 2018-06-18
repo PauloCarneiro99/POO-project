@@ -15,7 +15,7 @@ public class Inicio {
 
 	public static void main(String[] args) {
 		try {
-			new Inicio2();
+			new Inicio();
 		} catch (Exception e) {}
 	}
 	
