@@ -1,3 +1,4 @@
+import java.awt.Font;
 
 public class ExemploNovoJogo extends BaseJogos {
 	
@@ -13,9 +14,11 @@ public class ExemploNovoJogo extends BaseJogos {
 		cor2 = r.getIntRandom(4);
 		for(int i = 0; i < 5; i++){
 			int tmp = r.getIntRandom(42);
+			botoes.elementAt(tmp).setFont(new Font("Arial", Font.PLAIN, 24));
 			botoes.elementAt(tmp).setText("●");
 			botoes.elementAt(tmp).setForeground(cores[1]);
 			tmp = r.getIntRandom(42);
+			botoes.elementAt(tmp).setFont(new Font("Arial", Font.PLAIN, 24));
 			botoes.elementAt(tmp).setText("◆");
 			botoes.elementAt(tmp).setForeground(cores[2]);
 		}
