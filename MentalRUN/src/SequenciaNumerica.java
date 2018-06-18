@@ -1,13 +1,13 @@
 
-public class OlhosdeAguia extends BaseJogos {
+public class SequenciaNumerica extends BaseJogos {
 	
 	private Random r = null;
 	private boolean numeros[] = null;
 	private int max = 43, errado = 0;
 	
 
-	public OlhosdeAguia() {
-		super("Olhos de Aguia", "Clique nos números em ordem crescente");//contrutor da superclasse, nome do jogo e como joga ele
+	public SequenciaNumerica() {
+		super("Sequencia Numerica", "Clique nos números em ordem crescente");//contrutor da superclasse, nome do jogo e como joga ele
 		r = new Random();//criando o rand
 		
 		numeros = new boolean[max];//crio um vetor de booleanos pra saber se ja coloquei aquele numero na tela pra evitar numeros iguais
