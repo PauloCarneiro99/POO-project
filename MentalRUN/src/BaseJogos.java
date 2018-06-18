@@ -11,23 +11,28 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 abstract class BaseJogos {
 	
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
-	protected String nome = "", comojoga = "";
+	protected String nome = "", comoJoga = "";
 	private long tempoComeco = 0, tempoFim = 0;
 	private boolean jogando = false;
+	private Image img = null;
+	protected static int segundos;
+	protected Color cores[] = new Color[4];
 	
-	public BaseJogos(String nome, String comojoga){
+	public BaseJogos(String nome, String comoJoga){
 		this.nome = nome;
-		this.comojoga = comojoga;
-		Image img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
+		this.comoJoga = comoJoga;
+		img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
 		janelaBaseJogos = new JFrame(this.nome);
 		janelaBaseJogos.setVisible(true);
 		janelaBaseJogos.setSize(img.getWidth(null), img.getHeight(null)+30);//define o tamanho da janela com o tamanho da imagem
@@ -77,6 +82,12 @@ abstract class BaseJogos {
 		});
 		lblInstrucoes.setBounds(440, 100, 30, 30);
 		janelaBaseJogos.getContentPane().add(lblInstrucoes);
+		
+		cores[0] = new Color(38, 38, 38);//preto
+		cores[1] = new Color(40, 154, 243);//azul
+		cores[2] = new Color(244, 67, 55);//vermelho
+		cores[3] = new Color(76, 175, 80);//verde
+		
 		comeca();//dispara o cronometro
 		
 	}
@@ -98,7 +109,7 @@ abstract class BaseJogos {
 	 * Mostra na tela uma janela com as instruções de cada jogo
 	 */
 	private void instrucoes(){
-		JOptionPane.showMessageDialog(null, comojoga, nome, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, comoJoga, nome, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	/**
@@ -130,6 +141,56 @@ abstract class BaseJogos {
 			return ((double)(System.nanoTime()/1000000 - tempoComeco))/1000;
 		else
 			return ((double)(tempoFim - tempoComeco))/1000;
+	}
+	
+	/**
+	 * Abre uma janela do tamanho da inferior sobre a janela do jogo e impede a jogada.
+	 * @param segundos O tempo que a janela devera dicar aberta
+	 */
+	public void penalidade(final int segundos){
+		BaseJogos.segundos = segundos;
+		//cria um painel de mensagens "new Object[]{}, null" é pra que ele fique sem botoes
+		final JOptionPane optionPane = new JOptionPane("Penalidade: "+segundos+" segundos", JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+		optionPane.setBackground(Color.WHITE);
+		final JDialog dialog = new JDialog();//cria a janela
+		dialog.setTitle("Penalidade");
+		dialog.setContentPane(optionPane);//coloca o painel de mensagens dentro dessa janela
+		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);//destiva o botao de fechar janela
+		dialog.setLocation(
+				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
+				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);
+		dialog.setSize(img.getWidth(null), img.getHeight(null)+30);
+		dialog.setResizable(false);
+		dialog.setAlwaysOnTop(true);
+		
+		final Timer timer = new Timer(0, new ActionListener() {//cria um timer com delay inicial 0
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("yo");
+				if(BaseJogos.segundos > 0){//altera o q ta escrito no painel de mensagens
+					optionPane.setMessage("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
+					BaseJogos.segundos--;
+				}
+				else{
+					dialog.dispose();//fecha a janela
+				}
+			}
+		});
+		Thread close = new Thread(){//cria uma thread pra desligar o timer depois que ele acabar
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(BaseJogos.segundos*1000+500);
+				} catch (InterruptedException e) {}
+				timer.stop();//desliga o timer
+			}
+		};
+		timer.setRepeats(true);
+		timer.setDelay(1000);//define a frequencia do timer pra 1 segundo
+		close.start();
+		timer.start();
+		dialog.setVisible(true);
 	}
 
 }

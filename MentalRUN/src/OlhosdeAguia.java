@@ -1,19 +1,14 @@
-import java.awt.Color;
 
 public class OlhosdeAguia extends BaseJogos {
 	
 	private Random r = null;
 	private boolean numeros[] = null;
 	private int max = 43, errado = 0;
-	Color cores[] = new Color[4];
+	
 
 	public OlhosdeAguia() {
 		super("Olhos de Aguia", "Clique nos números em ordem crescente");//contrutor da superclasse, nome do jogo e como joga ele
 		r = new Random();//criando o rand
-		cores[0] = new Color(38, 38, 38);//preto
-		cores[1] = new Color(40, 154, 243);//azul
-		cores[2] = new Color(244, 67, 55);//vermelho
-		cores[3] = new Color(76, 175, 80);//verde
 		
 		numeros = new boolean[max];//crio um vetor de booleanos pra saber se ja coloquei aquele numero na tela pra evitar numeros iguais
 		for(int i = 0; i < max; i++)
@@ -72,7 +67,7 @@ public class OlhosdeAguia extends BaseJogos {
 				if(errado < 1)
 					errado++;
 				else{
-					//JOptionPane.showMessageDialog(null, , "penalidade de tempo", JOptionPane.PLAIN_MESSAGE);
+					penalidade(5);
 				}
 			}
 		} catch (Exception e) {}
