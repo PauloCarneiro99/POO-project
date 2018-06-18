@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class Servidor {
 	
-	private static HashMap<String, Vector<Double>> usuarios;
+	private static HashMap<String, HashMap<String, Vector<Double>>> usuarios;
 	public final static int port = 7777;
 
 	/**
@@ -13,21 +13,25 @@ public class Servidor {
 	 * @param args
 	 */
 	public Servidor(){
-		usuarios = new HashMap<String, Vector<Double>>();
+		usuarios = new HashMap<String, HashMap<String, Vector<Double>>>();
 	}
 	
 	/**
 	 * Adiciona uma nova pontuação aos dados dos usuários.
 	 * Também cria um novo usuário se não conseguir encontrar o nome do usuário especificado.
-	 * @param nome ID do usuário.
+	 * @param usuario ID do usuário.
 	 * @param pontuacao Pontuação do usuário a ser adicionada.
 	 */
-	public void addPontuacao(String nome, double pontuacao){
-		if(!usuarios.containsKey(nome)){
-			Vector<Double> pontuacoes = new Vector<Double>();
-			usuarios.put(nome, pontuacoes);
+	public void addPontuacao(String usuario, String jogo, double pontuacao){
+		if(!usuarios.containsKey(usuario)){
+			HashMap<String, Vector<Double>> jogos = new HashMap<String, Vector<Double>>();
+			usuarios.put(usuario, jogos);
 		}
-		usuarios.get(nome).add(pontuacao);
+		if(!usuarios.get(usuario).containsKey(jogo)){
+			Vector<Double> pontuacoes = new Vector<Double>();
+			usuarios.get(usuario).put(jogo, pontuacoes);
+		}
+		usuarios.get(usuario).get(jogo).add(pontuacao);
 	}
 
 	/**
@@ -35,13 +39,16 @@ public class Servidor {
 	 */
 	synchronized static void printScores(){
 		System.out.println();
-		for(String nome : usuarios.keySet()){
-			double soma = 0;
-			for(Double pontuacao : usuarios.get(nome))
-				soma += pontuacao;
-			System.out.println(nome+":\n\tJogou "+usuarios.get(nome).size()+" vezes");
-			System.out.println("\tPontuacao total: "+soma+" pontos");
-			System.out.println("\tMédia: "+(soma/usuarios.get(nome).size())+" pontos");
+		for(String usuario : usuarios.keySet()){
+			System.out.println(usuario+":");
+			for(String jogo : usuarios.get(usuario).keySet()){
+				System.out.println("\tJogou "+jogo+" "+usuarios.get(usuario).get(jogo).size()+" vezes");
+				double soma = 0;
+				for(Double pontuacao : usuarios.get(usuario).get(jogo))
+					soma += pontuacao;
+				System.out.println("\t\tPontuacao total: "+soma+" pontos");
+				System.out.println("\t\tMédia: "+(soma/usuarios.get(usuario).get(jogo).size())+" pontos");
+			}
 		}
 	}
 

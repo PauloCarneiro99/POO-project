@@ -14,7 +14,10 @@ public class ServerThread extends Thread {
 	private String nome;
 	private Scanner in;
 	private PrintStream out;
-	private double tempoTotal;
+	private Random r;
+	private double tempo;
+	private String jogosNomes[] = {"Olhos de Aguia", "Sequencia Numerica", "Todos Iguais"};
+	private boolean jogosJogados[] = {false, false, false};
 
 	/**
 	 * Abre canais de comunicação.
@@ -27,37 +30,69 @@ public class ServerThread extends Thread {
 		this.servidor = servidor;
 		this.in = new Scanner(socket.getInputStream());
 		this.out = new PrintStream(socket.getOutputStream());
-		this.tempoTotal = 0;
+		this.tempo = 0;
+		this.r = new Random();
 	}
 
 	/**
-	 * Tries to read command lines received from client.
+	 * Tenta ler as linhas de comando recebidas do cliente.
 	 */
 	public void run(){
 		try {
-			readI();
+			leID();
 		} catch (Exception e) {
-			servidor.addPontuacao("I ERRO", 0);
+			servidor.addPontuacao("I ERRO", "I ERRO", 0);
 			System.out.println(e.getMessage());
 			in.close();
 			out.close();
 			return;
 		}
-		try {
-			//readF();
-		} catch (Exception e) {
-			servidor.addPontuacao(nome, 0);
-			System.out.println(e.getMessage());
-			in.close();
-			out.close();
-			System.out.println(nome+" offline");
-			return;
-		}
-		servidor.addPontuacao(nome, tempoTotal);
+		sorteiaJogo();
 		out.println("Desconectando você\nObrigado por jogar!");
 		in.close();
 		out.close();
 		System.out.println(nome+" offline");
+	}
+
+	private void sorteiaJogo() {
+		while(!jogouTodos()){
+			int qual = r.getIntRandom(3);
+			while(jogosJogados[qual])
+				qual = r.getIntRandom(3);
+			out.println("J "+qual);
+			try {
+				lePontuacao();
+			} catch (Exception e) {
+				servidor.addPontuacao(nome, jogosNomes[qual], 0);
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private boolean jogouTodos(){
+		for(int i = 0; i < jogosJogados.length; i++)
+			if(!jogosJogados[i])
+				return false;
+		return true;
+	}
+
+	private void lePontuacao() throws Exception {
+		String[] read = in.nextLine().trim().split(" ");
+		if(read[0].equals("P")){
+			try {
+				int qual = Integer.parseInt(read[1]);
+				try {
+					double tempo = Double.parseDouble(read[2]);
+					servidor.addPontuacao(nome, jogosNomes[qual], tempo);
+				} catch (Exception e) {
+					throw new Exception("Terceiro argumento do comando 'R' não é um numero");
+				}
+			} catch (Exception e) {
+				throw new Exception("Segundo argumento do comando 'R' não é um numero");
+			}
+		}
+		else
+			throw new Exception("Comando 'P' não encontrado ou fora de contexto");
 	}
 
 	/**
@@ -65,7 +100,7 @@ public class ServerThread extends Thread {
 	 * If successful, sends welcome message back to him.
 	 * @throws BozoException
 	 */
-	private void readI() throws Exception {
+	private void leID() throws Exception {
 		String read = in.nextLine().trim();
 		if(read.split(" ")[0].equals("I")){
 			this.nome = toProper(read.substring(4, read.length()).trim().toLowerCase());
