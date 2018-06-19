@@ -1,5 +1,6 @@
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -9,7 +10,7 @@ import javax.swing.JTextArea;
  * Classe do cliente para o servidor do jogo.
  * @see Server
  */
-public class Client {
+public class Cliente {
 
 	private static Socket socket;
 	private static Scanner in;
@@ -52,21 +53,24 @@ public class Client {
 			@Override
 			public void run() {
 				while(true){
-					if(Client.jogo != null && !Client.jogo.isJogando()){
-						System.out.println(Client.jogo.tempoDecorrido());
+					try {Thread.sleep(4000);} catch (Exception e) {}
+					if(Cliente.jogo != null && !Cliente.jogo.isJogando()){
+						System.out.println("Cli Env: "+"P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
+						out.println("P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
 						break;
 					}
 				}
 			}
-		};
+		}.start();
 	}
 
 	private static void leJ() {
 		String read[] = in.nextLine().trim().split(" ");
+		System.out.println("Cli Leu: "+Arrays.toString(read));
 		if(read[0].equals("J")){
 			try {
 				int jogo = Integer.parseInt(read[1]);
-				Client.jogo.setJogo(jogo);
+				Cliente.jogo.setJogoID(jogo);
 			} catch (Exception e) {}
 		}
 	}
@@ -93,16 +97,23 @@ public class Client {
 				JOptionPane.showMessageDialog(null, scrollPane, "Qual o nome do seu oponente?", JOptionPane.PLAIN_MESSAGE);
 				oponente = textArea.getText().trim().split("\n")[0];
 			}
+			System.out.println("Cli Env: "+"I "+Dupla+" "+nome+"\n"+oponente);
 			out.println("I "+Dupla+" "+nome+"\n"+oponente);
-			while(in.hasNextLine())
-				JOptionPane.showMessageDialog(null, in.nextLine());
+			while(in.hasNextLine()){
+				String read = in.nextLine();
+				System.out.println("Cli Leu: "+read);
+				JOptionPane.showMessageDialog(null, read);
+			}
 		}
 		else{
+			System.out.println("Cli Env: "+"I "+Dupla+" "+nome);
 			out.println("I "+Dupla+" "+nome);
-			if(in.hasNextLine())
-				JOptionPane.showMessageDialog(null, in.nextLine());
+			if(in.hasNextLine()){
+				String read = in.nextLine();
+				System.out.println("Cli Leu: "+read);
+				JOptionPane.showMessageDialog(null, read);
+			}
 		}
-		System.out.println(nome+" "+oponente);
 	}
 
 }
