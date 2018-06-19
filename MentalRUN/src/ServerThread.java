@@ -1,5 +1,6 @@
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -47,6 +48,7 @@ public class ServerThread extends Thread {
 			return;
 		}
 		escreveJ();
+		System.out.println("Ser Env: "+"Desconectando você\nObrigado por jogar!");
 		out.println("Desconectando você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
@@ -57,6 +59,7 @@ public class ServerThread extends Thread {
 			int qual = r.getIntRandom(jogosJogados.length);
 			while(jogosJogados[qual])
 				qual = r.getIntRandom(jogosJogados.length);
+			System.out.println("Ser Env: "+"J "+qual);
 			out.println("J "+qual);
 			System.out.println(nome+" jogando "+jogosNomes[qual]);
 			try {
@@ -79,6 +82,7 @@ public class ServerThread extends Thread {
 
 	private void lePontuacao() throws Exception {
 		String[] read = in.nextLine().trim().split(" ");
+		System.out.println("Ser Leu: "+Arrays.toString(read));
 		if(read[0].equals("P")){
 			try {
 				int qual = Integer.parseInt(read[1]);
@@ -105,22 +109,29 @@ public class ServerThread extends Thread {
 	 */
 	private void leID() throws Exception {
 		String read = in.nextLine().trim();
+		System.out.println("Ser Leu: "+read);
 		if(read.split(" ")[0].equals("I")){
 			if(read.split(" ")[1].equals("0")){//sozinho
 				this.nome = toProper(read.substring(4, read.length()).trim().toLowerCase());
 				servidor.setUsuario(nome, true);
+				System.out.println("Ser Env: "+"Bem-vindo "+nome);
 				out.println("Bem-vindo "+nome);
 				System.out.println(nome+" online");
 			}
 			else if(read.split(" ")[1].equals("1")){//dupla
 				this.nome = toProper(read.substring(4, read.length()).trim().toLowerCase());
 				servidor.setUsuario(nome, true);
-				this.oponente = toProper(in.nextLine().trim().toLowerCase());
+				String read2 = in.nextLine();
+				System.out.println("Ser Leu: "+read2);
+				this.oponente = toProper(read2.trim().toLowerCase());
+				System.out.println("Ser Env: "+"Bem-vindo "+nome);
 				out.println("Bem-vindo "+nome);
+				System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
 				out.println("Esperando "+oponente+" se conectar");
 				while(!servidor.isUsuarioOnline(oponente)){
 					Thread.sleep(3000);
 				}
+				System.out.println("Ser Env: "+oponente+" conectado");
 				out.println(oponente+" conectado");
 				System.out.println(nome+" online jogando contra "+oponente);
 			}

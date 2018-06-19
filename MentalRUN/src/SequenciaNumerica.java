@@ -63,7 +63,6 @@ public class SequenciaNumerica extends BaseJogos {
 
 	@Override
 	void clicouBotao(int i) {
-		System.out.println(tempoDecorrido());
 		try {
 			if(ehPrimeiro(Integer.parseInt(oqTemnoBotao(i)))){
 				numeros[Integer.parseInt(oqTemnoBotao(i))] = false;

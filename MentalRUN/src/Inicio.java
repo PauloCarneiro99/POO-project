@@ -23,6 +23,7 @@ public class Inicio {
 	}
 	
 	public Inicio(){
+		this.jogoID = -1;
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
 		janelaInicio.setVisible(true);
@@ -71,8 +72,12 @@ public class Inicio {
 		
 	}
 
-	public void setJogo(int jogo) {
+	public void setJogoID(int jogo) {
 		this.jogoID = jogo;
+	}
+
+	public int getJogoID() {
+		return jogoID;
 	}
 
 	private void Jogar(){
@@ -82,7 +87,10 @@ public class Inicio {
 	
 	public void proximoJogo(){
 		jogoID = 2;
-		if(jogoID == 0)
+		if(jogoID == -1){
+			//jogando sem o servidor... sortear jogos
+		}
+		else if(jogoID == 0)
 			jogo = new SequenciaNumerica();
 		else if(jogoID == 1)
 			jogo = new SequenciaNumerica();
