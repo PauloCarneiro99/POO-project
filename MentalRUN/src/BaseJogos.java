@@ -39,7 +39,7 @@ abstract class BaseJogos {
 		janelaBaseJogos.setLocation(
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);//define a posicao da janela no centro da tela
-		janelaBaseJogos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaBaseJogos.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		janelaBaseJogos.getContentPane().setLayout(null);
 		janelaBaseJogos.getContentPane().setBackground(Color.WHITE);
 		
@@ -137,7 +137,7 @@ abstract class BaseJogos {
 	 * Retorna o tempo decorrido de jogo
 	 * @return Tempo decorrido de jogo
 	 */
-	protected double tempoDecorrido(){
+	public double tempoDecorrido(){
 		if(jogando)
 			return ((double)(System.nanoTime()/1000000 - tempoComeco))/1000;
 		else
@@ -148,7 +148,7 @@ abstract class BaseJogos {
 	 * Abre uma janela do tamanho da inferior sobre a janela do jogo e impede a jogada.
 	 * @param segundos O tempo que a janela devera dicar aberta
 	 */
-	public void penalidade(final int segundos){
+	protected void penalidade(final int segundos){
 		BaseJogos.segundos = segundos;
 		//cria um painel de mensagens "new Object[]{}, null" é pra que ele fique sem botoes
 		final JOptionPane optionPane = new JOptionPane("Penalidade: "+segundos+" segundos", JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
@@ -191,6 +191,14 @@ abstract class BaseJogos {
 		close.start();
 		timer.start();
 		dialog.setVisible(true);
+	}
+
+	public synchronized boolean isJogando() {
+		return jogando;
+	}
+
+	public synchronized void setJogando(boolean jogando) {
+		this.jogando = jogando;
 	}
 
 }

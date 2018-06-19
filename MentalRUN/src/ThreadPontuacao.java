@@ -14,10 +14,13 @@ public class ThreadPontuacao extends Thread {
 			String x = "";
 			try {
 				x = br.readLine();
+				if(x.equalsIgnoreCase("pontos")){
+					Servidor.printPontuacoes();
+				}
+				if(x.equalsIgnoreCase("online")){
+					Servidor.printOnline();
+				}
 			} catch (Exception e) {}
-			if(x.equalsIgnoreCase("pontuacoes")){
-				Servidor.printScores();
-			}
 		}
 	}
 

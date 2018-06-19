@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 public class Inicio {
 	
 	private JFrame janelaInicio;
+	private int jogoID;
+	private BaseJogos jogo;
 
 	public static void main(String[] args) {
 		try {
@@ -29,7 +31,7 @@ public class Inicio {
 		janelaInicio.setLocation(
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);//define a posicao da janela no centro da tela
-		janelaInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaInicio.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		janelaInicio.getContentPane().setLayout(null);
 		
 		JLabel imgFundo = new JLabel();//cria um label para o fundo
@@ -68,15 +70,24 @@ public class Inicio {
 		janelaInicio.getContentPane().add(lblCreditos);
 		
 	}
-	
+
+	public void setJogo(int jogo) {
+		this.jogoID = jogo;
+	}
+
 	private void Jogar(){
 		janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
 		proximoJogo();
 	}
 	
 	public void proximoJogo(){
-		new Random().getIntRandom(5);
-		new TodosIguais();
+		jogoID = 2;
+		if(jogoID == 0)
+			jogo = new SequenciaNumerica();
+		else if(jogoID == 1)
+			jogo = new SequenciaNumerica();
+		else if(jogoID == 2)
+			jogo = new TodosIguais();
 	}
 	
 	private void Instrucoes(){
@@ -90,6 +101,18 @@ public class Inicio {
 				"10284945 Gabriel B. Domingos\n"+
 				"10295304 Paulo O. Carneiro\n"+
 				"10284952 Vitor G. Torres\n");
+	}
+
+	public synchronized boolean isJogando() {
+		if(jogo != null)
+			return jogo.isJogando();
+		return false;
+	}
+	
+	public double tempoDecorrido(){
+		if(jogo != null)
+			return jogo.tempoDecorrido();
+		return 0;
 	}
 	
 }

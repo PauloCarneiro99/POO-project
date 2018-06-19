@@ -6,6 +6,7 @@ import java.util.Vector;
 public class Servidor {
 	
 	private static HashMap<String, HashMap<String, Vector<Double>>> usuarios;
+	private static HashMap<String, Boolean> usuariosOnline;
 	public final static int port = 7777;
 
 	/**
@@ -14,6 +15,7 @@ public class Servidor {
 	 */
 	public Servidor(){
 		usuarios = new HashMap<String, HashMap<String, Vector<Double>>>();
+		usuariosOnline = new HashMap<String, Boolean>();
 	}
 	
 	/**
@@ -22,7 +24,7 @@ public class Servidor {
 	 * @param usuario ID do usuário.
 	 * @param pontuacao Pontuação do usuário a ser adicionada.
 	 */
-	public void addPontuacao(String usuario, String jogo, double pontuacao){
+	synchronized public void addPontuacao(String usuario, String jogo, double pontuacao){
 		if(!usuarios.containsKey(usuario)){
 			HashMap<String, Vector<Double>> jogos = new HashMap<String, Vector<Double>>();
 			usuarios.put(usuario, jogos);
@@ -33,11 +35,22 @@ public class Servidor {
 		}
 		usuarios.get(usuario).get(jogo).add(pontuacao);
 	}
+	
+	synchronized public void setUsuario(String nome, boolean onoff){
+		if(!nome.isEmpty())
+			usuariosOnline.put(nome, onoff);
+	}
+	
+	synchronized public boolean isUsuarioOnline(String nome){
+		if(!usuariosOnline.containsKey(nome))
+			setUsuario(nome, false);
+		return usuariosOnline.get(nome);
+	}
 
 	/**
 	 * Imprime todas as pontuações.
 	 */
-	synchronized static void printScores(){
+	synchronized static void printPontuacoes(){
 		System.out.println();
 		for(String usuario : usuarios.keySet()){
 			System.out.println(usuario+":");
@@ -51,6 +64,12 @@ public class Servidor {
 			}
 		}
 	}
+	
+	synchronized static void printOnline(){
+		System.out.println();
+		for(String usuario : usuariosOnline.keySet())
+			System.out.println(usuario+" está "+(usuariosOnline.get(usuario)?"online":"offline"));
+	}
 
 	/**
 	 * Abre um servidor e uma porta para o jogo ser jogado.
@@ -59,6 +78,7 @@ public class Servidor {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		@SuppressWarnings("resource")
 		ServerSocket socket = new ServerSocket(port);
 		System.out.println("Porta "+port+" aberta");
 		Servidor servidor = new Servidor();
