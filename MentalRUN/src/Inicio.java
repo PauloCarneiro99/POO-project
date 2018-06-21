@@ -15,8 +15,16 @@ public class Inicio {
 	private JFrame janelaInicio;
 	private int jogoID;
 	private BaseJogos jogo;
+	private Cliente cliente;
 
 	public static void main(String[] args) {
+		try {
+			new Inicio();
+		} catch (Exception e) {}
+	}
+	
+	public Inicio(Cliente cliente){
+		this.cliente = cliente;
 		try {
 			new Inicio();
 		} catch (Exception e) {}
@@ -91,11 +99,11 @@ public class Inicio {
 			//jogando sem o servidor... sortear jogos
 		}
 		else if(jogoID == 0)
-			jogo = new SequenciaNumerica();
+			jogo = new SequenciaNumerica(cliente);
 		else if(jogoID == 1)
-			jogo = new SequenciaNumerica();
+			jogo = new SequenciaNumerica(cliente);
 		else if(jogoID == 2)
-			jogo = new TodosIguais();
+			jogo = new TodosIguais(cliente);
 	}
 	
 	private void Instrucoes(){

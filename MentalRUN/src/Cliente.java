@@ -15,7 +15,7 @@ public class Cliente {
 	private static Socket socket;
 	private static Scanner in;
 	private static PrintStream out;
-	private static String nome = "", oponente = "";
+	private static String nome = "", oponente = "", IPservidor = "";
 	private static int rodada;
 	private static Inicio jogo;
 
@@ -27,7 +27,23 @@ public class Cliente {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		socket = new Socket("127.0.0.1", Servidor.port);
+		while(true){
+			try {
+				//IPservidor = "192.168.182.167";
+				JTextArea textArea = new JTextArea();
+				while(IPservidor.length() == 0){
+					textArea.setEditable(true);
+					JScrollPane scrollPane = new JScrollPane(textArea);
+					JOptionPane.showMessageDialog(null, scrollPane, "Digite o IP do servidor", JOptionPane.PLAIN_MESSAGE);
+					IPservidor = textArea.getText().trim().split("\n")[0];
+				}
+					socket = new Socket(IPservidor, Servidor.port);
+					break;
+				} catch (Exception e) {
+					IPservidor = "";
+					JOptionPane.showMessageDialog(null, "Falha ao conectar-se.\nTente novamente");
+				}
+		}
 		System.out.println("Você está conectado");
 		in = new Scanner(socket.getInputStream());
 		out = new PrintStream(socket.getOutputStream());
@@ -44,24 +60,12 @@ public class Cliente {
 		escreveID();
 		while(rodada < 3){
 			leJ();
-			escreveP();
 		}
 	}
 
-	private static void escreveP() {
-		new Thread(){
-			@Override
-			public void run() {
-				while(true){
-					try {Thread.sleep(4000);} catch (Exception e) {}
-					if(Cliente.jogo != null && !Cliente.jogo.isJogando()){
-						System.out.println("Cli Env: "+"P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
-						out.println("P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
-						break;
-					}
-				}
-			}
-		}.start();
+	public void escreveP() {
+		System.out.println("Cli Env: "+"P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
+		out.println("P "+Cliente.jogo.getJogoID()+" "+Cliente.jogo.tempoDecorrido());
 	}
 
 	private static void leJ() {

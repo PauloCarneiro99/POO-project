@@ -28,10 +28,12 @@ abstract class BaseJogos {
 	private Image img = null;
 	protected static int segundos;
 	protected Color cores[] = new Color[4];
+	private Cliente cliente;
 	
-	public BaseJogos(String nome, String comoJoga){
+	public BaseJogos(Cliente cliente, String nome, String comoJoga){
 		this.nome = nome;
 		this.comoJoga = comoJoga;
+		this.cliente = cliente;
 		img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
 		janelaBaseJogos = new JFrame(this.nome);
 		janelaBaseJogos.setVisible(true);
@@ -131,6 +133,7 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
+		cliente.escreveP();
 	}
 	
 	/**
