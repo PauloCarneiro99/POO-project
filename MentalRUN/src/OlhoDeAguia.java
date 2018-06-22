@@ -9,7 +9,8 @@ public class OlhoDeAguia extends BaseJogos {
 	
 	private Random r = null;
 	private Character letraMais,letraUnica;	
-	private Integer rodadas = 0;
+	private Integer rodadas = 0,tamanhoLetra = 20;
+	
 	
 	public OlhoDeAguia() {
 		super("Olhos de Aguia", "Encontre a letra diferente");
@@ -52,7 +53,7 @@ public class OlhoDeAguia extends BaseJogos {
 			botoes.elementAt(i).setText(letraMais.toString());//coloco no botao o numero
 			botoes.elementAt(i).setForeground(cores[r.getIntRandom(4)]);
 			botoes.elementAt(i).setVisible(true);
-			botoes.elementAt(i).setFont(new Font("Arial", Font.PLAIN, 20));
+			botoes.elementAt(i).setFont(new Font("Arial", Font.PLAIN, tamanhoLetra));
 		}
 		
 		int idDiferente = r.getIntRandom(42);
@@ -71,6 +72,8 @@ public class OlhoDeAguia extends BaseJogos {
 			if(rodadas == 8) {
 				finaliza();
 			}else {
+				if(rodadas%2==1) // a cada duas rodadas, diminui o tamanho da letra
+					tamanhoLetra--;
 				montaTabuleiro();
 			}
 		}else {
