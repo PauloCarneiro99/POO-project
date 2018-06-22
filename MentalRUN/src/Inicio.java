@@ -77,7 +77,7 @@ public class Inicio {
 	
 	public void proximoJogo(){
 		new Random().getIntRandom(5);
-		new TodosIguais();
+		new OlhoDeAguia();
 	}
 	
 	private void Instrucoes(){
