@@ -27,7 +27,7 @@ abstract class BaseJogos {
 	private boolean jogando = false;
 	private Image img = null;
 	protected static int segundos;
-	protected Color cores[] = new Color[4];
+	protected Color cores[] = new Color[5];
 	
 	public BaseJogos(String nome, String comoJoga){
 		this.nome = nome;
@@ -86,8 +86,9 @@ abstract class BaseJogos {
 		
 		cores[0] = new Color(38, 38, 38);//preto
 		cores[1] = new Color(40, 154, 243);//azul
-		cores[2] = new Color(244, 67, 55);//vermelho
+		cores[2] = new Color(255,191, 79); // laranja
 		cores[3] = new Color(76, 175, 80);//verde
+		cores[4] = new Color(244, 67, 55);//vermelho
 		
 		comeca();//dispara o cronometro
 		
