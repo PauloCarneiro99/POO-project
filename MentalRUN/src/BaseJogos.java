@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,6 +21,8 @@ import javax.swing.Timer;
 
 abstract class BaseJogos {
 	
+	private JPanel pnlBotoes, pnlPenalidade;
+	private JLabel lblPenalidade;
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
 	protected String nome = "", comoJoga = "";
@@ -48,11 +51,25 @@ abstract class BaseJogos {
 		imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
 		janelaBaseJogos.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
 		
-		JPanel pnlBotoes = new JPanel();
+		pnlBotoes = new JPanel();
 		pnlBotoes.setBounds(28, 163, 444, 379);
 		pnlBotoes.setLayout(new GridLayout(6, 7));
 		pnlBotoes.setBackground(Color.WHITE);
+		
+		pnlPenalidade = new JPanel();
+		pnlPenalidade.setBounds(28, 163, 444, 379);
+		pnlPenalidade.setBorder(BorderFactory.createLineBorder(new Color(204,204,204)));
+		pnlPenalidade.setBackground(new Color(238,238,238));
+		
+		pnlPenalidade.setVisible(false);
+		
+		lblPenalidade = new JLabel();
+		pnlPenalidade.add(lblPenalidade);
+		
+		janelaBaseJogos.add(pnlPenalidade);
+		
 		janelaBaseJogos.add(pnlBotoes);
+		//janelaBaseJogos.add(pnlPenalidade);
 		
 		botoes = new Vector<JButton>();
 		for(int i = 0; i < 42; i++){
@@ -145,11 +162,50 @@ abstract class BaseJogos {
 			return ((double)(tempoFim - tempoComeco))/1000;
 	}
 	
+	public void penalidade(final int segundos) {
+		BaseJogos.segundos = segundos;
+		
+		pnlBotoes.setVisible(false);
+		pnlPenalidade.setVisible(true);
+		
+		final Timer timer = new Timer(0, new ActionListener() {//cria um timer com delay inicial 0
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(BaseJogos.segundos);
+				if(BaseJogos.segundos > 0){//altera o q ta escrito no painel de mensagens
+					//optionPane.setMessage("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
+					//System.out.println("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
+					lblPenalidade.setText("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
+					BaseJogos.segundos--;
+				}
+				else{
+					System.out.println("aaaaaaaaa");
+					pnlPenalidade.setVisible(false);
+					pnlBotoes.setVisible(true);
+				}
+			}
+		});
+		Thread close = new Thread(){//cria uma thread pra desligar o timer depois que ele acabar
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(BaseJogos.segundos*1000+500);
+				} catch (InterruptedException e) {}
+				timer.stop();//desliga o timer
+			}
+		};
+		timer.setRepeats(true);
+		timer.setDelay(1000);//define a frequencia do timer pra 1 segundo
+		close.start();
+		timer.start();
+	}
+	
+	
 	/**
 	 * Abre uma janela do tamanho da inferior sobre a janela do jogo e impede a jogada.
 	 * @param segundos O tempo que a janela devera dicar aberta
 	 */
-	public void penalidade(final int segundos){
+	public void penalidadeANTIGA(final int segundos){
 		BaseJogos.segundos = segundos;
 		//cria um painel de mensagens "new Object[]{}, null" é pra que ele fique sem botoes
 		final JOptionPane optionPane = new JOptionPane("Penalidade: "+segundos+" segundos", JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
