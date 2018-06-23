@@ -21,7 +21,9 @@ public class Inicio {
 	
 	public Inicio(){
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
+		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
+		janelaInicio.setIconImage(icone);
 		janelaInicio.setVisible(true);
 		janelaInicio.setBackground(Color.WHITE);
 		janelaInicio.setSize(img.getWidth(null), img.getHeight(null));//define o tamanho da janela com o tamanho da imagem
@@ -77,7 +79,7 @@ public class Inicio {
 	
 	public void proximoJogo(){
 		new Random().getIntRandom(5);
-		new OlhoDeAguia();
+		new CacaPalavras();
 	}
 	
 	private void Instrucoes(){
