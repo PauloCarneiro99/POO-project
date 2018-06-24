@@ -135,30 +135,30 @@ abstract class BaseJogos {
 		janelaBaseJogos.getContentPane().add(lblInstrucoes);
 		
 		cores[0] = new Color(38, 38, 38);//preto
-		cores[1] = new Color(40, 154, 243);//azul
-		cores[2] = new Color(255,191, 79); // laranja
+		cores[1] = new Color(23, 104, 176);//azul
+		cores[2] = new Color(238,159, 21); // laranja
 		cores[3] = new Color(76, 175, 80);//verde
-		cores[4] = new Color(244, 67, 55);//vermelho
+		cores[4] = new Color(230, 38, 25);//vermelho
 		
 		comeca();//dispara o cronometro
 		
 	}
 	
 	/**
-	 * Retorna o conteudo do i-ésimo botao
+	 * Retorna o conteudo do i-esimo botao
 	 * @param i Indice do botao
 	 * @return Seu conteudo
 	 */
 	abstract String oqTemnoBotao(int i);
 	
 	/**
-	 * Realiza ações diferentes para cada jogo quando se clica em um botao
+	 * Realiza açoes diferentes para cada jogo quando se clica em um botao
 	 * @param i Indice do botao clicado
 	 */
 	abstract void clicouBotao(int i);
 	
 	/**
-	 * Mostra na tela uma janela com as instruções de cada jogo
+	 * Mostra na tela uma janela com as instrucoes de cada jogo
 	 */
 	private void instrucoes(){
 		JOptionPane.showMessageDialog(null, comoJoga, nome, JOptionPane.PLAIN_MESSAGE);
@@ -195,6 +195,10 @@ abstract class BaseJogos {
 			return ((double)(tempoFim - tempoComeco))/1000;
 	}
 	
+	/**
+	 * Cria um painel, em cima dos botões, para indicar a penalidade
+	 * @param segundos O tempo que a janela devera dicar aberta
+	 */
 	public void penalidade(final int segundos) {
 		BaseJogos.segundos = segundos;
 		
@@ -231,56 +235,6 @@ abstract class BaseJogos {
 		timer.setDelay(1000);//define a frequencia do timer pra 1 segundo
 		close.start();
 		timer.start();
-	}
-	
-	
-	/**
-	 * Abre uma janela do tamanho da inferior sobre a janela do jogo e impede a jogada.
-	 * @param segundos O tempo que a janela devera dicar aberta
-	 */
-	public void penalidadeANTIGA(final int segundos){
-		BaseJogos.segundos = segundos;
-		//cria um painel de mensagens "new Object[]{}, null" é pra que ele fique sem botoes
-		final JOptionPane optionPane = new JOptionPane("Penalidade: "+segundos+" segundos", JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-
-		optionPane.setBackground(Color.WHITE);
-		final JDialog dialog = new JDialog();//cria a janela
-		dialog.setTitle("Penalidade");
-		dialog.setContentPane(optionPane);//coloca o painel de mensagens dentro dessa janela
-		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);//destiva o botao de fechar janela
-		dialog.setLocation(
-				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
-				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);
-		dialog.setSize(img.getWidth(null), img.getHeight(null)+30);
-		dialog.setResizable(false);
-		dialog.setAlwaysOnTop(true);
-		
-		final Timer timer = new Timer(0, new ActionListener() {//cria um timer com delay inicial 0
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(BaseJogos.segundos > 0){//altera o q ta escrito no painel de mensagens
-					optionPane.setMessage("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
-					BaseJogos.segundos--;
-				}
-				else{
-					dialog.dispose();//fecha a janela
-				}
-			}
-		});
-		Thread close = new Thread(){//cria uma thread pra desligar o timer depois que ele acabar
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(BaseJogos.segundos*1000+500);
-				} catch (InterruptedException e) {}
-				timer.stop();//desliga o timer
-			}
-		};
-		timer.setRepeats(true);
-		timer.setDelay(1000);//define a frequencia do timer pra 1 segundo
-		close.start();
-		timer.start();
-		dialog.setVisible(true);
 	}
 
 }
