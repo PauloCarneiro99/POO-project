@@ -187,6 +187,11 @@ abstract class BaseJogos {
 	abstract void clicouBotao(int i);
 	
 	/**
+	 * Especifica o que será colocado nos botoes to tabuleiro
+	 */
+	abstract void montaTabuleiro();
+	
+	/**
 	 * Mostra na tela uma janela com as instrucoes de cada jogo
 	 */
 	private void instrucoes(){
