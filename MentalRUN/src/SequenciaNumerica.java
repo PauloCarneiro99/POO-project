@@ -57,6 +57,10 @@ public class SequenciaNumerica extends BaseJogos {
 	}
 	
 	@Override
+	private void montaTabuleiro(){
+	}
+	
+	@Override
 	String oqTemnoBotao(int i) {
 		return botoes.elementAt(i).getText();
 	}
