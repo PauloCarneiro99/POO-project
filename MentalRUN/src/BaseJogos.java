@@ -56,8 +56,12 @@ abstract class BaseJogos {
 		
 		this.nome = nome;
 		this.comoJoga = comoJoga;
-		img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
+		//img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
+		img = new ImageIcon(this.getClass().getResource("/fundoPadrao.png")).getImage();
+		
 		janelaBaseJogos = new JFrame(this.nome);
+		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
+		janelaBaseJogos.setIconImage(icone);
 		janelaBaseJogos.setVisible(true);
 		janelaBaseJogos.setSize(img.getWidth(null), img.getHeight(null)+30);//define o tamanho da janela com o tamanho da imagem
 		janelaBaseJogos.setLocation(
@@ -67,11 +71,7 @@ abstract class BaseJogos {
 		janelaBaseJogos.getContentPane().setLayout(null);
 		janelaBaseJogos.getContentPane().setBackground(Color.WHITE);
 		
-		JLabel imgFundo = new JLabel();//cria um label para o fundo
-		imgFundo.setIcon(new ImageIcon(img));//coloca a imagem nesse label
-		imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
-		janelaBaseJogos.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
-		
+			
 		pnlBotoes = new JPanel();
 		pnlBotoes.setBounds(28, 163, 444, 379);
 		pnlBotoes.setLayout(new GridLayout(6, 7));
@@ -98,10 +98,16 @@ abstract class BaseJogos {
 		pnlPenalidade.add(lblPenalidade);
 		pnlPenalidade.add(imgFundoPenalidade);
 			
-		
 		janelaBaseJogos.add(pnlPenalidade);
-		
 		janelaBaseJogos.add(pnlBotoes);
+		
+		// COLOQUEI NO FINAL PARA FICAR ATRAS
+		JLabel imgFundo = new JLabel();//cria um label para o fundo
+		imgFundo.setIcon(new ImageIcon(img));//coloca a imagem nesse label
+		imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
+		janelaBaseJogos.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
+	
+		
 		//janelaBaseJogos.add(pnlPenalidade);
 		
 		botoes = new Vector<JButton>();
@@ -216,7 +222,6 @@ abstract class BaseJogos {
 					BaseJogos.segundos--;
 				}
 				else{
-					System.out.println("aaaaaaaaa");
 					pnlPenalidade.setVisible(false);
 					pnlBotoes.setVisible(true);
 				}
