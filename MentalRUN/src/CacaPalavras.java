@@ -32,7 +32,7 @@ public class CacaPalavras extends BaseJogos {
 		
 	}
 
-	
+	@Override
 	private void montaTabuleiro(){
 		marcadasCertas = 0;
 		marcadasErradas = 0;
