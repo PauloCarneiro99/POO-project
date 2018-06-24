@@ -35,6 +35,7 @@ public class OlhoDeAguia extends BaseJogos {
 		
 	}
 	
+	@Override
 	private void montaTabuleiro(){
 		
 		int aOuB = r.getIntRandom(2); // sorteia se a letra unica vem do vetor A ou B
