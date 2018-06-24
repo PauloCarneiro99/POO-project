@@ -45,10 +45,15 @@ abstract class BaseJogos {
 	public BaseJogos(String nome, String comoJoga){
 		
 		Font nexaL = null;
+		Font nexaB = null;
 		try{
-			 nexaL = Font.createFont(Font.TRUETYPE_FONT, new File("fontes\\nexaLight.otf")).deriveFont(18f);
+			 nexaL = Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaLight.otf")).deriveFont(18f);
 			 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			 ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontes\\nexaLight.otf")));
+			 ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaLight.otf")));
+			 
+			 nexaB = Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaBold.otf")).deriveFont(18f);
+			 GraphicsEnvironment gee = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			 gee.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaBold.otf")));
 		}catch(Exception e){
 			System.out.println("AA");
 		}
@@ -71,7 +76,26 @@ abstract class BaseJogos {
 		janelaBaseJogos.getContentPane().setLayout(null);
 		janelaBaseJogos.getContentPane().setBackground(Color.WHITE);
 		
-			
+		
+		JLabel lblNome1 = new JLabel();
+		lblNome1.setText("FABIO");
+		lblNome1.setFont(nexaL);
+		lblNome1.setBounds(40, 20,120,20);
+		janelaBaseJogos.add(lblNome1);
+		
+		JLabel lblNome2 = new JLabel();
+		lblNome2.setText("AVATAR");
+		lblNome2.setFont(nexaL);
+		lblNome2.setBounds(40, 55,120,20);
+		janelaBaseJogos.add(lblNome2);
+					
+		JLabel lblTituloJogo = new JLabel();
+		lblTituloJogo.setText(nome.toUpperCase());
+		lblTituloJogo.setFont(nexaB);
+		lblTituloJogo.setBounds(40, 108,360,20);
+		janelaBaseJogos.add(lblTituloJogo);
+		
+		
 		pnlBotoes = new JPanel();
 		pnlBotoes.setBounds(28, 163, 444, 379);
 		pnlBotoes.setLayout(new GridLayout(6, 7));
@@ -91,9 +115,8 @@ abstract class BaseJogos {
 		
 		lblPenalidade = new JLabel();
 		lblPenalidade.setBorder(new EmptyBorder(20, 0, 0, 0));
-	//	Font sizedFont = nexaLight.deriveFont(12f);
 		lblPenalidade.setFont(nexaL);
-		//pnlPenalidade.setLayout();
+
 	
 		pnlPenalidade.add(lblPenalidade);
 		pnlPenalidade.add(imgFundoPenalidade);
