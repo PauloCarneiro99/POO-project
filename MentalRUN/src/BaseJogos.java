@@ -1,4 +1,8 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -7,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -18,11 +25,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
+import javax.xml.soap.Text;
 
 abstract class BaseJogos {
 	
 	private JPanel pnlBotoes, pnlPenalidade;
-	private JLabel lblPenalidade;
+	private JLabel lblPenalidade,lblIconePenalidade;
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
 	protected String nome = "", comoJoga = "";
@@ -33,6 +43,17 @@ abstract class BaseJogos {
 	protected Color cores[] = new Color[5];
 	
 	public BaseJogos(String nome, String comoJoga){
+		
+		Font nexaL = null;
+		try{
+			 nexaL = Font.createFont(Font.TRUETYPE_FONT, new File("fontes\\nexaLight.otf")).deriveFont(18f);
+			 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			 ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontes\\nexaLight.otf")));
+		}catch(Exception e){
+			System.out.println("AA");
+		}
+		
+		
 		this.nome = nome;
 		this.comoJoga = comoJoga;
 		img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
@@ -56,7 +77,12 @@ abstract class BaseJogos {
 		pnlBotoes.setLayout(new GridLayout(6, 7));
 		pnlBotoes.setBackground(Color.WHITE);
 		
+		JLabel imgFundoPenalidade = new JLabel();
+		Image imgPenal = new ImageIcon(this.getClass().getResource("penalidade.png")).getImage();
+		imgFundoPenalidade.setIcon(new ImageIcon(imgPenal));
+		
 		pnlPenalidade = new JPanel();
+		
 		pnlPenalidade.setBounds(28, 163, 444, 379);
 		pnlPenalidade.setBorder(BorderFactory.createLineBorder(new Color(204,204,204)));
 		pnlPenalidade.setBackground(new Color(238,238,238));
@@ -64,7 +90,14 @@ abstract class BaseJogos {
 		pnlPenalidade.setVisible(false);
 		
 		lblPenalidade = new JLabel();
+		lblPenalidade.setBorder(new EmptyBorder(20, 0, 0, 0));
+	//	Font sizedFont = nexaLight.deriveFont(12f);
+		lblPenalidade.setFont(nexaL);
+		//pnlPenalidade.setLayout();
+	
 		pnlPenalidade.add(lblPenalidade);
+		pnlPenalidade.add(imgFundoPenalidade);
+			
 		
 		janelaBaseJogos.add(pnlPenalidade);
 		
@@ -175,7 +208,7 @@ abstract class BaseJogos {
 				if(BaseJogos.segundos > 0){//altera o q ta escrito no painel de mensagens
 					//optionPane.setMessage("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
 					//System.out.println("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
-					lblPenalidade.setText("Penalidade: "+BaseJogos.segundos+" segundo"+(BaseJogos.segundos!=1?"s":""));
+					lblPenalidade.setText("PENALIDADE: "+BaseJogos.segundos+" SEGUNDO"+(BaseJogos.segundos!=1?"S":""));
 					BaseJogos.segundos--;
 				}
 				else{
