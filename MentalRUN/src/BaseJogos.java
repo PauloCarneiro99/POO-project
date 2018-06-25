@@ -219,6 +219,13 @@ abstract class BaseJogos {
 		JOptionPane.showMessageDialog(null, comoJoga, nomeJogo, JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	protected void limpaTabuleiro(){
+		for(JButton botao : botoes){
+			botao.setText("");
+			botao.setVisible(false);
+		}
+	}
+	
 	/**
 	 * Dispara o cronometro
 	 */
