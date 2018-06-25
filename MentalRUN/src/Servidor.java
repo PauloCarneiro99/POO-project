@@ -55,15 +55,23 @@ public class Servidor {
 		System.out.println();
 		for(String usuario : usuarios.keySet()){
 			System.out.println(usuario+":");
+			printPontuacoes(usuario);
+		}
+	}
+	
+	/**
+	 * Imprime as pontuacoes de uma pessoa
+	 */
+	synchronized static void printPontuacoes(String usuario){
+		if(usuarios.containsKey(usuario))
 			for(String jogo : usuarios.get(usuario).keySet()){
 				System.out.println("\tJogou "+jogo+" "+usuarios.get(usuario).get(jogo).size()+" vezes");
 				double soma = 0;
 				for(Double pontuacao : usuarios.get(usuario).get(jogo))
 					soma += pontuacao;
-				System.out.println("\t\tPontuacao total: "+soma+" pontos");
-				System.out.println("\t\tMédia: "+(soma/usuarios.get(usuario).get(jogo).size())+" pontos");
+				System.out.println("\t\tPontuacao total: "+soma+" segundos");
+				System.out.println("\t\tMédia: "+(soma/usuarios.get(usuario).get(jogo).size())+" segundos");
 			}
-		}
 	}
 	
 	synchronized static void printOnline(){
