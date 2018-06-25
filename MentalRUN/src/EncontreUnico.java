@@ -13,7 +13,7 @@ public class EncontreUnico extends BaseJogos {
 	
 	
 	public EncontreUnico() {
-		super("", "");
+		super("Encontre o Unico", "Clique no unico simbolo diferente dos outros");
 		r = new Random();
 		rodadas = 0;
 		nroSimbolos = 3;
@@ -26,16 +26,16 @@ public class EncontreUnico extends BaseJogos {
 	}
 
 	@Override
-	void clicouBotao(int i) {
+	void clicouBotao(int i) { //acertei, gero um novo tabuleiro e aumento o numero de simbolos que serao gerados
 		if(i == posUnico){
 			rodadas++;
 			nroSimbolos++;
-			if(rodadas == 6){
+			if(rodadas == 6){ //cheguei no maximo de rodadas, finalizo o jogo
 				finaliza();
 			}
 			montaTabuleiro();
 			
-		}else{
+		}else{//errei o simbolo do unico, sofro a penalidade e gero um novo tabuleiro
 			penalidade(3);
 			limpaTabuleiro();
 			montaTabuleiro();
@@ -44,38 +44,42 @@ public class EncontreUnico extends BaseJogos {
 	}
 
 	@Override
-	void montaTabuleiro() {
-		limpaTabuleiro();
+	void montaTabuleiro(){
+		limpaTabuleiro();//incializando o tabuleiro
 		int pos;
-		int tmp = r.getIntRandom(42);
+		int tmp = r.getIntRandom(42);//gerando a posicao que o elemento unico sera posicionado no tabuleiro
 		
-		cor = r.getIntRandom(4);
-		simbolo = r.getIntRandom(8);
-		posUnico = tmp;
+		cor = r.getIntRandom(4);//gerando a cor do elemento unico
+		simbolo = r.getIntRandom(8); //gerando o simbolo do elemento unico
+		posUnico = tmp; //salvando a posicao que o unico vai estar
+		//escrevendo o botao no tabuleiro
 		botoes.elementAt(tmp).setFont(new Font("Arial", Font.PLAIN, 30));
 		botoes.elementAt(tmp).setText(simb[simbolo]);
 		botoes.elementAt(tmp).setForeground(cores[cor]);
 		botoes.elementAt(tmp).setVisible(true);
 		
+		//marcando que esse simbolo e essa cor ja foi inserido
 		pos = cor*MaxColuna + simbolo;
-		
 		inserido[pos] = true;
+		
 		for(int i=0; i< nroSimbolos; i++){
+			//inserindo os demas simbolos
 			int aux = r.getIntRandom(2)+2;
 			cor = r.getIntRandom(4);
 			simbolo = r.getIntRandom(8);
 			pos = cor*MaxColuna + simbolo;
-			while(inserido[pos] == true){
+			while(inserido[pos] == true){ //conferindo que estou inserindo simbolos diferentes dos que ja estao no tabuleiro
 				cor = r.getIntRandom(4);
 				simbolo = r.getIntRandom(8);
 				pos = cor*MaxColuna + simbolo;
 			}
-			inserido[pos] = true;
+			inserido[pos] = true; //marcando simbolo e cor como inseridos
 			for(int j=0; j<aux; j++){
 				tmp = r.getIntRandom(42);
 				while(!oqTemnoBotao(tmp).equals("")){//se o conteudo do botao ja estiver ocupado, continua procurando uma posição vazia
 					tmp = r.getIntRandom(42);
 				}
+				//inserindo no tabuleiro
 				botoes.elementAt(tmp).setFont(new Font("Arial", Font.PLAIN, 30));
 				botoes.elementAt(tmp).setText(simb[simbolo]);
 				botoes.elementAt(tmp).setForeground(cores[cor]);
@@ -86,6 +90,7 @@ public class EncontreUnico extends BaseJogos {
 
 	}
 	
+	//limpando os valores do vetor de inserido e o tabuleiro
 	private void limpaTabuleiro(){
 		for(int i=0;i <32; i++){
 			inserido[i] = false;

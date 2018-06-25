@@ -27,24 +27,25 @@ public class EncontrePar extends BaseJogos {
 
 	@Override
 	void clicouBotao(int i) {
-		if(botao == false){
+		if(botao == false){ //primeira vez que clicou no botao do tabuleiro
 			posClicada1 = i;
 			if(posClicada1 == pos1 || posClicada1 == pos2)
 				botao = true;
-			else{
+			else{//ja errou, sofre penalidade e gera um novo tabuleiro
 				penalidade(3);
 				montaTabuleiro();
 			}
-		}else{
+		}else{//segunda vez que clicou no botao do tabuleiro
 			posClicada2 = i;
 			if((posClicada1 == pos1 && posClicada2 == pos2)||(posClicada1 == pos2 && posClicada2 == pos1)){
+				//verifica se o jogador ganhou
 				botao = false;
-				rodada++;
-				if(rodada == 12)
+				rodada++;//incrementa 1 em rodadas ganhas
+				if(rodada == 12)//Finaliza o jogo
 					finaliza();
-				nroSimbolos+= 2;
-				montaTabuleiro();
-			}else{
+				nroSimbolos+= 2; //incrementando os simbolos que irao aparecer no jogo
+				montaTabuleiro();//monto novamente o tabuleiro
+			}else{//errei o par, sofro penalidade e monto um novo tabuleiro
 				botao = false;
 				penalidade(2);
 				montaTabuleiro();
@@ -105,14 +106,13 @@ public class EncontrePar extends BaseJogos {
 		}
 	}
 	
+	//inicializando as variaveis inserido e o tabuleiro
 	private void limpaTabuleiro(){
 		for(int i=0;i <32; i++){
 			inserido[i] = false;
 		}
 		
 		for(int i = 0; i < 42; i++){
-		//for(JButton botao : botoes){
-			System.out.printf(botoes.elementAt(i).getText());
 			botoes.elementAt(i).setText("");
 			botoes.elementAt(i).setVisible(false);
 		}
