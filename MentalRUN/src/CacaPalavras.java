@@ -10,7 +10,6 @@ public class CacaPalavras extends BaseJogos {
 	private HashSet<Integer> palavrasSorteadas = new HashSet<Integer>();
 	private int rodadas = 0,marcadasCertas = 0,marcadasErradas = 0,tamPal;
 	
-	
 	public CacaPalavras() {
 		super("Caça Palavras", "Clique nos botões que formam a palavra desejada");
 		
@@ -20,6 +19,8 @@ public class CacaPalavras extends BaseJogos {
 		palavras.add("NOTA");
 		palavras.add("DEZ");
 		palavras.add("DELA");
+		palavras.add("MELHOR");
+		palavras.add("AULA");
 		palavras.add("JAVA");
 		palavras.add("AMOR");
 		palavras.add("MENTAL");
@@ -38,7 +39,7 @@ public class CacaPalavras extends BaseJogos {
 		marcadasErradas = 0;
 		for(int i = 0; i < 42; i++){
 			Character c = (char) (r.getIntRandom(26) + 'A');
-			botoes.elementAt(i).setText(c.toString());//coloco no botao o numero
+			botoes.elementAt(i).setText(c.toString()); // coloca uma letra aleatoria no botao
 			botoes.elementAt(i).setForeground(cores[r.getIntRandom(4)]);
 			botoes.elementAt(i).setVisible(true);
 			botoes.elementAt(i).setFont(new Font("Arial", Font.PLAIN, 20));
@@ -46,8 +47,8 @@ public class CacaPalavras extends BaseJogos {
 		
 		int idPalavra = 0;
 		while(true) {
-			int idAux = r.getIntRandom(palavras.size()); // sorteia a palavra
-			if(!palavrasSorteadas.contains(idAux)) {
+			int idAux = r.getIntRandom(palavras.size()); // sorteia alguma das palavras
+			if(!palavrasSorteadas.contains(idAux)) { // verifica se a palavra ja foi sorteada
 				palavrasSorteadas.add(idAux);
 				idPalavra = idAux;
 				break;
