@@ -89,17 +89,12 @@ public class EncontreUnico extends BaseJogos {
 		
 
 	}
-	
-	//limpando os valores do vetor de inserido e o tabuleiro
-	private void limpaTabuleiro(){
-		for(int i=0;i <32; i++){
+
+	@Override
+	protected void limpaTabuleiro() {
+		super.limpaTabuleiro();
+		for(int i = 0; i < 32; i++){
 			inserido[i] = false;
-		}
-		
-		for(int i = 0; i < 42; i++){
-			System.out.printf(botoes.elementAt(i).getText());
-			botoes.elementAt(i).setText("");
-			botoes.elementAt(i).setVisible(false);
 		}
 	}
 

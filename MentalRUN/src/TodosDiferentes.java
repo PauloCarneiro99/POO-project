@@ -2,8 +2,6 @@
 
 import java.awt.Font;
 
-import javax.swing.JButton;
-
 public class TodosDiferentes extends BaseJogos {
 	
 	private Random r = null;
@@ -58,13 +56,6 @@ public class TodosDiferentes extends BaseJogos {
 			botoes.elementAt(tmp).setVisible(true);
 		}
 		
-	}
-	
-	private void limpaTabuleiro(){
-		for(JButton botao : botoes){
-			botao.setText("");
-			botao.setVisible(false);
-		}
 	}
 
 	@Override

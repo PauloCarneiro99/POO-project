@@ -3,8 +3,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Vector;
 
-import javax.xml.bind.ParseConversionEvent;
-
 public class OrdemCrescente extends BaseJogos {
 
 	private Random r = null;
@@ -15,22 +13,17 @@ public class OrdemCrescente extends BaseJogos {
 	
 	public OrdemCrescente() {
 		super("Ordem crescente", "Clique nos números em ordem crescente");
-		
-		
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
 
 	@Override
 	String oqTemnoBotao(int i) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	void clicouBotao(int i) {
-		// TODO Auto-generated method stub
-		
 		int num = Integer.parseInt(botoes.elementAt(i).getText());
 		
 		if(numeros.elementAt(atual) != num){ // errado
@@ -50,13 +43,6 @@ public class OrdemCrescente extends BaseJogos {
 			}
 		}
 		
-	}
-	
-	private void limpaTabuleiro(){		
-		for(int i = 0; i < 42; i++){
-			botoes.elementAt(i).setText("");
-			botoes.elementAt(i).setVisible(false);
-		}
 	}
 
 	@Override

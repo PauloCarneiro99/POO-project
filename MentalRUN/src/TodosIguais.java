@@ -1,7 +1,5 @@
 import java.awt.Font;
 
-import javax.swing.JButton;
-
 public class TodosIguais extends BaseJogos {
 	
 	//https://www.facebook.com/notes/obx-creative/ascii-symbols-to-use-on-facebook-have-fun-/10150244846134770/
@@ -45,13 +43,6 @@ public class TodosIguais extends BaseJogos {
 			botoes.elementAt(tmp).setVisible(true);
 		}
 		rodada += 2;
-	}
-	
-	private void limpaTabuleiro(){
-		for(JButton botao : botoes){
-			botao.setText("");
-			botao.setVisible(false);
-		}
 	}
 
 	@Override

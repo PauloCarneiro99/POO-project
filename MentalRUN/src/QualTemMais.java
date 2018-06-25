@@ -1,7 +1,5 @@
 import java.awt.Font;
 
-import javax.swing.JButton;
-
 public class QualTemMais extends BaseJogos {
 	
 	private Random r = null;
@@ -40,13 +38,6 @@ public class QualTemMais extends BaseJogos {
 			botoes.elementAt(tmp).setText(simb[simb2]);
 			botoes.elementAt(tmp).setForeground(cores[cor2]);
 			botoes.elementAt(tmp).setVisible(true);
-		}
-	}
-	
-	private void limpaTabuleiro(){
-		for(JButton botao : botoes){
-			botao.setText("");
-			botao.setVisible(false);
 		}
 	}
 
