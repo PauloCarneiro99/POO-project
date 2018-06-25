@@ -66,14 +66,12 @@ public class TodosIguais extends BaseJogos {
 			botoes.elementAt(i).setForeground(cores[cor2]);
 			qtd1--;
 			qtd2++;
-			System.out.println(simb[simb1]+qtd1+";"+simb[simb2]+qtd2);
 		}
 		else{
 			botoes.elementAt(i).setText(simb[simb1]);
 			botoes.elementAt(i).setForeground(cores[cor1]);
 			qtd1++;
 			qtd2--;
-			System.out.println(simb[simb1]+qtd1+";"+simb[simb2]+qtd2);
 		}
 		if(qtd1 == 0 || qtd2 == 0){
 			limpaTabuleiro();

@@ -37,7 +37,7 @@ abstract class BaseJogos {
 	protected JLabel lblTituloJogo;
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
-	protected String nome = "", comoJoga = "";
+	protected String nomeJogo = "", comoJoga = "";
 	private long tempoComeco = 0, tempoFim = 0;
 	private boolean jogando = false;
 	private Image img = null;
@@ -45,7 +45,6 @@ abstract class BaseJogos {
 	protected Color cores[] = new Color[5];
 	
 	public BaseJogos(String nome, String comoJoga){
-		
 		Font nexaL = null;
 		Font nexaB = null;
 		try{
@@ -74,7 +73,7 @@ abstract class BaseJogos {
 		janelaBaseJogos.setLocation(
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);//define a posicao da janela no centro da tela
-		janelaBaseJogos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaBaseJogos.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		janelaBaseJogos.getContentPane().setLayout(null);
 		janelaBaseJogos.getContentPane().setBackground(Color.WHITE);
 		
@@ -216,7 +215,7 @@ abstract class BaseJogos {
 	 * Mostra na tela uma janela com as instrucoes de cada jogo
 	 */
 	private void instrucoes(){
-		JOptionPane.showMessageDialog(null, comoJoga, nome, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, comoJoga, nomeJogo, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	/**
@@ -237,13 +236,17 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
+		if(Inicio.cliente != null)
+			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
+		else
+			Inicio.proximoJogoSemCliente();
 	}
 	
 	/**
 	 * Retorna o tempo decorrido de jogo
 	 * @return Tempo decorrido de jogo
 	 */
-	protected double tempoDecorrido(){
+	public double tempoDecorrido(){
 		if(jogando)
 			return ((double)(System.nanoTime()/1000000 - tempoComeco))/1000;
 		else
@@ -254,7 +257,7 @@ abstract class BaseJogos {
 	 * Cria um painel, em cima dos botões, para indicar a penalidade
 	 * @param segundos O tempo que a janela devera dicar aberta
 	 */
-	public void penalidade(final int segundos) {
+	protected void penalidade(final int segundos){
 		BaseJogos.segundos = segundos;
 		
 		pnlBotoes.setVisible(false);

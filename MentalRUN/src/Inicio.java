@@ -3,23 +3,52 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Inicio {
-	
+
+	public static Cliente cliente;
 	private JFrame janelaInicio;
+	private static BaseJogos jogo;
+	private static String nome = "", oponente = "";
+	private static Vector<String> jogosNomes = new Vector<String>();
+	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
+	private static Random r;
 
 	public static void main(String[] args) {
 		try {
 			new Inicio();
+			//System.out.println("\n\nNAO JOGA AQUI PORRA");
 		} catch (Exception e) {}
 	}
 	
+	public Inicio(Cliente cliente){
+		Inicio.cliente = cliente;
+		try {
+			new Inicio();
+		} catch (Exception e) {}
+		Inicio.cliente.escreveID(isDupla(), jogosNomes.size(), nome, oponente);
+	}
+	
 	public Inicio(){
+		r = new Random();
+		
+		jogosNomes.add("Olhos de Aguia");
+		jogosNomes.add("Sequencia Numerica");
+		jogosNomes.add("Todos Iguais");
+		
+		for(int i=0;i<jogosNomes.size();i++){
+			jogosJogados.add(false);
+		}
+		
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
 		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
@@ -30,7 +59,7 @@ public class Inicio {
 		janelaInicio.setLocation(
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()-img.getWidth(null))/2,
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);//define a posicao da janela no centro da tela
-		janelaInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaInicio.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		janelaInicio.getContentPane().setLayout(null);
 		
 		JLabel imgFundo = new JLabel();//cria um label para o fundo
@@ -67,19 +96,49 @@ public class Inicio {
 		});
 		lblCreditos.setBounds(28, 280, 444, 41);
 		janelaInicio.getContentPane().add(lblCreditos);
+		ID();
 		
 	}
-	
+
 	private void Jogar(){
-		Object simnao[] = {"Sozinho", "Em dupla"};
-		int op = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
-		System.out.println(op);
-		proximoJogo();
+		if(cliente != null){
+			janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
+			proximoJogo();
+		}
+		else
+			if(isDupla() && ){
+				
+			}
 	}
 	
 	public void proximoJogo(){
-		new Random().getIntRandom(5);
-		new OrdemCrescente();
+		if(!jogouTodos()){
+			int jogo = r.getIntRandom(jogosNomes.size());
+			while(jogosJogados.elementAt(jogo))
+				jogo = r.getIntRandom(jogosNomes.size());
+			if(jogo == 0)
+				Inicio.jogo = new TodosIguais();
+			else if(jogo == 1)
+				Inicio.jogo = new SequenciaNumerica();
+			else if(jogo == 2)
+				Inicio.jogo = new TodosIguais();
+			jogosJogados.setElementAt(true, jogo);
+		}
+	}
+	
+	public static void proximoJogoSemCliente(){
+		if(!jogouTodos()){
+			int jogo = r.getIntRandom(jogosNomes.size());
+			while(jogosJogados.elementAt(jogo))
+				jogo = r.getIntRandom(jogosNomes.size());
+			if(jogo == 0)
+				Inicio.jogo = new TodosIguais();
+			else if(jogo == 1)
+				Inicio.jogo = new SequenciaNumerica();
+			else if(jogo == 2)
+				Inicio.jogo = new TodosIguais();
+			jogosJogados.setElementAt(true, jogo);
+		}
 	}
 	
 	private void Instrucoes(){
@@ -104,6 +163,45 @@ public class Inicio {
 				"10284945 Gabriel B. Domingos\n"+
 				"10295304 Paulo O. Carneiro\n"+
 				"10284952 Vitor G. Torres\n");
+	}
+	
+	public double tempoDecorrido(){
+		if(jogo != null)
+			return jogo.tempoDecorrido();
+		return 0;
+	}
+
+	private static boolean jogouTodos(){
+		System.out.println(jogosJogados);
+		for(int i = 0; i < jogosJogados.size(); i++)
+			if(!jogosJogados.elementAt(i))
+				return false;
+		return true;
+	}
+	
+	private void ID(){
+		JTextArea textArea = new JTextArea();
+		while(nome.length() == 0){
+			textArea.setEditable(true);
+			JScrollPane scrollPane = new JScrollPane(textArea);
+			JOptionPane.showMessageDialog(null, scrollPane, "Qual seu nome?", JOptionPane.PLAIN_MESSAGE);
+			nome = textArea.getText().trim().split("\n")[0];
+			textArea.setText("");
+		}
+		Object simnao[] = {"Sozinho", "Em dupla"};
+		int dupla = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
+		if(dupla == 1){
+			while(oponente.length() == 0){
+				textArea.setEditable(true);
+				JScrollPane scrollPane = new JScrollPane(textArea);
+				JOptionPane.showMessageDialog(null, scrollPane, "Qual o nome do seu oponente?", JOptionPane.PLAIN_MESSAGE);
+				oponente = textArea.getText().trim().split("\n")[0];
+			}
+		}
+	}
+	
+	public boolean isDupla(){
+		return !oponente.equals("");
 	}
 	
 }
