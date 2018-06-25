@@ -4,34 +4,51 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Inicio {
-	
+
+	public static Cliente cliente;
 	private JFrame janelaInicio;
-	private int jogoID;
 	private BaseJogos jogo;
-	private Cliente cliente;
+	private static String nome = "", oponente = "";
+	private static Vector<String> jogosNomes = new Vector<String>();
+	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
+	private static Random r;
 
 	public static void main(String[] args) {
 		try {
-			new Inicio();
+			//new Inicio();
+			System.out.println("\n\nNAO JOGA AQUI PORRA");
 		} catch (Exception e) {}
 	}
 	
 	public Inicio(Cliente cliente){
-		this.cliente = cliente;
+		Inicio.cliente = cliente;
 		try {
 			new Inicio();
 		} catch (Exception e) {}
+		Inicio.cliente.escreveID(!oponente.equals(""), jogosNomes.size(), nome, oponente);
 	}
 	
 	public Inicio(){
-		this.jogoID = -1;
+		r = new Random();
+		
+		jogosNomes.add("Olhos de Aguia");
+		jogosNomes.add("Sequencia Numerica");
+		jogosNomes.add("Todos Iguais");
+		
+		for(int i=0;i<jogosNomes.size();i++){
+			jogosJogados.add(false);
+		}
+		
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
 		janelaInicio.setVisible(true);
@@ -77,15 +94,12 @@ public class Inicio {
 		});
 		lblCreditos.setBounds(28, 280, 444, 41);
 		janelaInicio.getContentPane().add(lblCreditos);
+		ID();
 		
 	}
 
-	public void setJogoID(int jogo) {
-		this.jogoID = jogo;
-	}
-
-	public int getJogoID() {
-		return jogoID;
+	public String getJogoID() {
+		return this.jogo.nomeJogo;
 	}
 
 	private void Jogar(){
@@ -94,16 +108,18 @@ public class Inicio {
 	}
 	
 	public void proximoJogo(){
-		jogoID = 2;
-		if(jogoID == -1){
-			//jogando sem o servidor... sortear jogos
+		if(!jogouTodos()){
+			int jogo = r.getIntRandom(jogosNomes.size());
+			while(jogosJogados.elementAt(jogo))
+				jogo = r.getIntRandom(jogosNomes.size());
+			if(jogo == 0)
+				this.jogo = new TodosIguais();
+			else if(jogo == 1)
+				this.jogo = new SequenciaNumerica();
+			else if(jogo == 2)
+				this.jogo = new TodosIguais();
+			jogosJogados.setElementAt(true, jogo);
 		}
-		else if(jogoID == 0)
-			jogo = new SequenciaNumerica(cliente);
-		else if(jogoID == 1)
-			jogo = new SequenciaNumerica(cliente);
-		else if(jogoID == 2)
-			jogo = new TodosIguais(cliente);
 	}
 	
 	private void Instrucoes(){
@@ -118,17 +134,40 @@ public class Inicio {
 				"10295304 Paulo O. Carneiro\n"+
 				"10284952 Vitor G. Torres\n");
 	}
-
-	public synchronized boolean isJogando() {
-		if(jogo != null)
-			return jogo.isJogando();
-		return false;
-	}
 	
 	public double tempoDecorrido(){
 		if(jogo != null)
 			return jogo.tempoDecorrido();
 		return 0;
+	}
+
+	private boolean jogouTodos(){
+		System.out.println(jogosJogados);
+		for(int i = 0; i < jogosJogados.size(); i++)
+			if(!jogosJogados.elementAt(i))
+				return false;
+		return true;
+	}
+	
+	private void ID(){
+		JTextArea textArea = new JTextArea();
+		while(nome.length() == 0){
+			textArea.setEditable(true);
+			JScrollPane scrollPane = new JScrollPane(textArea);
+			JOptionPane.showMessageDialog(null, scrollPane, "Qual seu nome?", JOptionPane.PLAIN_MESSAGE);
+			nome = textArea.getText().trim().split("\n")[0];
+			textArea.setText("");
+		}
+		Object simnao[] = {"Sozinho", "Em dupla"};
+		int dupla = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
+		if(dupla == 1){
+			while(oponente.length() == 0){
+				textArea.setEditable(true);
+				JScrollPane scrollPane = new JScrollPane(textArea);
+				JOptionPane.showMessageDialog(null, scrollPane, "Qual o nome do seu oponente?", JOptionPane.PLAIN_MESSAGE);
+				oponente = textArea.getText().trim().split("\n")[0];
+			}
+		}
 	}
 	
 }

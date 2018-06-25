@@ -22,20 +22,18 @@ abstract class BaseJogos {
 	
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
-	protected String nome = "", comoJoga = "";
+	protected String nomeJogo = "", comoJoga = "";
 	private long tempoComeco = 0, tempoFim = 0;
 	private boolean jogando = false;
 	private Image img = null;
 	protected static int segundos;
 	protected Color cores[] = new Color[4];
-	private Cliente cliente;
 	
-	public BaseJogos(Cliente cliente, String nome, String comoJoga){
-		this.nome = nome;
+	public BaseJogos(String nome, String comoJoga){
+		this.nomeJogo = nome;
 		this.comoJoga = comoJoga;
-		this.cliente = cliente;
-		img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
-		janelaBaseJogos = new JFrame(this.nome);
+		img = new ImageIcon(this.getClass().getResource("/"+this.nomeJogo+".png")).getImage();
+		janelaBaseJogos = new JFrame(this.nomeJogo);
 		janelaBaseJogos.setVisible(true);
 		janelaBaseJogos.setSize(img.getWidth(null), img.getHeight(null)+30);//define o tamanho da janela com o tamanho da imagem
 		janelaBaseJogos.setLocation(
@@ -112,7 +110,7 @@ abstract class BaseJogos {
 	 * Mostra na tela uma janela com as instruções de cada jogo
 	 */
 	private void instrucoes(){
-		JOptionPane.showMessageDialog(null, comoJoga, nome, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, comoJoga, nomeJogo, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	/**
@@ -133,7 +131,8 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
-		cliente.escreveP();
+		System.out.println(Inicio.cliente);
+		Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
 	}
 	
 	/**

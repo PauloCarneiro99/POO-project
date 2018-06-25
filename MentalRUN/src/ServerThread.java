@@ -15,9 +15,7 @@ public class ServerThread extends Thread {
 	private String nome = "", oponente = "";
 	private Scanner in;
 	private PrintStream out;
-	private Random r;
-	private String jogosNomes[] = {"Olhos de Aguia", "Sequencia Numerica", "Todos Iguais"};
-	private boolean jogosJogados[];
+	private int quantidadeJogos;
 
 	/**
 	 * Abre canais de comunicação.
@@ -30,10 +28,6 @@ public class ServerThread extends Thread {
 		this.servidor = servidor;
 		this.in = new Scanner(socket.getInputStream());
 		this.out = new PrintStream(socket.getOutputStream());
-		this.r = new Random();
-		this.jogosJogados = new boolean[jogosNomes.length];
-		for(int i = 0; i < jogosJogados.length; i++)
-			jogosJogados[i] = false;
 	}
 
 	/**
@@ -43,57 +37,34 @@ public class ServerThread extends Thread {
 		try {
 			leID();
 		} catch (Exception e) {
-			servidor.addPontuacao("I ERRO", "I ERRO", 0);
+			servidor.addPontuacao("'I' ERRO", "'I' ERRO", 0);
 			System.out.println(e.getMessage());
 			return;
 		}
-		escreveJ();
+		do {
+			try {
+				lePontuacao();
+				quantidadeJogos--;
+			} catch (Exception e) {
+				servidor.addPontuacao(nome, "'P' ERRO", 0);
+				System.out.println(e.getMessage());
+			}
+		} while (quantidadeJogos > 0);
 		System.out.println("Ser Env: "+"Desconectando você\nObrigado por jogar!");
 		out.println("Desconectando você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
 	}
 
-	private void escreveJ() {
-		while(!jogouTodos()){
-			int qual = r.getIntRandom(jogosJogados.length);
-			while(jogosJogados[qual])
-				qual = r.getIntRandom(jogosJogados.length);
-			System.out.println("Ser Env: "+"J "+qual);
-			out.println("J "+qual);
-			System.out.println(nome+" jogando "+jogosNomes[qual]);
-			try {
-				lePontuacao();
-			} catch (Exception e) {
-				servidor.addPontuacao(nome, jogosNomes[qual], 0);
-				System.out.println("erro p");
-				System.out.println(e.getMessage());
-			}
-			jogosJogados[qual] = true;
-		}
-	}
-	
-	private boolean jogouTodos(){
-		for(int i = 0; i < jogosJogados.length; i++)
-			if(!jogosJogados[i])
-				return false;
-		return true;
-	}
-
 	private void lePontuacao() throws Exception {
-		String[] read = in.nextLine().trim().split(" ");
+		String[] read = in.nextLine().trim().split(";");
 		System.out.println("Ser Leu: "+Arrays.toString(read));
 		if(read[0].equals("P")){
 			try {
-				int qual = Integer.parseInt(read[1]);
-				try {
-					double tempo = Double.parseDouble(read[2]);
-					servidor.addPontuacao(nome, jogosNomes[qual], tempo);
-				} catch (Exception e) {
-					throw new Exception("Terceiro argumento do comando 'R' não é um numero");
-				}
+				double tempo = Double.parseDouble(read[2]);
+				servidor.addPontuacao(nome, read[1], tempo);
 			} catch (Exception e) {
-				throw new Exception("Segundo argumento do comando 'R' não é um numero");
+				throw new Exception("Terceiro argumento do comando 'R' não é um numero");
 			}
 		}
 		else if(read[0].equals("DE"))
@@ -108,32 +79,39 @@ public class ServerThread extends Thread {
 	 * @throws BozoException
 	 */
 	private void leID() throws Exception {
-		String read = in.nextLine().trim();
-		System.out.println("Ser Leu: "+read);
-		if(read.split(" ")[0].equals("I")){
-			if(read.split(" ")[1].equals("0")){//sozinho
-				this.nome = toProper(read.substring(4, read.length()).trim().toLowerCase());
-				servidor.setUsuario(nome, true);
-				System.out.println("Ser Env: "+"Bem-vindo "+nome);
-				out.println("Bem-vindo "+nome);
-				System.out.println(nome+" online");
-			}
-			else if(read.split(" ")[1].equals("1")){//dupla
-				this.nome = toProper(read.substring(4, read.length()).trim().toLowerCase());
-				servidor.setUsuario(nome, true);
-				String read2 = in.nextLine();
-				System.out.println("Ser Leu: "+read2);
-				this.oponente = toProper(read2.trim().toLowerCase());
-				System.out.println("Ser Env: "+"Bem-vindo "+nome);
-				out.println("Bem-vindo "+nome);
-				System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
-				out.println("Esperando "+oponente+" se conectar");
-				while(!servidor.isUsuarioOnline(oponente)){
-					Thread.sleep(3000);
+		String read[] = in.nextLine().trim().split(";");
+		System.out.println("Ser Leu: "+Arrays.toString(read));
+		if(read[0].equals("I")){
+			if(read[1].equals("0")){//sozinho
+				try {
+					quantidadeJogos = Integer.parseInt(read[2]);
+					this.nome = toProper(read[3].trim().toLowerCase());
+					servidor.setUsuario(nome, true);
+					System.out.println("Ser Env: "+"Bem-vindo "+nome);
+					out.println("Bem-vindo "+nome);
+					System.out.println(nome+" online");
+				} catch (Exception e) {
+					throw new Exception("Terceiro argumento do comando 'I' não é um numemro");
 				}
-				System.out.println("Ser Env: "+oponente+" conectado");
-				out.println(oponente+" conectado");
-				System.out.println(nome+" online jogando contra "+oponente);
+			}
+			else if(read[1].equals("1")){//dupla
+				try {
+					this.nome = toProper(read[3].trim().toLowerCase());
+					servidor.setUsuario(nome, true);
+					this.oponente = toProper(read[4].trim().toLowerCase());
+					System.out.println("Ser Env: "+"Bem-vindo "+nome);
+					out.println("Bem-vindo "+nome);
+					System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
+					out.println("Esperando "+oponente+" se conectar");
+					while(!servidor.isUsuarioOnline(oponente)){
+						Thread.sleep(3000);
+					}
+					System.out.println("Ser Env: "+oponente+" conectado");
+					out.println(oponente+" conectado");
+					System.out.println(nome+" online jogando contra "+oponente);
+				} catch (Exception e) {
+					throw new Exception("Terceiro argumento do comando 'I' não é um numemro");
+				}
 			}
 			else{
 				throw new Exception("Segundo argumento do comando 'I' não é '0' nem '1'");

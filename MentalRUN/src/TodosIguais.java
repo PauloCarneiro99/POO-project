@@ -10,8 +10,8 @@ public class TodosIguais extends BaseJogos {
 	private int cor1, cor2, simb1, simb2, qtd1, qtd2, rodada = 5;
 	private String simb[] = {"●","◆","★","♥","✿","✖","▧","✻"};
 
-	public TodosIguais(Cliente cliente) {
-		super(cliente, "Todos Iguais", "Troque os icones para que fiquem todos iguais");
+	public TodosIguais() {
+		super("Todos Iguais", "Troque os icones para que fiquem todos iguais");
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
@@ -74,7 +74,7 @@ public class TodosIguais extends BaseJogos {
 		}
 		if(qtd1 == 0 || qtd2 == 0){
 			limpaTabuleiro();
-			if(rodada < 16)
+			if(rodada < 16)//voltar pra 16
 				montaTabuleiro();
 			else
 				finaliza();
