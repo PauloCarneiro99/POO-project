@@ -20,6 +20,9 @@ public class ThreadPontuacao extends Thread {
 				if(x.equalsIgnoreCase("online")){
 					Servidor.printOnline();
 				}
+				if(x.equalsIgnoreCase("v")){
+					Servidor.verbose = !Servidor.verbose;
+				}
 			} catch (Exception e) {}
 		}
 	}

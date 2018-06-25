@@ -7,7 +7,8 @@ public class Servidor {
 	
 	private static HashMap<String, HashMap<String, Vector<Double>>> usuarios;
 	private static HashMap<String, Boolean> usuariosOnline;
-	public final static int port = 7777;
+	public static final int port = 7777;
+	public static boolean verbose = false;
 
 	/**
 	 * Quando um servidor é criado, ele cria um HashMap para alocar todos os dados dos usuários.

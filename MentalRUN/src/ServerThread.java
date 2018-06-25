@@ -16,6 +16,7 @@ public class ServerThread extends Thread {
 	private Scanner in;
 	private PrintStream out;
 	private int quantidadeJogos;
+	private boolean kill = false;
 
 	/**
 	 * Abre canais de comunicação.
@@ -43,32 +44,39 @@ public class ServerThread extends Thread {
 		}
 		do {
 			try {
+				if(kill) break;
 				lePontuacao();
 				quantidadeJogos--;
 			} catch (Exception e) {
+				if(kill) break;
 				servidor.addPontuacao(nome, "'P' ERRO", 0);
 				System.out.println(e.getMessage());
 			}
 		} while (quantidadeJogos > 0);
-		System.out.println("Ser Env: "+"Desconectando você\nObrigado por jogar!");
+		if(Servidor.verbose) System.out.println("Ser Env: "+"Desconectando você\nObrigado por jogar!");
 		out.println("Desconectando você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
 	}
 
 	private void lePontuacao() throws Exception {
-		String[] read = in.nextLine().trim().split(";");
-		System.out.println("Ser Leu: "+Arrays.toString(read));
+		String read[] = null;
+		if(in.hasNextLine()){
+			read = in.nextLine().trim().split(";");
+		}
+		if(Servidor.verbose) System.out.println("Ser Leu: "+Arrays.toString(read));
 		if(read[0].equals("P")){
 			try {
 				double tempo = Double.parseDouble(read[2]);
 				servidor.addPontuacao(nome, read[1], tempo);
 			} catch (Exception e) {
-				throw new Exception("Terceiro argumento do comando 'R' não é um numero");
+				throw new Exception("Terceiro argumento do comando 'P' não é um numero");
 			}
 		}
-		else if(read[0].equals("DE"))
+		else if(read[0].equals("DE")){
+			kill = true;
 			servidor.setUsuario(nome, false);
+		}
 		else
 			throw new Exception("Comando 'P' não encontrado ou fora de contexto");
 	}
@@ -79,15 +87,18 @@ public class ServerThread extends Thread {
 	 * @throws BozoException
 	 */
 	private void leID() throws Exception {
-		String read[] = in.nextLine().trim().split(";");
-		System.out.println("Ser Leu: "+Arrays.toString(read));
+		String read[] = null;
+		if(in.hasNextLine()){
+			read = in.nextLine().trim().split(";");
+		}
+		if(Servidor.verbose) System.out.println("Ser Leu: "+Arrays.toString(read));
 		if(read[0].equals("I")){
 			if(read[1].equals("0")){//sozinho
 				try {
 					quantidadeJogos = Integer.parseInt(read[2]);
 					this.nome = toProper(read[3].trim().toLowerCase());
 					servidor.setUsuario(nome, true);
-					System.out.println("Ser Env: "+"Bem-vindo "+nome);
+					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
 					out.println("Bem-vindo "+nome);
 					System.out.println(nome+" online");
 				} catch (Exception e) {
@@ -99,14 +110,14 @@ public class ServerThread extends Thread {
 					this.nome = toProper(read[3].trim().toLowerCase());
 					servidor.setUsuario(nome, true);
 					this.oponente = toProper(read[4].trim().toLowerCase());
-					System.out.println("Ser Env: "+"Bem-vindo "+nome);
+					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
 					out.println("Bem-vindo "+nome);
-					System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
+					if(Servidor.verbose) System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
 					out.println("Esperando "+oponente+" se conectar");
 					while(!servidor.isUsuarioOnline(oponente)){
 						Thread.sleep(3000);
 					}
-					System.out.println("Ser Env: "+oponente+" conectado");
+					if(Servidor.verbose) System.out.println("Ser Env: "+oponente+" conectado");
 					out.println(oponente+" conectado");
 					System.out.println(nome+" online jogando contra "+oponente);
 				} catch (Exception e) {
