@@ -79,11 +79,21 @@ public class Inicio {
 	
 	public void proximoJogo(){
 		new Random().getIntRandom(5);
-		new CacaPalavras();
+		new OrdemCrescente();
 	}
 	
 	private void Instrucoes(){
-		JOptionPane.showMessageDialog(null, "Instruções\n");
+		String instrucoes = "INSTRUÇÕES:\n";
+		instrucoes+= "Caça Palavras: Encontre a palavra desejada\n";
+		instrucoes+= "Encontre o par: Encontre os dois unicos simbolos que são um par identido\n";
+		instrucoes+= "Encontre o único: Encontre o único simbolo que é único\n";
+		instrucoes+= "Olhos de Águia: Encontre o caractere diferente\n";
+		instrucoes+= "Ordem Crescente: Clique nos números em ordem crescente\n";
+		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente";
+		instrucoes+= "Sequência Númerica: Clique nos números em ordem crescente\n";
+		instrucoes+= "Todos Iguais: Clique no icone para muda-lo, deixe todos iguais\n";
+		
+		JOptionPane.showMessageDialog(null, instrucoes);
 	}
 	
 	private void Creditos(){
