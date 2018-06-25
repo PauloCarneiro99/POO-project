@@ -33,7 +33,7 @@ import javax.xml.soap.Text;
 abstract class BaseJogos {
 	
 	private JPanel pnlBotoes, pnlPenalidade;
-	private JLabel lblPenalidade,lblIconePenalidade;
+	private JLabel lblPenalidade;
 	protected JLabel lblTituloJogo;
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
@@ -60,12 +60,12 @@ abstract class BaseJogos {
 		}
 		
 		
-		this.nome = nome;
+		this.nomeJogo = nome;
 		this.comoJoga = comoJoga;
 		//img = new ImageIcon(this.getClass().getResource("/"+this.nome+".png")).getImage();
 		img = new ImageIcon(this.getClass().getResource("/fundoPadrao.png")).getImage();
 		
-		janelaBaseJogos = new JFrame(this.nome);
+		janelaBaseJogos = new JFrame(this.nomeJogo);
 		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
 		janelaBaseJogos.setIconImage(icone);
 		janelaBaseJogos.setVisible(true);
@@ -79,7 +79,7 @@ abstract class BaseJogos {
 		
 		
 		JLabel lblNome1 = new JLabel();
-		lblNome1.setText("FABIO");
+		lblNome1.setText(Inicio.getNome().toUpperCase());
 		lblNome1.setFont(nexaL);
 		lblNome1.setBounds(40, 20,170,20);
 		janelaBaseJogos.add(lblNome1);
@@ -89,24 +89,25 @@ abstract class BaseJogos {
 		pb1.setMinimum(0);
 		pb1.setMaximum(100);
 
-		pb1.setValue(25);
+		pb1.setValue(0);
 		
 		janelaBaseJogos.add(pb1);
-		
-		JLabel lblNome2 = new JLabel();
-		lblNome2.setText("AVATARAAAAAAAAAAAAAAAAAA");
-		lblNome2.setFont(nexaL);
-		lblNome2.setBounds(40, 55,170,20);
-		janelaBaseJogos.add(lblNome2);
-					
-		JProgressBar pb2 = new JProgressBar();
-		pb2.setBounds(230, 50, 140, 26);
-		pb2.setMinimum(0);
-		pb2.setMaximum(100);
-
-		pb2.setValue(75);
-		
-		janelaBaseJogos.add(pb2);
+		if(Inicio.isDupla()){
+			JLabel lblNome2 = new JLabel();
+			lblNome2.setText(Inicio.getOponente().toUpperCase());
+			lblNome2.setFont(nexaL);
+			lblNome2.setBounds(40, 55,170,20);
+			janelaBaseJogos.add(lblNome2);
+						
+			JProgressBar pb2 = new JProgressBar();
+			pb2.setBounds(230, 50, 140, 26);
+			pb2.setMinimum(0);
+			pb2.setMaximum(100);
+	
+			pb2.setValue(0);
+			
+			janelaBaseJogos.add(pb2);
+		}
 		
 		
 		lblTituloJogo = new JLabel();

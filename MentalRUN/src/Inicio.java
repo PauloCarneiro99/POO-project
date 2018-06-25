@@ -23,6 +23,14 @@ public class Inicio {
 	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
 	private static Random r;
 
+	public static String getNome() {
+		return nome;
+	}
+
+	public static String getOponente() {
+		return oponente;
+	}
+	
 	public static void main(String[] args) {
 		try {
 			new Inicio();
@@ -101,14 +109,14 @@ public class Inicio {
 	}
 
 	private void Jogar(){
-		if(cliente != null){
+		if(cliente == null){
 			janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
 			proximoJogo();
 		}
-		else
-			if(isDupla() && ){
-				
-			}
+//		else
+//			if(isDupla() && ){
+//				
+//			}
 	}
 	
 	public void proximoJogo(){
@@ -200,7 +208,7 @@ public class Inicio {
 		}
 	}
 	
-	public boolean isDupla(){
+	public static boolean isDupla(){
 		return !oponente.equals("");
 	}
 	
