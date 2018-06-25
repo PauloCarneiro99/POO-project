@@ -77,7 +77,7 @@ public class TodosIguais extends BaseJogos {
 		}
 		if(qtd1 == 0 || qtd2 == 0){
 			limpaTabuleiro();
-			if(rodada < 16)
+			if(rodada < 26)
 				montaTabuleiro();
 			else
 				finaliza();
