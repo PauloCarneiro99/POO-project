@@ -92,6 +92,7 @@ public class Inicio {
 		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente";
 		instrucoes+= "Sequência Númerica: Clique nos números em ordem crescente\n";
 		instrucoes+= "Todos Iguais: Clique no icone para muda-lo, deixe todos iguais\n";
+		instrucoes+= "Todos Diferentes: Troque os icones para que fiquem todos diferentes\n";
 		
 		JOptionPane.showMessageDialog(null, instrucoes);
 	}
