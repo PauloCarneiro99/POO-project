@@ -1,6 +1,6 @@
 # Mental RUN
 
-Esse projeto foi desenvolvido para a disciplica Programação Orienta a Objetos
+Esse projeto foi desenvolvido para a disciplica SSC0103 - Programação Orientada a Objetos
 
 Linguagem :
 
