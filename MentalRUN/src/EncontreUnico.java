@@ -13,7 +13,7 @@ public class EncontreUnico extends BaseJogos {
 	
 	
 	public EncontreUnico() {
-		super("Encontre o Unico", "Clique no unico simbolo diferente dos outros");
+		super("Encontre o Unico", "Encontre o único simbolo que é único");
 		r = new Random();
 		rodadas = 0;
 		nroSimbolos = 3;
