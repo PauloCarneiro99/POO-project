@@ -16,6 +16,7 @@ public class Cliente {
 	private PrintStream out;
 	private String IPservidor = "";
 	private Inicio jogo;
+	private boolean Dupla;
 
 	/**
 	 * Opens up connection with server,
@@ -69,6 +70,7 @@ public class Cliente {
 	}
 
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
+		this.Dupla = Dupla;
 		int dupla = Dupla ? 1 : 0;
 		if(Dupla){
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);

@@ -17,7 +17,7 @@ public class Inicio {
 
 	public static Cliente cliente;
 	private JFrame janelaInicio;
-	private BaseJogos jogo;
+	private static BaseJogos jogo;
 	private static String nome = "", oponente = "";
 	private static Vector<String> jogosNomes = new Vector<String>();
 	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
@@ -25,8 +25,8 @@ public class Inicio {
 
 	public static void main(String[] args) {
 		try {
-			//new Inicio();
-			System.out.println("\n\nNAO JOGA AQUI PORRA");
+			new Inicio();
+			//System.out.println("\n\nNAO JOGA AQUI PORRA");
 		} catch (Exception e) {}
 	}
 	
@@ -35,7 +35,7 @@ public class Inicio {
 		try {
 			new Inicio();
 		} catch (Exception e) {}
-		Inicio.cliente.escreveID(!oponente.equals(""), jogosNomes.size(), nome, oponente);
+		Inicio.cliente.escreveID(isDupla(), jogosNomes.size(), nome, oponente);
 	}
 	
 	public Inicio(){
@@ -98,13 +98,15 @@ public class Inicio {
 		
 	}
 
-	public String getJogoID() {
-		return this.jogo.nomeJogo;
-	}
-
 	private void Jogar(){
-		janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
-		proximoJogo();
+		if(cliente != null){
+			janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
+			proximoJogo();
+		}
+		else
+			if(isDupla() && ){
+				
+			}
 	}
 	
 	public void proximoJogo(){
@@ -113,11 +115,26 @@ public class Inicio {
 			while(jogosJogados.elementAt(jogo))
 				jogo = r.getIntRandom(jogosNomes.size());
 			if(jogo == 0)
-				this.jogo = new TodosIguais();
+				Inicio.jogo = new TodosIguais();
 			else if(jogo == 1)
-				this.jogo = new SequenciaNumerica();
+				Inicio.jogo = new SequenciaNumerica();
 			else if(jogo == 2)
-				this.jogo = new TodosIguais();
+				Inicio.jogo = new TodosIguais();
+			jogosJogados.setElementAt(true, jogo);
+		}
+	}
+	
+	public static void proximoJogoSemCliente(){
+		if(!jogouTodos()){
+			int jogo = r.getIntRandom(jogosNomes.size());
+			while(jogosJogados.elementAt(jogo))
+				jogo = r.getIntRandom(jogosNomes.size());
+			if(jogo == 0)
+				Inicio.jogo = new TodosIguais();
+			else if(jogo == 1)
+				Inicio.jogo = new SequenciaNumerica();
+			else if(jogo == 2)
+				Inicio.jogo = new TodosIguais();
 			jogosJogados.setElementAt(true, jogo);
 		}
 	}
@@ -141,7 +158,7 @@ public class Inicio {
 		return 0;
 	}
 
-	private boolean jogouTodos(){
+	private static boolean jogouTodos(){
 		System.out.println(jogosJogados);
 		for(int i = 0; i < jogosJogados.size(); i++)
 			if(!jogosJogados.elementAt(i))
@@ -168,6 +185,10 @@ public class Inicio {
 				oponente = textArea.getText().trim().split("\n")[0];
 			}
 		}
+	}
+	
+	public boolean isDupla(){
+		return !oponente.equals("");
 	}
 	
 }

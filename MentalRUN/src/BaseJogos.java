@@ -131,8 +131,10 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
-		System.out.println(Inicio.cliente);
-		Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
+		if(Inicio.cliente != null)
+			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
+		else
+			Inicio.proximoJogoSemCliente();
 	}
 	
 	/**
@@ -193,14 +195,6 @@ abstract class BaseJogos {
 		close.start();
 		timer.start();
 		dialog.setVisible(true);
-	}
-
-	public synchronized boolean isJogando() {
-		return jogando;
-	}
-
-	public synchronized void setJogando(boolean jogando) {
-		this.jogando = jogando;
 	}
 
 }
