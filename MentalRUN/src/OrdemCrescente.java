@@ -14,7 +14,7 @@ public class OrdemCrescente extends BaseJogos {
 	
 	
 	public OrdemCrescente() {
-		super("Ordem crescente", "Clice nos números na ordem crescente");
+		super("Ordem crescente", "Clique nos números em ordem crescente");
 		
 		
 		r = new Random();//criando o rand
