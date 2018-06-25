@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
@@ -81,15 +82,34 @@ abstract class BaseJogos {
 		JLabel lblNome1 = new JLabel();
 		lblNome1.setText("FABIO");
 		lblNome1.setFont(nexaL);
-		lblNome1.setBounds(40, 20,120,20);
+		lblNome1.setBounds(40, 20,170,20);
 		janelaBaseJogos.add(lblNome1);
 		
+		JProgressBar pb1 = new JProgressBar();
+		pb1.setBounds(230, 12, 140, 26);
+		pb1.setMinimum(0);
+		pb1.setMaximum(100);
+
+		pb1.setValue(25);
+		
+		janelaBaseJogos.add(pb1);
+		
 		JLabel lblNome2 = new JLabel();
-		lblNome2.setText("AVATAR");
+		lblNome2.setText("AVATARAAAAAAAAAAAAAAAAAA");
 		lblNome2.setFont(nexaL);
-		lblNome2.setBounds(40, 55,120,20);
+		lblNome2.setBounds(40, 55,170,20);
 		janelaBaseJogos.add(lblNome2);
 					
+		JProgressBar pb2 = new JProgressBar();
+		pb2.setBounds(230, 50, 140, 26);
+		pb2.setMinimum(0);
+		pb2.setMaximum(100);
+
+		pb2.setValue(75);
+		
+		janelaBaseJogos.add(pb2);
+		
+		
 		lblTituloJogo = new JLabel();
 		lblTituloJogo.setText(nome.toUpperCase());
 		lblTituloJogo.setFont(nexaB);
