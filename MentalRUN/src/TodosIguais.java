@@ -11,7 +11,7 @@ public class TodosIguais extends BaseJogos {
 	private String simb[] = {"●","◆","★","♥","✿","✖","▧","✻"};
 
 	public TodosIguais() {
-		super("Todos Iguais", "Troque os icones para que fiquem todos iguais");
+		super("Todos Iguais", "Clique no icone para muda-lo, deixe todos iguais");
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
