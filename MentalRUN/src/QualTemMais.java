@@ -9,7 +9,7 @@ public class QualTemMais extends BaseJogos {
 	private String simb[] = {"●","◆","★","♥","✿","✖","▧","✻"};
 
 	public QualTemMais() {
-		super("Qual Tem Mais", "Clique no simbolo com o maior número de ocorrências");
+		super("Qual Tem Mais", "Clique em qualquer icone que é o mais frequente");
 		r = new Random();
 		montaTabuleiro();
 	}
