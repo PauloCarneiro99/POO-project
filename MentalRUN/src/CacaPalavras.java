@@ -33,7 +33,7 @@ public class CacaPalavras extends BaseJogos {
 	}
 
 	@Override
-	private void montaTabuleiro(){
+	void montaTabuleiro(){
 		marcadasCertas = 0;
 		marcadasErradas = 0;
 		for(int i = 0; i < 42; i++){
@@ -53,6 +53,9 @@ public class CacaPalavras extends BaseJogos {
 				break;
 			}
 		}
+		
+		lblTituloJogo.setText("Caça Palavras:   ("+ palavras.elementAt(idPalavra)+")");
+		
 		int vertical = r.getIntRandom(2); // sorteia se vai ficar na vertical ou horizontal
 		int inverso = r.getIntRandom(2); // sorteia se vai ficar escrito de tras para frente
 		

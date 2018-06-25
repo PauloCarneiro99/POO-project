@@ -16,6 +16,7 @@ public class OlhoDeAguia extends BaseJogos {
 		super("Olhos de Aguia", "Encontre a letra diferente");
 		// TODO Auto-generated constructor stub
 		
+		
 		letrasA.add('G');
 		letrasB.add('C');
 		letrasA.add('Q');
@@ -36,7 +37,7 @@ public class OlhoDeAguia extends BaseJogos {
 	}
 	
 	@Override
-	private void montaTabuleiro(){
+	void montaTabuleiro(){
 		
 		int aOuB = r.getIntRandom(2); // sorteia se a letra unica vem do vetor A ou B
 		int idLetra = r.getIntRandom(letrasA.size());

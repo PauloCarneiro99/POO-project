@@ -33,6 +33,7 @@ abstract class BaseJogos {
 	
 	private JPanel pnlBotoes, pnlPenalidade;
 	private JLabel lblPenalidade,lblIconePenalidade;
+	protected JLabel lblTituloJogo;
 	private JFrame janelaBaseJogos;
 	protected Vector<JButton> botoes;
 	protected String nome = "", comoJoga = "";
@@ -89,7 +90,7 @@ abstract class BaseJogos {
 		lblNome2.setBounds(40, 55,120,20);
 		janelaBaseJogos.add(lblNome2);
 					
-		JLabel lblTituloJogo = new JLabel();
+		lblTituloJogo = new JLabel();
 		lblTituloJogo.setText(nome.toUpperCase());
 		lblTituloJogo.setFont(nexaB);
 		lblTituloJogo.setBounds(40, 108,360,20);

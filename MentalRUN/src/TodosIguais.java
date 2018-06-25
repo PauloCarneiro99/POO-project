@@ -17,7 +17,7 @@ public class TodosIguais extends BaseJogos {
 	}
 	
 	@Override
-	private void montaTabuleiro(){
+	void montaTabuleiro(){
 		cor1 = cor2 = r.getIntRandom(4);
 		while(cor1 == cor2)
 			cor2 = r.getIntRandom(4);

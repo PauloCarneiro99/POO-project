@@ -57,7 +57,7 @@ public class SequenciaNumerica extends BaseJogos {
 	}
 	
 	@Override
-	private void montaTabuleiro(){
+	void montaTabuleiro(){
 	}
 	
 	@Override
