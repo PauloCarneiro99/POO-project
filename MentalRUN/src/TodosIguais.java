@@ -11,12 +11,13 @@ public class TodosIguais extends BaseJogos {
 	private String simb[] = {"●","◆","★","♥","✿","✖","▧","✻"};
 
 	public TodosIguais() {
-		super("Todos Iguais", "Troque os icones para que fiquem todos iguais");
+		super("Todos Iguais", "Clique no icone para muda-lo, deixe todos iguais");
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
 	
-	private void montaTabuleiro(){
+	@Override
+	void montaTabuleiro(){
 		cor1 = cor2 = r.getIntRandom(4);
 		while(cor1 == cor2)
 			cor2 = r.getIntRandom(4);
@@ -74,7 +75,7 @@ public class TodosIguais extends BaseJogos {
 		}
 		if(qtd1 == 0 || qtd2 == 0){
 			limpaTabuleiro();
-			if(rodada < 16)//voltar pra 16
+			if(rodada < 26)
 				montaTabuleiro();
 			else
 				finaliza();

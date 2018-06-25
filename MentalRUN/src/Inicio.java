@@ -50,7 +50,9 @@ public class Inicio {
 		}
 		
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
+		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
+		janelaInicio.setIconImage(icone);
 		janelaInicio.setVisible(true);
 		janelaInicio.setBackground(Color.WHITE);
 		janelaInicio.setSize(img.getWidth(null), img.getHeight(null));//define o tamanho da janela com o tamanho da imagem
@@ -140,7 +142,18 @@ public class Inicio {
 	}
 	
 	private void Instrucoes(){
-		JOptionPane.showMessageDialog(null, "Instruções\n");
+		String instrucoes = "INSTRUÇÕES:\n";
+		instrucoes+= "Caça Palavras: Encontre a palavra desejada\n";
+		instrucoes+= "Encontre o par: Encontre os dois unicos simbolos que são um par identido\n";
+		instrucoes+= "Encontre o único: Encontre o único simbolo que é único\n";
+		instrucoes+= "Olhos de Águia: Encontre o caractere diferente\n";
+		instrucoes+= "Ordem Crescente: Clique nos números em ordem crescente\n";
+		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente";
+		instrucoes+= "Sequência Númerica: Clique nos números em ordem crescente\n";
+		instrucoes+= "Todos Iguais: Clique no icone para muda-lo, deixe todos iguais\n";
+		instrucoes+= "Todos Diferentes: Troque os icones para que fiquem todos diferentes\n";
+		
+		JOptionPane.showMessageDialog(null, instrucoes);
 	}
 	
 	private void Creditos(){
