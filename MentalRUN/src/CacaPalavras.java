@@ -11,7 +11,7 @@ public class CacaPalavras extends BaseJogos {
 	private int rodadas = 0,marcadasCertas = 0,marcadasErradas = 0,tamPal;
 	
 	public CacaPalavras() {
-		super("Caça Palavras", "Clique nos botões que formam a palavra desejada");
+		super("Caça Palavras", "Encontre a palavra desejada");
 		
 		palavras.add("JOGO");
 		palavras.add("VALE");
