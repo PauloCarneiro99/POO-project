@@ -32,7 +32,7 @@ public class Cliente {
 	public Cliente(){
 		while(true){
 			try {
-				IPservidor = "192.168.182.219";
+				//IPservidor = "192.168.182.219";
 				JTextArea textArea = new JTextArea();
 				while(IPservidor.length() == 0){
 					textArea.setEditable(true);
