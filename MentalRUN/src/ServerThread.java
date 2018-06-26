@@ -61,7 +61,7 @@ public class ServerThread extends Thread {
 		System.out.println("acabou");
 		if(servidor.isUsuarioOnline(oponente)) out.println("VOCÊ VENCEU!");
 		else out.println("VOCÊ PERDEU!");
-		out.println("Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+(tempoTotal%60)+"s");
+		out.println("Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+((int)((tempoTotal%60)*1000))/1000+"s");
 		out.println("Desconectanto você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
