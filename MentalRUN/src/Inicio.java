@@ -224,14 +224,16 @@ public class Inicio {
 			nome = textArea.getText().trim().split("\n")[0];
 			textArea.setText("");
 		}
-		Object simnao[] = {"Sozinho", "Em dupla"};
-		int dupla = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
-		if(dupla == 1){
-			while(oponente.length() == 0){
-				textArea.setEditable(true);
-				JScrollPane scrollPane = new JScrollPane(textArea);
-				JOptionPane.showMessageDialog(null, scrollPane, "Qual o nome do seu oponente?", JOptionPane.PLAIN_MESSAGE);
-				oponente = textArea.getText().trim().split("\n")[0];
+		if(cliente != null){
+			Object simnao[] = {"Sozinho", "Em dupla"};
+			int dupla = JOptionPane.showOptionDialog(null, "Você quer jogar sozinho ou em dupla?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, simnao, simnao[1]);
+			if(dupla == 1){
+				while(oponente.length() == 0){
+					textArea.setEditable(true);
+					JScrollPane scrollPane = new JScrollPane(textArea);
+					JOptionPane.showMessageDialog(null, scrollPane, "Qual o nome do seu oponente?", JOptionPane.PLAIN_MESSAGE);
+					oponente = textArea.getText().trim().split("\n")[0];
+				}
 			}
 		}
 	}
