@@ -8,4 +8,11 @@ Linguagem :
 
 Utilizamos a IDE eclipse para o desenvolvimento do programa
 
-Para rodar o programa, clone o projeto, entre na pasta MentalRUN e digite no terminal: make run
+Passo a passo para execução do jogo:
+    clone o repositorio do github
+    entre na pasta MentalRUN
+    Caso deseje jogar sozinho digite no terminal: make runSolo
+    Caso deseje jogar em rede siga os seguintes passos:
+          digite no terminal o comando para abrir o servidor: make runServidor
+          digite no terminal o comando para abrir um cliente(um player): make runCliente
+          Abra um segundo cliente e comece o jogo contra seu oponente
