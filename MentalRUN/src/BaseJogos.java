@@ -39,7 +39,7 @@ abstract class BaseJogos {
 	protected Color cores[] = new Color[5];
 	
 	public BaseJogos(String nome, String comoJoga){
-		new ProgressoThread(Inicio.cliente).start();
+		//new ProgressoThread(Inicio.cliente).start();
 		Font nexaL = null;
 		Font nexaB = null;
 		try{
