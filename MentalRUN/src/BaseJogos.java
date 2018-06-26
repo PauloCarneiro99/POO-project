@@ -1,7 +1,5 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -12,14 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,12 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
-import javax.xml.soap.Text;
 
 abstract class BaseJogos {
 	
 	private JPanel pnlBotoes, pnlPenalidade;
+	public JProgressBar pb1, pb2;
 	private JLabel lblPenalidade;
 	protected JLabel lblTituloJogo;
 	private JFrame janelaBaseJogos;
@@ -45,6 +39,7 @@ abstract class BaseJogos {
 	protected Color cores[] = new Color[5];
 	
 	public BaseJogos(String nome, String comoJoga){
+		new ProgressoThread(Inicio.cliente).start();
 		Font nexaL = null;
 		Font nexaB = null;
 		try{
@@ -55,9 +50,7 @@ abstract class BaseJogos {
 			 nexaB = Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaBold.otf")).deriveFont(18f);
 			 GraphicsEnvironment gee = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			 gee.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fontes/nexaBold.otf")));
-		}catch(Exception e){
-			System.out.println("AA");
-		}
+		}catch(Exception e){}
 		
 		
 		this.nomeJogo = nome;
@@ -84,7 +77,7 @@ abstract class BaseJogos {
 		lblNome1.setBounds(40, 20,170,20);
 		janelaBaseJogos.add(lblNome1);
 		
-		JProgressBar pb1 = new JProgressBar();
+		pb1 = new JProgressBar();
 		pb1.setBounds(230, 12, 140, 26);
 		pb1.setMinimum(0);
 		pb1.setMaximum(100);
@@ -99,7 +92,7 @@ abstract class BaseJogos {
 			lblNome2.setBounds(40, 55,170,20);
 			janelaBaseJogos.add(lblNome2);
 						
-			JProgressBar pb2 = new JProgressBar();
+			pb2 = new JProgressBar();
 			pb2.setBounds(230, 50, 140, 26);
 			pb2.setMinimum(0);
 			pb2.setMaximum(100);
@@ -242,7 +235,7 @@ abstract class BaseJogos {
 		this.jogando = false;
 		
 		//mostra o tempo separando em minutos e segundos e fecha a janela
-		JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
+		//JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
 		if(Inicio.cliente != null)
 			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());

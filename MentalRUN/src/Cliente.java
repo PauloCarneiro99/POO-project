@@ -12,11 +12,12 @@ import javax.swing.JTextArea;
 public class Cliente {
 
 	private Socket socket;
-	private Scanner in;
-	private PrintStream out;
+	public Scanner in;
+	public PrintStream out;
 	private String IPservidor = "";
 	private Inicio jogo;
-	private boolean Dupla;
+	private boolean esperandoOp = true;
+	private double tempoTotal;
 
 	/**
 	 * Opens up connection with server,
@@ -30,6 +31,7 @@ public class Cliente {
 	}
 	
 	public Cliente(){
+		tempoTotal = 0;
 		while(true){
 			try {
 				IPservidor = "192.168.182.219";
@@ -66,11 +68,11 @@ public class Cliente {
 	public void escreveP(String nomeJogo, double tempoDecorrido) {
 		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
+		tempoTotal += tempoDecorrido;
 		jogo.proximoJogo();
 	}
 
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
-		this.Dupla = Dupla;
 		int dupla = Dupla ? 1 : 0;
 		if(Dupla){
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
@@ -84,6 +86,7 @@ public class Cliente {
 				String read = in.nextLine();
 				System.out.println("Cli Leu: "+read);
 				JOptionPane.showMessageDialog(null, read);
+				if(read.split("")[1].equals("conectado")) esperandoOp = false;
 			}
 		}
 		else{
@@ -95,6 +98,10 @@ public class Cliente {
 				JOptionPane.showMessageDialog(null, read);
 			}
 		}
+	}
+	
+	public boolean isEsperandoOp() {
+		return esperandoOp;
 	}
 
 }

@@ -13,7 +13,7 @@ public class OlhoDeAguia extends BaseJogos {
 	
 	
 	public OlhoDeAguia() {
-		super("Olhos de Aguia", "Encontre o caractere diferente");
+		super("Olhos de Águia", "Encontre o caractere diferente");
 		// TODO Auto-generated constructor stub
 		
 		

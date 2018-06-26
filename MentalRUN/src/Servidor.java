@@ -1,5 +1,8 @@
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -86,10 +89,22 @@ public class Servidor {
 	 * @param args
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) throws Exception {
 		@SuppressWarnings("resource")
 		ServerSocket socket = new ServerSocket(port);
-		System.out.println("Porta "+port+" aberta");
+		System.out.printf("Porta "+port+" aberta com o IP: ");
+		Enumeration e = NetworkInterface.getNetworkInterfaces();
+		int count = 0;
+		while(e.hasMoreElements()){
+		    NetworkInterface n = (NetworkInterface) e.nextElement();
+		    Enumeration ee = n.getInetAddresses();
+		    while (ee.hasMoreElements()){
+		        count++;
+		        InetAddress i = (InetAddress) ee.nextElement();
+		        if(count == 2) System.out.println(i.getHostAddress());
+		    }
+		}
 		Servidor servidor = new Servidor();
 		new ThreadPontuacao().start();
 		while(true){
