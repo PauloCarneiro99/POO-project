@@ -118,9 +118,11 @@ public class Inicio {
 			janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
 			proximoJogoSemCliente();
 		}
-		else{
+		else if(isDupla()){
 			JOptionPane.showMessageDialog(null, "Esperando "+oponente+" se conectar");
 		}
+		else
+			proximoJogoSemCliente();
 	}
 	
 	public static void proximoJogoSemCliente(){
