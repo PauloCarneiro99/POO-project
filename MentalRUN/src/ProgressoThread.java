@@ -9,7 +9,7 @@ public class ProgressoThread extends Thread {
 	
 	@Override
 	public void run() {
-		cliente.
+		//cliente.
 	};
 	
 }
