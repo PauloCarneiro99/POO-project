@@ -49,11 +49,7 @@ public class QualTemMais extends BaseJogos {
 	@Override
 	void clicouBotao(int i) {
 		if(oqTemnoBotao(i).equals(simb[simb2]) && (botoes.elementAt(i).getForeground() == cores[cor2])){
-			System.out.println("Acerto!");
 			dificuldade++;
-		}
-		else {
-			System.out.println("Erro!");
 		}
 		limpaTabuleiro();
 		if(dificuldade < 9)

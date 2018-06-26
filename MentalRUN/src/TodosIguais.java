@@ -1,8 +1,6 @@
 import java.awt.Font;
 
 public class TodosIguais extends BaseJogos {
-	
-	//https://www.facebook.com/notes/obx-creative/ascii-symbols-to-use-on-facebook-have-fun-/10150244846134770/
 
 	private Random r = null;
 	private int cor1, cor2, simb1, simb2, qtd1, qtd2, rodada = 5;

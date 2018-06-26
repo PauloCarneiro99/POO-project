@@ -77,13 +77,6 @@ abstract class BaseJogos {
 		lblNome1.setBounds(40, 20,170,20);
 		janelaBaseJogos.add(lblNome1);
 		
-		// COLOQUEI NO FINAL PARA FICAR ATRAS
-				JLabel imgFundo = new JLabel();//cria um label para o fundo
-				imgFundo.setIcon(new ImageIcon(img));//coloca a imagem nesse label
-				imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
-				janelaBaseJogos.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
-		
-		
 		pb1 = new JProgressBar();
 		pb1.setBounds(230, 12, 140, 26);
 		pb1.setMinimum(0);
@@ -145,7 +138,11 @@ abstract class BaseJogos {
 		janelaBaseJogos.add(pnlPenalidade);
 		janelaBaseJogos.add(pnlBotoes);
 		
-		
+		// COLOQUEI NO FINAL PARA FICAR ATRAS
+		JLabel imgFundo = new JLabel();//cria um label para o fundo
+		imgFundo.setIcon(new ImageIcon(img));//coloca a imagem nesse label
+		imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
+		janelaBaseJogos.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
 	
 		
 		//janelaBaseJogos.add(pnlPenalidade);
@@ -240,10 +237,10 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		//JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
-		System.out.println(Inicio.cliente);
-		if(Inicio.cliente != null)
+		if(Inicio.cliente != null){
 			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
-		else
+			Inicio.proximoJogo();
+		}else
 			Inicio.proximoJogoSemCliente();
 	}
 	

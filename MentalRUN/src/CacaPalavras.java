@@ -64,26 +64,19 @@ public class CacaPalavras extends BaseJogos {
 		tamPal = palavras.elementAt(idPalavra).length();
 		while(true) {
 			int id = r.getIntRandom(42);	
-			System.out.println(palavras.elementAt(idPalavra) + "\n" + id);
-			
 			
 			if(vertical == 1) { // vai ficar na vertical
 				
-				System.out.println("id:"+   Integer.toString(((int)(id/6))-(tamPal-1))   );
 				if(inverso == 1 && ((int)(id/7))-(tamPal-1) >= 0) { // da para ser escrito de traz para frente 
 					for(int i=id,cont = 0;cont<tamPal;i-=7,cont++) {
 						botoes.elementAt(i).setText(Character.toString(palavras.elementAt(idPalavra).charAt(cont)));
-						//botoes.elementAt(i).setForeground(cores[2]); // TIRAR DEPOIS
 						posicoesResp.add(i);
-						System.out.println(i);
 					}
 					break;
 				}else if(inverso == 0 && ((int)(id/7))+(tamPal-1) < 6) { // da pra escrever	
 					for(int i=id,cont = 0;cont<tamPal;i+=7,cont++) {
 						botoes.elementAt(i).setText(Character.toString(palavras.elementAt(idPalavra).charAt(cont)));
-						//botoes.elementAt(i).setForeground(cores[2]); // TIRAR DEPOIS
 						posicoesResp.add(i);
-						System.out.println(i);
 					}
 					break;
 				}
@@ -94,18 +87,14 @@ public class CacaPalavras extends BaseJogos {
 					int cont = 0;
 					for(int i=id;i>=id-(tamPal-1);i--,cont++) {
 						botoes.elementAt(i).setText(Character.toString(palavras.elementAt(idPalavra).charAt(cont)));
-						//botoes.elementAt(i).setForeground(cores[2]); // TIRAR DEPOIS
 						posicoesResp.add(i);
-						System.out.println(i);
 					}
 					break;
 				}else if(inverso == 0 && (id%7)+(tamPal-1) < 7) {
 					int cont = 0;
 					for(int i=id;i<=id+(tamPal-1);i++,cont++) {
 						botoes.elementAt(i).setText(Character.toString(palavras.elementAt(idPalavra).charAt(cont)));
-						//botoes.elementAt(i).setForeground(cores[2]); // TIRAR DEPOIS
 						posicoesResp.add(i);
-						System.out.println(i);
 					}
 					break;
 				}
@@ -132,7 +121,6 @@ public class CacaPalavras extends BaseJogos {
 				marcadasErradas--;
 			}
 			botoes.elementAt(i).setForeground(cores[r.getIntRandom(4)]);
-			System.out.println("Certas" + marcadasCertas + " erradas" + marcadasErradas);
 			if(marcadasCertas == tamPal && marcadasErradas == 0) {
 				rodadas++;
 				if(rodadas == 6) {
@@ -147,7 +135,6 @@ public class CacaPalavras extends BaseJogos {
 			}else {
 				marcadasErradas++;
 			}
-			System.out.println("Certas" + marcadasCertas + " erradas" + marcadasErradas);
 			if(marcadasCertas == tamPal && marcadasErradas == 0) {
 				rodadas++;
 				if(rodadas == 6) {
