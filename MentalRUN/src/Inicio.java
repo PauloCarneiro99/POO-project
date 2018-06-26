@@ -116,41 +116,10 @@ public class Inicio {
 	private void Jogar(){
 		if(cliente == null){
 			janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
-			proximoJogo();
+			proximoJogoSemCliente();
 		}
 		else{
-			if(isDupla() && cliente.isEsperandoOp()){
-				JOptionPane.showMessageDialog(null, "Esperando "+oponente+" se conectar");
-			}
-			else{
-				janelaInicio.dispatchEvent(new WindowEvent(janelaInicio, WindowEvent.WINDOW_CLOSING));
-				proximoJogo();
-			}
-		}
-	}
-	
-	public void proximoJogo(){
-		if(!jogouTodos()){
-			int jogo = r.getIntRandom(jogosNomes.size());
-			while(jogosJogados.elementAt(jogo))
-				jogo = r.getIntRandom(jogosNomes.size());
-			if(jogo == 0)
-				Inicio.jogo = new CacaPalavras();
-			else if(jogo == 1)
-				Inicio.jogo = new EncontrePar();
-			else if(jogo == 2)
-				Inicio.jogo = new EncontreUnico();
-			else if(jogo == 3)
-				Inicio.jogo = new OlhoDeAguia();
-			else if(jogo == 4)
-				Inicio.jogo = new OrdemCrescente();
-			else if(jogo == 5)
-				Inicio.jogo = new QualTemMais();
-			else if(jogo == 6)
-				Inicio.jogo = new SequenciaNumerica();
-			else if(jogo == 7)
-				Inicio.jogo = new TodosIguais();
-			jogosJogados.setElementAt(true, jogo);
+			JOptionPane.showMessageDialog(null, "Esperando "+oponente+" se conectar");
 		}
 	}
 	

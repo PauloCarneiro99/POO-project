@@ -1,6 +1,8 @@
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -15,9 +17,12 @@ public class Cliente {
 	public Scanner in;
 	public PrintStream out;
 	private String IPservidor = "";
-	private Inicio jogo;
+	private static Inicio jogo;
 	private boolean esperandoOp = true;
 	private double tempoTotal;
+	private static Vector<String> jogosNomes = new Vector<String>();
+	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
+	private static Random r;
 
 	/**
 	 * Opens up connection with server,
@@ -31,6 +36,20 @@ public class Cliente {
 	}
 	
 	public Cliente(){
+		r = new Random();
+
+		jogosNomes.add("Caça Palavras");
+		jogosNomes.add("Encontre o Par");
+		jogosNomes.add("Encontre o Único");
+		jogosNomes.add("Olhos de Águia");
+		jogosNomes.add("Ordem Crescente");
+		jogosNomes.add("Qual Tem Mais");
+		jogosNomes.add("Sequência Númerica");
+		jogosNomes.add("Todos Iguais");
+		
+		for(int i=0;i<jogosNomes.size();i++){
+			jogosJogados.add(false);
+		}
 		tempoTotal = 0;
 		while(true){
 			try {
@@ -69,7 +88,40 @@ public class Cliente {
 		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
 		tempoTotal += tempoDecorrido;
-		jogo.proximoJogo();
+		proximoJogo();
+	}
+
+	private static boolean jogouTodos(){
+		System.out.println(jogosJogados);
+		for(int i = 0; i < jogosJogados.size(); i++)
+			if(!jogosJogados.elementAt(i))
+				return false;
+		return true;
+	}
+	
+	public void proximoJogo(){
+		if(!jogouTodos()){
+			int jogo = r.getIntRandom(jogosNomes.size());
+			while(jogosJogados.elementAt(jogo))
+				jogo = r.getIntRandom(jogosNomes.size());
+			if(jogo == 0)
+				new CacaPalavras();
+			else if(jogo == 1)
+				new EncontrePar();
+			else if(jogo == 2)
+				new EncontreUnico();
+			else if(jogo == 3)
+				new OlhoDeAguia();
+			else if(jogo == 4)
+				new OrdemCrescente();
+			else if(jogo == 5)
+				new QualTemMais();
+			else if(jogo == 6)
+				new SequenciaNumerica();
+			else if(jogo == 7)
+				new TodosIguais();
+			jogosJogados.setElementAt(true, jogo);
+		}
 	}
 
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
@@ -77,16 +129,15 @@ public class Cliente {
 		if(Dupla){
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			out.println("I;"+dupla+";"+qtd+";"+nome+";"+oponente);
-			if(in.hasNextLine()){
+			while(in.hasNextLine()){
 				String read = in.nextLine();
 				System.out.println("Cli Leu: "+read);
 				JOptionPane.showMessageDialog(null, read);
-			}
-			if(in.hasNextLine()){
-				String read = in.nextLine();
-				System.out.println("Cli Leu: "+read);
-				JOptionPane.showMessageDialog(null, read);
-				if(read.split("")[1].equals("conectado")) esperandoOp = false;
+				System.out.println(oponente+" conectado");
+				
+				if(read.equalsIgnoreCase(oponente+" conectado")){
+					proximoJogo();
+				}
 			}
 		}
 		else{
