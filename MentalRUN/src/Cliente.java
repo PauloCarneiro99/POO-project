@@ -17,7 +17,6 @@ public class Cliente {
 	private String IPservidor = "";
 	private Inicio jogo;
 	private boolean esperandoOp = true;
-	private double tempoTotal;
 
 	/**
 	 * Opens up connection with server,
@@ -31,7 +30,6 @@ public class Cliente {
 	}
 	
 	public Cliente(){
-		tempoTotal = 0;
 		while(true){
 			try {
 				IPservidor = "192.168.182.219";
@@ -68,7 +66,6 @@ public class Cliente {
 	public void escreveP(String nomeJogo, double tempoDecorrido) {
 		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
-		tempoTotal += tempoDecorrido;
 		//jogo.proximoJogo();
 	}
 

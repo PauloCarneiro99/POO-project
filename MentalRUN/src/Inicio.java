@@ -208,8 +208,7 @@ public class Inicio {
 		return 0;
 	}
 
-	private static boolean jogouTodos(){
-		System.out.println(jogosJogados);
+	public static boolean jogouTodos(){
 		for(int i = 0; i < jogosJogados.size(); i++)
 			if(!jogosJogados.elementAt(i))
 				return false;

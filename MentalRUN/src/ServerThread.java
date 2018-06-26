@@ -17,6 +17,7 @@ public class ServerThread extends Thread {
 	private PrintStream out;
 	private int quantidadeJogos;
 	private boolean kill = false;
+	private double tempoTotal;
 
 	/**
 	 * Abre canais de comunicação.
@@ -29,6 +30,8 @@ public class ServerThread extends Thread {
 		this.servidor = servidor;
 		this.in = new Scanner(socket.getInputStream());
 		this.out = new PrintStream(socket.getOutputStream());
+		kill = false;
+		tempoTotal = 0;
 	}
 
 	/**
@@ -42,6 +45,7 @@ public class ServerThread extends Thread {
 			System.out.println(e.getMessage());
 			return;
 		}
+		System.out.println(quantidadeJogos);
 		do {
 			try {
 				if(kill) break;
@@ -53,8 +57,12 @@ public class ServerThread extends Thread {
 				System.out.println(e.getMessage());
 			}
 		} while (quantidadeJogos > 0);
-		if(Servidor.verbose) System.out.println("Ser Env: "+"Desconectando você\nObrigado por jogar!");
-		out.println("Desconectando você\nObrigado por jogar!");
+		
+		System.out.println("acabou");
+		if(servidor.isUsuarioOnline(oponente)) out.println("VOCÊ VENCEU!");
+		else out.println("VOCÊ PERDEU!");
+		out.println("Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+(tempoTotal%60)+"s");
+		out.println("Desconectanto você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
 	}
@@ -68,6 +76,7 @@ public class ServerThread extends Thread {
 		if(read[0].equals("P")){
 			try {
 				double tempo = Double.parseDouble(read[2]);
+				tempoTotal += tempo;
 				servidor.addPontuacao(nome, read[1], tempo);
 			} catch (Exception e) {
 				throw new Exception("Terceiro argumento do comando 'P' não é um numero");
@@ -107,6 +116,7 @@ public class ServerThread extends Thread {
 			}
 			else if(read[1].equals("1")){//dupla
 				try {
+					quantidadeJogos = Integer.parseInt(read[2]);
 					this.nome = toProper(read[3].trim().toLowerCase());
 					servidor.setUsuario(nome, true);
 					this.oponente = toProper(read[4].trim().toLowerCase());

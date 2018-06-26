@@ -237,11 +237,29 @@ abstract class BaseJogos {
 		//mostra o tempo separando em minutos e segundos e fecha a janela
 		//JOptionPane.showMessageDialog(null, "Seu tempo foi: "+(tempoDecorrido() > 60 ? (int)((tempoDecorrido() - (tempoDecorrido() % 60))/60)+"m " : "")+(int)(tempoDecorrido()%60)+"s", "Seu tempo", JOptionPane.PLAIN_MESSAGE);
 		janelaBaseJogos.dispatchEvent(new WindowEvent(janelaBaseJogos, WindowEvent.WINDOW_CLOSING));
+//		if(Inicio.jogouTodos()){
+//			try {
+//				while(Inicio.cliente.in.hasNext()){
+//					JOptionPane.showMessageDialog(null, Inicio.cliente.in.nextLine(), "", JOptionPane.PLAIN_MESSAGE);
+//				}
+//			} catch (Exception e) {
+//				System.out.println("erro leitura entrada");
+//			}
+//		}
+//		else{
+//			if(Inicio.cliente != null){
+//				Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
+//				Inicio.proximoJogo();
+//			}else
+//				Inicio.proximoJogoSemCliente();
+//		}
+		
 		if(Inicio.cliente != null){
 			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
 			Inicio.proximoJogo();
 		}else
 			Inicio.proximoJogoSemCliente();
+		
 	}
 	
 	/**
