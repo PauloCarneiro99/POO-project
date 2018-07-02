@@ -2,6 +2,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Thread para lidar com cada usuário.
@@ -69,11 +70,11 @@ public class ServidorThread extends Thread {
 				out.println("VOCÊ PERDEU!");
 			}
 		}
-		if(Servidor.verbose) System.out.println("Ser Env: "+"Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+((int)((tempoTotal%60)*1000))/1000+"s");
-		out.println("Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+((int)((tempoTotal%60)*1000))/1000+"s");
+		if(Servidor.verbose) System.out.println("Ser Env: "+"Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
+		out.println("Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
 		if(Servidor.verbose) System.out.println("Ser Env: "+"Desconectanto você\\nObrigado por jogar!");
 		out.println("Desconectanto você\nObrigado por jogar!");
-		servidor.setUsuario(nome, false);
+		servidor.setUsuarioOnline(nome, false);
 		System.out.println(nome+" offline");
 	}
 
@@ -83,6 +84,7 @@ public class ServidorThread extends Thread {
 			read = in.nextLine().trim().split(";");
 		}
 		if(Servidor.verbose) System.out.println("Ser Leu: "+Arrays.toString(read));
+		if(read == null) kill = true;
 		if(read[0].equals("P")){
 			try {
 				double tempo = Double.parseDouble(read[2]);
@@ -94,7 +96,7 @@ public class ServidorThread extends Thread {
 		}
 		else if(read[0].equals("DE")){
 			kill = true;
-			servidor.setUsuario(nome, false);
+			servidor.setUsuarioOnline(nome, false);
 		}
 		else
 			throw new Exception("Comando 'P' não encontrado ou fora de contexto");
@@ -137,7 +139,7 @@ public class ServidorThread extends Thread {
 						Thread.sleep(1000);
 					}
 					if(Servidor.verbose) System.out.println("Ser Env: "+oponente+" conectado");
-					out.println(oponente+" conectado");
+					out.println("D;"+oponente+" conectado");
 					System.out.println(nome+" online jogando contra "+oponente);
 				} catch (Exception e) {
 					throw new Exception("Terceiro argumento do comando 'I' não é um numemro");

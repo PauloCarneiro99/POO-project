@@ -1,6 +1,8 @@
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -14,7 +16,7 @@ public class Cliente {
 	private Socket socket;
 	public Scanner in;
 	public PrintStream out;
-	private String IPservidor = "";
+	private String IPservidor = "", IPoponente = "";
 	private boolean esperandoOp = true;
 
 	/**
@@ -79,11 +81,19 @@ public class Cliente {
 		if(Dupla){
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			out.println("I;"+dupla+";"+qtd+";"+nome+";"+oponente);
+			String read = "";
 			while(in.hasNextLine()){
-				String read = in.nextLine();
-				System.out.println("Cli Leu: "+read);
-				JOptionPane.showMessageDialog(null, read);
-				if(read.equalsIgnoreCase(oponente + " conectado")) esperandoOp = false;
+				if(in.hasNext("D;.*")){
+					esperandoOp = false;
+					read = in.nextLine();
+					System.out.println("Cli Leu: "+read);
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
+				}
+				else{
+					read = in.nextLine();
+					System.out.println("Cli Leu: "+read);
+					JOptionPane.showMessageDialog(null, read);
+				}
 			}
 		}
 		else{
