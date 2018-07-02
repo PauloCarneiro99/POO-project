@@ -1,7 +1,6 @@
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -16,8 +15,9 @@ public class Cliente {
 	private Socket socket;
 	public Scanner in;
 	public PrintStream out;
-	private String IPservidor = "", IPoponente = "";
+	private String IPservidor = "";
 	private boolean esperandoOp = true;
+	public Inicio inicio;
 
 	/**
 	 * Opens up connection with server,
@@ -53,7 +53,7 @@ public class Cliente {
 			in = new Scanner(socket.getInputStream());
 			out = new PrintStream(socket.getOutputStream());
 		} catch (Exception e) {}
-		new Inicio(this);
+		inicio = new Inicio(this);
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {

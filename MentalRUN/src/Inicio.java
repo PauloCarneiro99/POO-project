@@ -22,6 +22,7 @@ public class Inicio {
 	private static Vector<String> jogosNomes = new Vector<String>();
 	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
 	private static Random r;
+	private static int porcentagem1 = 0, porcentagem2 = 0;
 
 	public static String getNome() {
 		return nome;
@@ -47,6 +48,8 @@ public class Inicio {
 	}
 
 	public Inicio(){
+		porcentagem1 = 0;
+		porcentagem2 = 0;
 		r = new Random();
 
 		jogosNomes.add("Caça Palavras");
@@ -152,6 +155,11 @@ public class Inicio {
 				Inicio.jogo = new TodosIguais();
 			jogosJogados.setElementAt(true, jogo);
 		}
+		else{
+			JOptionPane.showMessageDialog(null, "Obrigado por jogar!");
+		}
+		jogo.setPb1(porcentagem1);
+		jogo.setPb2(porcentagem2);
 	}
 
 	public static void proximoJogoSemCliente(){
@@ -159,7 +167,6 @@ public class Inicio {
 			int jogo = r.getIntRandom(jogosNomes.size());
 			while(jogosJogados.elementAt(jogo))
 				jogo = r.getIntRandom(jogosNomes.size());
-			jogo = 6;
 			if(jogo == 0)
 				Inicio.jogo = new CacaPalavras();
 			else if(jogo == 1)
@@ -178,6 +185,7 @@ public class Inicio {
 				Inicio.jogo = new TodosIguais();
 			jogosJogados.setElementAt(true, jogo);
 		}
+		jogo.setPb1(porcentagem1);
 	}
 
 	private void Instrucoes(){
@@ -241,6 +249,16 @@ public class Inicio {
 
 	public static boolean isDupla(){
 		return !oponente.equals("");
+	}
+
+	public static void increasePorcentagem1() {
+		Inicio.porcentagem1 += 125;
+		jogo.setPb1(porcentagem1);
+	}
+
+	public static void increasePorcentagem2() {
+		Inicio.porcentagem2 += 125;
+		jogo.setPb2(porcentagem2);
 	}
 
 }

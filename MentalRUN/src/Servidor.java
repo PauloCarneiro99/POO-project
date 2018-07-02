@@ -41,8 +41,10 @@ public class Servidor {
 	 * @param pontuacao Pontuação do usuário a ser adicionada.
 	 */
 	synchronized public void addPontuacao(String usuario, String jogo, double pontuacao){
-		if(usuarios.contains(usuario))
+		if(usuarios.contains(usuario)){
 			usuarios.elementAt(usuarios.indexOf(usuario)).addPontuacoes(jogo, pontuacao);
+			usuarios.elementAt(usuarios.indexOf(usuario)).setAtualizou(true);
+		}
 	}
 	
 	synchronized public void newUsuario(String nome, String IP){
@@ -64,6 +66,12 @@ public class Servidor {
 	synchronized public boolean isUsuarioOnline(String nome){
 		if(!nome.isEmpty() && usuarios.contains(nome))
 			return usuarios.elementAt(usuarios.indexOf(nome)).isOnline();
+		return false;
+	}
+	
+	public synchronized boolean temAtualizacao(String nome){
+		if(usuarios.contains(nome))
+			return usuarios.elementAt(usuarios.indexOf(nome)).temAtualizacao();
 		return false;
 	}
 
@@ -140,9 +148,9 @@ public class Servidor {
 		Servidor servidor = new Servidor();
 		new ServidorComandosThread().start();
 		while(true){
-			Socket client = socket.accept();
-			new ServidorThread(client, servidor).start();
-			System.out.println("Nova conexão com o cliente "+client.getInetAddress().getHostAddress());
+			Socket cliente = socket.accept();
+			new ServidorThread(cliente, servidor).start();
+			System.out.println("Nova conexão com o cliente "+cliente.getInetAddress().getHostAddress());
 		}
 	}
 

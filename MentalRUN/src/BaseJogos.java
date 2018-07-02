@@ -39,7 +39,6 @@ abstract class BaseJogos {
 	protected Color cores[] = new Color[5];
 
 	public BaseJogos(String nome, String comoJoga){
-		//new ProgressoThread(Inicio.cliente).start();
 		Font nexaL = null;
 		Font nexaB = null;
 		try{
@@ -80,11 +79,11 @@ abstract class BaseJogos {
 		pb1 = new JProgressBar();
 		pb1.setBounds(230, 12, 140, 26);
 		pb1.setMinimum(0);
-		pb1.setMaximum(100);
+		pb1.setMaximum(1000);
 
 		pb1.setValue(0);
 
-		//janelaBaseJogos.add(pb1);
+		janelaBaseJogos.add(pb1);
 		if(Inicio.isDupla()){
 			JLabel lblNome2 = new JLabel();
 			lblNome2.setText(Inicio.getOponente().toUpperCase());
@@ -95,11 +94,11 @@ abstract class BaseJogos {
 			pb2 = new JProgressBar();
 			pb2.setBounds(230, 50, 140, 26);
 			pb2.setMinimum(0);
-			pb2.setMaximum(100);
+			pb2.setMaximum(1000);
 
 			pb2.setValue(0);
 
-			//janelaBaseJogos.add(pb2);
+			janelaBaseJogos.add(pb2);
 		}
 
 
@@ -183,6 +182,8 @@ abstract class BaseJogos {
 		cores[3] = new Color(76, 175, 80);//verde
 		cores[4] = new Color(230, 38, 25);//vermelho
 
+		if(Inicio.cliente != null) new ProgressoThreadCliente(Inicio.cliente.in).start();
+
 		comeca();//dispara o cronometro
 
 	}
@@ -240,9 +241,10 @@ abstract class BaseJogos {
 		if(Inicio.cliente != null){
 			Inicio.cliente.escreveP(nomeJogo, tempoDecorrido());
 			Inicio.proximoJogo();
-		}else
+		}else{
 			Inicio.proximoJogoSemCliente();
-
+		}
+		Inicio.increasePorcentagem1();
 	}
 
 	/**
@@ -292,6 +294,14 @@ abstract class BaseJogos {
 		timer.setDelay(1000);//define a frequencia do timer pra 1 segundo
 		close.start();
 		timer.start();
+	}
+
+	public void setPb1(int porcentagem1) {
+		pb1.setValue(porcentagem1);
+	}
+
+	public void setPb2(int porcentagem2) {
+		pb2.setValue(porcentagem2);
 	}
 
 }

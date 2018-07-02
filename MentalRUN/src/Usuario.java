@@ -6,6 +6,7 @@ public class Usuario {
 	private String nome = "", IP = "";
 	private boolean online;
 	private HashMap<String, Vector<Double>> pontuacoes;
+	private boolean atualizou;
 	
 	public Usuario(String nome, String IP){
 		this.nome = nome;
@@ -42,6 +43,14 @@ public class Usuario {
 		if(!pontuacoes.containsKey(jogo))
 			pontuacoes.put(jogo, new Vector<Double>());
 		pontuacoes.get(jogo).add(pontuacao);
+	}
+
+	public synchronized boolean temAtualizacao() {
+		return atualizou;
+	}
+
+	public synchronized void setAtualizou(boolean atualizou) {
+		this.atualizou = atualizou;
 	}
 	
 }

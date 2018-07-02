@@ -2,7 +2,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * Thread para lidar com cada usuário.
@@ -35,6 +34,7 @@ public class ServidorThread extends Thread {
 		this.out = new PrintStream(socket.getOutputStream());
 		kill = false;
 		tempoTotal = 0;
+		new ProgressoThreadServidor(servidor, out, oponente).start();;
 	}
 
 	/**
