@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
  * Quando alguém digita 'pontuações', imprime todas as pontuações.
  * @see Thread
  */
-public class ThreadPontuacao extends Thread {
+public class ServidorComandosThread extends Thread {
 
 	public void run(){
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,6 +16,9 @@ public class ThreadPontuacao extends Thread {
 				x = br.readLine();
 				if(x.equalsIgnoreCase("pontos")){
 					Servidor.printPontuacoes();
+				}
+				if(x.split(";")[0].equalsIgnoreCase("pontos")){
+					Servidor.printPontuacoes(x.split(";")[1]);
 				}
 				if(x.equalsIgnoreCase("online")){
 					Servidor.printOnline();

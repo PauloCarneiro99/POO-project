@@ -15,7 +15,6 @@ public class Cliente {
 	public Scanner in;
 	public PrintStream out;
 	private String IPservidor = "";
-	private Inicio jogo;
 	private boolean esperandoOp = true;
 
 	/**
@@ -28,11 +27,11 @@ public class Cliente {
 	public static void main(String[] args) throws Exception {
 		new Cliente();
 	}
-	
+
 	public Cliente(){
 		while(true){
 			try {
-				//IPservidor = "192.168.182.219";//yoooo
+				IPservidor = "192.168.182.214";
 				JTextArea textArea = new JTextArea();
 				while(IPservidor.length() == 0){
 					textArea.setEditable(true);
@@ -52,21 +51,27 @@ public class Cliente {
 			in = new Scanner(socket.getInputStream());
 			out = new PrintStream(socket.getOutputStream());
 		} catch (Exception e) {}
+		new Inicio(this);
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("Finalizando o programa");
 				out.println("DE");
 				in.close();
 				out.close();
 			}
 		}));
-		jogo = new Inicio(this);
 	}
 
 	public void escreveP(String nomeJogo, double tempoDecorrido) {
 		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
-		//jogo.proximoJogo();
+		if(Inicio.jogouTodos()){
+			while(in.hasNextLine()){
+				JOptionPane.showMessageDialog(null, in.nextLine());
+			}
+			System.exit(0);
+		}
 	}
 
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
@@ -91,7 +96,7 @@ public class Cliente {
 			}
 		}
 	}
-	
+
 	public boolean isEsperandoOp() {
 		return esperandoOp;
 	}

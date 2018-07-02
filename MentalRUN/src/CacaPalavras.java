@@ -9,10 +9,10 @@ public class CacaPalavras extends BaseJogos {
 	private HashSet<Integer> posicoesResp  = new HashSet<Integer>();
 	private HashSet<Integer> palavrasSorteadas = new HashSet<Integer>();
 	private int rodadas = 0,marcadasCertas = 0,marcadasErradas = 0,tamPal;
-	
+
 	public CacaPalavras() {
 		super("Caça Palavras", "Encontre a palavra desejada");
-		
+
 		palavras.add("JOGO");
 		palavras.add("VALE");
 		palavras.add("GANHAR");
@@ -27,10 +27,10 @@ public class CacaPalavras extends BaseJogos {
 		palavras.add("RUN");
 		palavras.add("CAÇA");
 		palavras.add("RAPIDO");
-		
+
 		r = new Random();//criando o rand
 		montaTabuleiro();	
-		
+
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class CacaPalavras extends BaseJogos {
 			botoes.elementAt(i).setVisible(true);
 			botoes.elementAt(i).setFont(new Font("Arial", Font.PLAIN, 20));
 		}
-		
+
 		int idPalavra = 0;
 		while(true) {
 			int idAux = r.getIntRandom(palavras.size()); // sorteia alguma das palavras
@@ -54,19 +54,19 @@ public class CacaPalavras extends BaseJogos {
 				break;
 			}
 		}
-		
+
 		lblTituloJogo.setText("Caça Palavras:   ("+ palavras.elementAt(idPalavra)+")");
-		
+
 		int vertical = r.getIntRandom(2); // sorteia se vai ficar na vertical ou horizontal
 		int inverso = r.getIntRandom(2); // sorteia se vai ficar escrito de tras para frente
-		
-		
+
+
 		tamPal = palavras.elementAt(idPalavra).length();
 		while(true) {
 			int id = r.getIntRandom(42);	
-			
+
 			if(vertical == 1) { // vai ficar na vertical
-				
+
 				if(inverso == 1 && ((int)(id/7))-(tamPal-1) >= 0) { // da para ser escrito de traz para frente 
 					for(int i=id,cont = 0;cont<tamPal;i-=7,cont++) {
 						botoes.elementAt(i).setText(Character.toString(palavras.elementAt(idPalavra).charAt(cont)));
@@ -80,9 +80,9 @@ public class CacaPalavras extends BaseJogos {
 					}
 					break;
 				}
-				
+
 			}else { // vai ficar na horizontal
-				
+
 				if(inverso == 1 && (id%7)-(tamPal-1) >= 0) {
 					int cont = 0;
 					for(int i=id;i>=id-(tamPal-1);i--,cont++) {
@@ -98,22 +98,19 @@ public class CacaPalavras extends BaseJogos {
 					}
 					break;
 				}
-				
+
 			}
-			
+
 		}	
 	}
-	
+
 	@Override
 	String oqTemnoBotao(int i) {
-		
 		return null;
 	}
 
-
 	@Override
 	void clicouBotao(int i) {
-		
 		if(botoes.elementAt(i).getForeground() == cores[4]) { // já está clicado
 			if(posicoesResp.contains(i)) {
 				marcadasCertas--;
@@ -143,8 +140,6 @@ public class CacaPalavras extends BaseJogos {
 				montaTabuleiro();
 			}
 		}
-		
-		
 	}
 
 }

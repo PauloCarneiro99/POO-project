@@ -9,9 +9,10 @@ import java.util.Scanner;
  * @see Cliente
  * @see Thread
  */
-public class ServerThread extends Thread {
+public class ServidorThread extends Thread {
 
 	private Servidor servidor;
+	private Socket socket;
 	private String nome = "", oponente = "";
 	private Scanner in;
 	private PrintStream out;
@@ -26,8 +27,9 @@ public class ServerThread extends Thread {
 	 * @param servidor Endereço do servidor para registro de log.
 	 * @throws Exception
 	 */
-	public ServerThread(Socket socket, final Servidor servidor) throws Exception {
+	public ServidorThread(Socket socket, final Servidor servidor) throws Exception {
 		this.servidor = servidor;
+		this.socket = socket;
 		this.in = new Scanner(socket.getInputStream());
 		this.out = new PrintStream(socket.getOutputStream());
 		kill = false;
@@ -45,23 +47,31 @@ public class ServerThread extends Thread {
 			System.out.println(e.getMessage());
 			return;
 		}
-		System.out.println(quantidadeJogos);
-		do {
+		while(quantidadeJogos > 0){
 			try {
 				if(kill) break;
 				lePontuacao();
+				if(kill) break;
 				quantidadeJogos--;
 			} catch (Exception e) {
 				if(kill) break;
 				servidor.addPontuacao(nome, "'P' ERRO", 0);
 				System.out.println(e.getMessage());
 			}
-		} while (quantidadeJogos > 0);
-		
-		System.out.println("acabou");
-		if(servidor.isUsuarioOnline(oponente)) out.println("VOCÊ VENCEU!");
-		else out.println("VOCÊ PERDEU!");
+		}
+		if(!oponente.equals("")){//se oponente nao eh vazio
+			if(servidor.isUsuarioOnline(oponente)){
+				if(Servidor.verbose) System.out.println("Ser Env: "+"VOCÊ VENCEU!");
+				out.println("VOCÊ VENCEU!");
+			}
+			else{
+				if(Servidor.verbose) System.out.println("Ser Env: "+"VOCÊ PERDEU!");
+				out.println("VOCÊ PERDEU!");
+			}
+		}
+		if(Servidor.verbose) System.out.println("Ser Env: "+"Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+((int)((tempoTotal%60)*1000))/1000+"s");
 		out.println("Seu tempo total foi: "+(tempoTotal > 60 ? (int)((tempoTotal - (tempoTotal % 60))/60)+"m " : "")+((int)((tempoTotal%60)*1000))/1000+"s");
+		if(Servidor.verbose) System.out.println("Ser Env: "+"Desconectanto você\\nObrigado por jogar!");
 		out.println("Desconectanto você\nObrigado por jogar!");
 		servidor.setUsuario(nome, false);
 		System.out.println(nome+" offline");
@@ -93,7 +103,6 @@ public class ServerThread extends Thread {
 	/**
 	 * Reads 'I' command from client.
 	 * If successful, sends welcome message back to him.
-	 * @throws BozoException
 	 */
 	private void leID() throws Exception {
 		String read[] = null;
@@ -106,7 +115,7 @@ public class ServerThread extends Thread {
 				try {
 					quantidadeJogos = Integer.parseInt(read[2]);
 					this.nome = toProper(read[3].trim().toLowerCase());
-					servidor.setUsuario(nome, true);
+					servidor.newUsuario(nome, socket.getInetAddress().getHostAddress());
 					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
 					out.println("Bem-vindo "+nome);
 					System.out.println(nome+" online");
@@ -118,14 +127,14 @@ public class ServerThread extends Thread {
 				try {
 					quantidadeJogos = Integer.parseInt(read[2]);
 					this.nome = toProper(read[3].trim().toLowerCase());
-					servidor.setUsuario(nome, true);
+					servidor.newUsuario(nome, socket.getInetAddress().getHostAddress());
 					this.oponente = toProper(read[4].trim().toLowerCase());
 					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
 					out.println("Bem-vindo "+nome);
 					if(Servidor.verbose) System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
 					out.println("Esperando "+oponente+" se conectar");
 					while(!servidor.isUsuarioOnline(oponente)){
-						Thread.sleep(3000);
+						Thread.sleep(1000);
 					}
 					if(Servidor.verbose) System.out.println("Ser Env: "+oponente+" conectado");
 					out.println(oponente+" conectado");

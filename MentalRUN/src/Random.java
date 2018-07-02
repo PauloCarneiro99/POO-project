@@ -40,7 +40,7 @@ public class Random {
 		this.x = (a + m * x) % p;
 		return ((double)x)/p;
 	}
-	
+
 	/**
 	 * Returns the last number generated.
 	 * @return Last generated number.
