@@ -56,18 +56,17 @@ public class Cliente {
 		new Thread(){
 			@Override
 			public void run() {
-				while(true){
-					if(hasNext()){
-						if(in.hasNext("POR2")){
-							System.out.println("yo3");
-							in.nextLine();
-							Inicio.increasePorcentagem2();
-						}
+				while(hasNext()){
+					System.out.println("yo2");
+					if(hasNext("POR2")){
+						System.out.println("yo3");
+						nextLine();
+						Inicio.increasePorcentagem2();
 					}
 					try {Thread.sleep(500);} catch (Exception e) {}
 				}
 			}
-		};
+		}.start();
 		inicio = new Inicio(this);
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
@@ -100,14 +99,14 @@ public class Cliente {
 			
 			while(hasNext()){
 				System.out.println("AA");
-				if(in.hasNext("D;.*")){
+				if(hasNext("D;.*")){
 					esperandoOp = false;
-					read = in.nextLine();
+					read = nextLine();
 					System.out.println("Cli Leu: "+read);
 					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
 				}
-				else{
-					read = in.nextLine();
+				else if(hasNext("S;.*")){
+					read = nextLine();
 					System.out.println("Cli Leu: "+read);
 					JOptionPane.showMessageDialog(null, read);
 				}
@@ -124,8 +123,20 @@ public class Cliente {
 		}
 	}
 	
+	public synchronized String nextLine(){
+		return in.nextLine();
+	}
+	
 	public synchronized boolean hasNext(){
 		return in.hasNext();
+	}
+	
+	public synchronized boolean hasNext(String pattern){
+		return in.hasNext(pattern);
+	}
+	
+	public synchronized boolean hasNextLine(){
+		return in.hasNextLine();
 	}
 
 	public boolean isEsperandoOp() {
