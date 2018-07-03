@@ -1,13 +1,13 @@
 # MentalRUN <img src="/MentalRUN/imagens/mental.png" width="25px"/>
 
-[![Java 1.7](https://img.shields.io/badge/Java-1.7-red.svg)](https://java.com)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PauloCarneiro99/POO-project/blob/master/LICENSE)
-[![Issues](https://img.shields.io/badge/issues-1-yellow.svg)](https://github.com/PauloCarneiro99/POO-project/issues)
-[![Download](https://img.shields.io/badge/download-%20857%20KB-brightgreen.svg)](https://github.com/PauloCarneiro99/POO-project/archive/master.zip)
+[![Java 1.7](https://img.shields.io/badge/Java-1.7-red.svg?longCache=true&style=flat-square)](https://java.com)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/blob/master/LICENSE)
+[![Issues](https://img.shields.io/badge/issues-1%20open-yellow.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/issues)
+[![Download](https://img.shields.io/badge/download-857%20KB-brightgreen.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/archive/master.zip)
 
 Projeto Final da disciplina [SSC0103 - Programação Orientada a Objetos](https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SSC0103)
 
-Desenvolvido com [Eclipse](https://www.eclipse.org/)
+Desenvolvido com [Eclipse IDE](https://www.eclipse.org/)
 
 ## Para jogar 🕹️🎮
 
