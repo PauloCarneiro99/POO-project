@@ -53,8 +53,22 @@ public class Cliente {
 			in = new Scanner(socket.getInputStream());
 			out = new PrintStream(socket.getOutputStream());
 		} catch (Exception e) {}
+		new Thread(){
+			@Override
+			public void run() {
+				while(true){
+					if(hasNext()){
+						if(in.hasNext("POR2")){
+							System.out.println("yo3");
+							in.nextLine();
+							Inicio.increasePorcentagem2();
+						}
+					}
+					try {Thread.sleep(500);} catch (Exception e) {}
+				}
+			}
+		};
 		inicio = new Inicio(this);
-		new ProgressoThreadCliente(this).start();
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -70,9 +84,9 @@ public class Cliente {
 		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
 		if(Inicio.jogouTodos()){
-			while(in.hasNextLine()){
-				JOptionPane.showMessageDialog(null, in.nextLine());
-			}
+			if(in.hasNext())
+				while(in.hasNext("S;.*"))
+					JOptionPane.showMessageDialog(null, in.nextLine());
 			System.exit(0);
 		}
 	}
@@ -83,7 +97,9 @@ public class Cliente {
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			out.println("I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			String read = "";
-			while(in.hasNextLine()){
+			
+			while(hasNext()){
+				System.out.println("AA");
 				if(in.hasNext("D;.*")){
 					esperandoOp = false;
 					read = in.nextLine();
@@ -100,12 +116,16 @@ public class Cliente {
 		else{
 			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome);
 			out.println("I;"+dupla+";"+qtd+";"+nome);
-			if(in.hasNextLine()){
-				String read = in.nextLine();
+			if(in.hasNext("S;.*")){
+				String read = in.next();
 				System.out.println("Cli Leu: "+read);
 				JOptionPane.showMessageDialog(null, read);
 			}
 		}
+	}
+	
+	public synchronized boolean hasNext(){
+		return in.hasNext();
 	}
 
 	public boolean isEsperandoOp() {

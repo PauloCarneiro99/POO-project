@@ -55,10 +55,8 @@ public class Usuario {
 	
 	@Override
 	public String toString() {
-		String fim = nome+"\n";
-		fim += IP+"\n";
-		fim += online ? "online\n" : "offline\n";
-		fim += atualizou ? "tem atualizacao" : "nao tem atualizacao";
+		String fim = nome+" ("+IP+") ";
+		fim += online ? "Online\n" : "Offline\n";
 		return fim;
 	}
 	

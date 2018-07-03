@@ -15,9 +15,10 @@ public class ProgressoThreadServidor extends Thread {
 	@Override
 	public void run() {
 		while(true){
-			System.out.println(servidor.getUsuario(oponente));
 			if(servidor.temAtualizacao(oponente)){
+				if(Servidor.verbose) System.out.println("Ser Env: "+"POR2");
 				out.println("POR2");
+				servidor.getUsuario(oponente).setAtualizou(false);
 			}
 			try {Thread.sleep(500);} catch (InterruptedException e) {}
 		}

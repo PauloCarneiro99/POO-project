@@ -87,7 +87,6 @@ public class Servidor {
 	synchronized static void printPontuacoes(){
 		System.out.println();
 		for(int i = 0; i < usuarios.size(); i++){
-			System.out.println(usuarios.elementAt(i).getNome()+":");
 			printPontuacoes(usuarios.elementAt(i).getNome());
 		}
 	}
@@ -98,6 +97,7 @@ public class Servidor {
 	synchronized static void printPontuacoes(String usuario){
 		double somaTotal = 0;
 		if(usuarios.contains(usuario)){
+			System.out.println(usuarios.elementAt(usuarios.indexOf(usuario)));
 			for(String jogo : usuarios.elementAt(usuarios.indexOf(usuario)).getPontuacoes().keySet()){
 				int vezes = usuarios.elementAt(usuarios.indexOf(usuario)).getPontuacoes().get(jogo).size();
 				System.out.println("\tJogou "+jogo+" "+vezes+" vezes");

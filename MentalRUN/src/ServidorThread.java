@@ -62,25 +62,25 @@ public class ServidorThread extends Thread {
 		}
 		if(!oponente.equals("")){//se oponente nao eh vazio
 			if(servidor.isUsuarioOnline(oponente)){
-				if(Servidor.verbose) System.out.println("Ser Env: "+"VOCÊ VENCEU!");
-				out.println("VOCÊ VENCEU!");
+				if(Servidor.verbose) System.out.println("Ser Env: "+"S;VOCÊ VENCEU!");
+				out.println("S;VOCÊ VENCEU!");
 			}
 			else{
-				if(Servidor.verbose) System.out.println("Ser Env: "+"VOCÊ PERDEU!");
-				out.println("VOCÊ PERDEU!");
+				if(Servidor.verbose) System.out.println("Ser Env: "+"S;VOCÊ PERDEU!");
+				out.println("S;VOCÊ PERDEU!");
 			}
 		}
-		if(Servidor.verbose) System.out.println("Ser Env: "+"Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
-		out.println("Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
-		if(Servidor.verbose) System.out.println("Ser Env: "+"Desconectanto você\\nObrigado por jogar!");
-		out.println("Desconectanto você\nObrigado por jogar!");
+		if(Servidor.verbose) System.out.println("Ser Env: "+"S;Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
+		out.println("S;Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
+		if(Servidor.verbose) System.out.println("Ser Env: "+"S;Desconectanto você\\nS;Obrigado por jogar!");
+		out.println("S;Desconectanto você\nS;Obrigado por jogar!");
 		servidor.setUsuarioOnline(nome, false);
 		System.out.println(nome+" offline");
 	}
 
 	private void lePontuacao() throws Exception {
 		String read[] = null;
-		if(in.hasNextLine()){
+		if(in.hasNext("P;.*") || in.hasNext("DE")){
 			read = in.nextLine().trim().split(";");
 		}
 		if(Servidor.verbose) System.out.println("Ser Leu: "+Arrays.toString(read));
@@ -108,18 +108,19 @@ public class ServidorThread extends Thread {
 	 */
 	private void leID() throws Exception {
 		String read[] = null;
-		if(in.hasNextLine()){
-			read = in.nextLine().trim().split(";");
-		}
+		if(in.hasNext())
+			if(in.hasNext("I;.*"))
+				read = in.nextLine().trim().split(";");
 		if(Servidor.verbose) System.out.println("Ser Leu: "+Arrays.toString(read));
+		if(read == null) kill = true;
 		if(read[0].equals("I")){
 			if(read[1].equals("0")){//sozinho
 				try {
 					quantidadeJogos = Integer.parseInt(read[2]);
 					this.nome = toProper(read[3].trim().toLowerCase());
 					servidor.newUsuario(nome, socket.getInetAddress().getHostAddress());
-					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
-					out.println("Bem-vindo "+nome);
+					if(Servidor.verbose) System.out.println("Ser Env: "+"S;Bem-vindo "+nome);
+					out.println("S;Bem-vindo "+nome);
 					System.out.println(nome+" online");
 				} catch (Exception e) {
 					throw new Exception("Terceiro argumento do comando 'I' não é um numemro");
@@ -131,14 +132,14 @@ public class ServidorThread extends Thread {
 					this.nome = toProper(read[3].trim().toLowerCase());
 					servidor.newUsuario(nome, socket.getInetAddress().getHostAddress());
 					this.oponente = toProper(read[4].trim().toLowerCase());
-					if(Servidor.verbose) System.out.println("Ser Env: "+"Bem-vindo "+nome);
-					out.println("Bem-vindo "+nome);
-					if(Servidor.verbose) System.out.println("Ser Env: "+"Esperando "+oponente+" se conectar");
-					out.println("Esperando "+oponente+" se conectar");
+					if(Servidor.verbose) System.out.println("Ser Env: "+"S;Bem-vindo "+nome);
+					out.println("S;Bem-vindo "+nome);
+					if(Servidor.verbose) System.out.println("Ser Env: "+"S;Esperando "+oponente+" se conectar");
+					out.println("S;Esperando "+oponente+" se conectar");
 					while(!servidor.isUsuarioOnline(oponente)){
 						Thread.sleep(1000);
 					}
-					if(Servidor.verbose) System.out.println("Ser Env: "+oponente+" conectado");
+					if(Servidor.verbose) System.out.println("Ser Env: "+"D;"+oponente+" conectado");
 					out.println("D;"+oponente+" conectado");
 					System.out.println(nome+" online jogando contra "+oponente);
 				} catch (Exception e) {
@@ -148,6 +149,10 @@ public class ServidorThread extends Thread {
 			else{
 				throw new Exception("Segundo argumento do comando 'I' não é '0' nem '1'");
 			}
+		}
+		else if(read[0].equals("DE")){
+			kill = true;
+			servidor.setUsuarioOnline(nome, false);
 		}
 		else
 			throw new Exception("Comando 'I' não encontrado");

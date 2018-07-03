@@ -159,7 +159,7 @@ public class Inicio {
 			JOptionPane.showMessageDialog(null, "Obrigado por jogar!");
 		}
 		jogo.setPb1(porcentagem1);
-		jogo.setPb2(porcentagem2);
+		if(!oponente.equals("")) jogo.setPb2(porcentagem2);
 	}
 
 	public static void proximoJogoSemCliente(){
