@@ -21,7 +21,7 @@ public class QualTemMais extends BaseJogos {
 			simb2 = r.getIntRandom(8);
 		}while((cor1 == cor2) && (simb1 == simb2));	//Ou a cor ou os símbolos podem ser iguais, mas não ambos
 		qtd1 = dificuldade; //Determinando a quantidade de símbolos
-		qtd2 = dificuldade + 1;
+		qtd2 = dificuldade + r.getIntRandom(1, 4);
 		for(int i = 0; i < qtd1; i++){
 			int tmp = r.getIntRandom(42);
 			while(!oqTemnoBotao(tmp).equals("")) tmp = r.getIntRandom(42);//Encontrando posição vazia no tabuleiro
