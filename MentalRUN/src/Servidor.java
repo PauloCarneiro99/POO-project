@@ -74,6 +74,12 @@ public class Servidor {
 			return usuarios.elementAt(usuarios.indexOf(nome)).temAtualizacao();
 		return false;
 	}
+	
+	public synchronized Usuario getUsuario(String nome){
+		if(usuarios.contains(nome))
+			return usuarios.elementAt(usuarios.indexOf(nome));
+		return null;
+	}
 
 	/**
 	 * Imprime todas as pontuações.

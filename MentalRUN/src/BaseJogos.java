@@ -182,8 +182,6 @@ abstract class BaseJogos {
 		cores[3] = new Color(76, 175, 80);//verde
 		cores[4] = new Color(230, 38, 25);//vermelho
 
-		if(Inicio.cliente != null) new ProgressoThreadCliente(Inicio.cliente.in).start();
-
 		comeca();//dispara o cronometro
 
 	}

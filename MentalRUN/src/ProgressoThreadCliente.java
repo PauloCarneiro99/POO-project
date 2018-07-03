@@ -1,22 +1,21 @@
-import java.util.Scanner;
 
 public class ProgressoThreadCliente extends Thread {
 
-	private Scanner in;
+	private static Cliente cliente;
 
-	public ProgressoThreadCliente(Scanner in){
-		this.in = in;
+	public ProgressoThreadCliente(Cliente cliente){
+		ProgressoThreadCliente.cliente = cliente;
 	}
 
 	@Override
 	public void run() {
-		while(true){
-			if(in.hasNext("POR2")){
-				in.nextLine();
-				Inicio.increasePorcentagem2();
-			}
-			try {Thread.sleep(500);} catch (InterruptedException e) {}
-		}
+		if(cliente != null)
+			while(true)
+				if(cliente.in.hasNext())
+					if(cliente.in.hasNext("POR2")){
+						cliente.in.nextLine();
+						Inicio.increasePorcentagem2();
+					}
 	};
 
 }

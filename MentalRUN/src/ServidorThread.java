@@ -34,7 +34,6 @@ public class ServidorThread extends Thread {
 		this.out = new PrintStream(socket.getOutputStream());
 		kill = false;
 		tempoTotal = 0;
-		new ProgressoThreadServidor(servidor, out, oponente).start();;
 	}
 
 	/**
@@ -48,6 +47,7 @@ public class ServidorThread extends Thread {
 			System.out.println(e.getMessage());
 			return;
 		}
+		if(!oponente.equals("")) new ProgressoThreadServidor(servidor, out, oponente).start();
 		while(quantidadeJogos > 0){
 			try {
 				if(kill) break;

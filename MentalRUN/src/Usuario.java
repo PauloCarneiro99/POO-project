@@ -53,4 +53,13 @@ public class Usuario {
 		this.atualizou = atualizou;
 	}
 	
+	@Override
+	public String toString() {
+		String fim = nome+"\n";
+		fim += IP+"\n";
+		fim += online ? "online\n" : "offline\n";
+		fim += atualizou ? "tem atualizacao" : "nao tem atualizacao";
+		return fim;
+	}
+	
 }

@@ -15,6 +15,7 @@ public class ProgressoThreadServidor extends Thread {
 	@Override
 	public void run() {
 		while(true){
+			System.out.println(servidor.getUsuario(oponente));
 			if(servidor.temAtualizacao(oponente)){
 				out.println("POR2");
 			}

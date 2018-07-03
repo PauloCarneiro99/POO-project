@@ -54,6 +54,7 @@ public class Cliente {
 			out = new PrintStream(socket.getOutputStream());
 		} catch (Exception e) {}
 		inicio = new Inicio(this);
+		new ProgressoThreadCliente(this).start();
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
