@@ -1,7 +1,7 @@
 import java.awt.Font;
 
 public class QualTemMais extends BaseJogos {
-	
+
 	private Random r = null;
 	private int cor1, cor2, simb1, simb2, qtd1, qtd2, dificuldade = 3;
 	private String simb[] = {"●","◆","★","♥","✿","✖","▧","✻"};
@@ -11,12 +11,12 @@ public class QualTemMais extends BaseJogos {
 		r = new Random();
 		montaTabuleiro();
 	}
-	
+
 	@Override
 	void montaTabuleiro() {
 		do {
-			cor1 = r.getIntRandom(4); //Gerando duas cores
-			cor2 = r.getIntRandom(4);
+			cor1 = r.getIntRandom(5); //Gerando duas cores
+			cor2 = r.getIntRandom(5);
 			simb1 = r.getIntRandom(8); //Gerando dois símbolos
 			simb2 = r.getIntRandom(8);
 		}while((cor1 == cor2) && (simb1 == simb2));	//Ou a cor ou os símbolos podem ser iguais, mas não ambos

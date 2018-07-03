@@ -1,6 +1,7 @@
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
+
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -15,8 +16,8 @@ public class Cliente {
 	public Scanner in;
 	public PrintStream out;
 	private String IPservidor = "";
-	private Inicio jogo;
 	private boolean esperandoOp = true;
+	public Inicio inicio;
 
 	/**
 	 * Opens up connection with server,
@@ -28,11 +29,11 @@ public class Cliente {
 	public static void main(String[] args) throws Exception {
 		new Cliente();
 	}
-	
+
 	public Cliente(){
 		while(true){
 			try {
-				//IPservidor = "192.168.182.219";//yoooo
+				//IPservidor = "192.168.182.214";
 				JTextArea textArea = new JTextArea();
 				while(IPservidor.length() == 0){
 					textArea.setEditable(true);
@@ -52,46 +53,80 @@ public class Cliente {
 			in = new Scanner(socket.getInputStream());
 			out = new PrintStream(socket.getOutputStream());
 		} catch (Exception e) {}
+		new Thread(){
+			@Override
+			public void run() {
+				while(hasNext()){
+					if(hasNext("POR2")){
+						nextLine();
+						Inicio.increasePorcentagem2();
+					}
+					try {Thread.sleep(500);} catch (Exception e) {}
+				}
+			}
+		}.start();
+		inicio = new Inicio(this);
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("Finalizando o programa");
 				out.println("DE");
 				in.close();
 				out.close();
 			}
 		}));
-		jogo = new Inicio(this);
 	}
 
 	public void escreveP(String nomeJogo, double tempoDecorrido) {
-		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
-		//jogo.proximoJogo();
+		if(Inicio.jogouTodos()){
+			if(hasNext())
+				while(hasNext("S;.*")){
+					String read = nextLine();
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
+				}
+			System.exit(0);
+		}
 	}
 
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
 		int dupla = Dupla ? 1 : 0;
 		if(Dupla){
-			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			out.println("I;"+dupla+";"+qtd+";"+nome+";"+oponente);
-			while(in.hasNextLine()){
-				String read = in.nextLine();
-				System.out.println("Cli Leu: "+read);
-				JOptionPane.showMessageDialog(null, read);
-				if(read.equalsIgnoreCase(oponente + " conectado")) esperandoOp = false;
+			String read = "";
+			while(hasNext()){
+				if(hasNext("D;.*")){
+					esperandoOp = false;
+					read = nextLine();
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
+				}
+				else if(hasNext("S;.*")){
+					read = nextLine();
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
+				}
 			}
 		}
 		else{
-			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome);
 			out.println("I;"+dupla+";"+qtd+";"+nome);
-			if(in.hasNextLine()){
-				String read = in.nextLine();
-				System.out.println("Cli Leu: "+read);
-				JOptionPane.showMessageDialog(null, read);
+			if(hasNext("S;.*")){
+				String read = nextLine();
+				JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
 			}
 		}
 	}
 	
+	public synchronized String nextLine(){
+		return in.nextLine();
+	}
+	
+	public synchronized boolean hasNext(){
+		return in.hasNext();
+	}
+	
+	public synchronized boolean hasNext(String pattern){
+		return in.hasNext(pattern);
+	}
+
 	public boolean isEsperandoOp() {
 		return esperandoOp;
 	}

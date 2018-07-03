@@ -22,6 +22,7 @@ public class Inicio {
 	private static Vector<String> jogosNomes = new Vector<String>();
 	private static Vector<Boolean> jogosJogados = new Vector<Boolean>();
 	private static Random r;
+	private static int porcentagem1 = 0, porcentagem2 = 0;
 
 	public static String getNome() {
 		return nome;
@@ -30,14 +31,14 @@ public class Inicio {
 	public static String getOponente() {
 		return oponente;
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			new Inicio();
 			//System.out.println("\n\nNAO JOGA AQUI PORRA");
 		} catch (Exception e) {}
 	}
-	
+
 	public Inicio(Cliente cliente){
 		Inicio.cliente = cliente;
 		try {
@@ -45,8 +46,10 @@ public class Inicio {
 		} catch (Exception e) {}
 		Inicio.cliente.escreveID(isDupla(), jogosNomes.size(), nome, oponente);
 	}
-	
+
 	public Inicio(){
+		porcentagem1 = 0;
+		porcentagem2 = 0;
 		r = new Random();
 
 		jogosNomes.add("Caça Palavras");
@@ -57,11 +60,11 @@ public class Inicio {
 		jogosNomes.add("Qual Tem Mais");
 		jogosNomes.add("Sequência Númerica");
 		jogosNomes.add("Todos Iguais");
-		
+
 		for(int i=0;i<jogosNomes.size();i++){
 			jogosJogados.add(false);
 		}
-		
+
 		Image img = new ImageIcon(this.getClass().getResource("/Inicio.jpg")).getImage();
 		Image icone = new ImageIcon(this.getClass().getResource("/mental.png")).getImage();
 		janelaInicio = new JFrame("MentalRUN");
@@ -74,12 +77,12 @@ public class Inicio {
 				((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()-img.getHeight(null))/2);//define a posicao da janela no centro da tela
 		janelaInicio.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		janelaInicio.getContentPane().setLayout(null);
-		
+
 		JLabel imgFundo = new JLabel();//cria um label para o fundo
 		imgFundo.setIcon(new ImageIcon(img));//coloca a imagem nesse label
 		imgFundo.setBounds(0, 0, img.getWidth(null), img.getHeight(null));//define o tamanho do label com o tamanho da imagem
 		janelaInicio.getContentPane().add(imgFundo);//adiciona o label da imagem de fundo na janela
-		
+
 		JLabel lblJogar = new JLabel();
 		lblJogar.addMouseListener(new MouseAdapter() {//adiciona um listener no botao jogar
 			@Override
@@ -89,7 +92,7 @@ public class Inicio {
 		});
 		lblJogar.setBounds(28, 148, 210, 107);//pixel zoomer
 		janelaInicio.getContentPane().add(lblJogar);//adiciona o label jogar na janela
-		
+
 		JLabel lblInstrucoes = new JLabel();//mesma coisa que lblJogar
 		lblInstrucoes.addMouseListener(new MouseAdapter() {
 			@Override
@@ -110,7 +113,7 @@ public class Inicio {
 		lblCreditos.setBounds(28, 280, 444, 41);
 		janelaInicio.getContentPane().add(lblCreditos);
 		ID();
-		
+
 	}
 
 	private void Jogar(){
@@ -128,7 +131,7 @@ public class Inicio {
 			}
 		}
 	}
-	
+
 	public static void proximoJogo(){
 		if(!jogouTodos()){
 			int jogo = r.getIntRandom(jogosNomes.size());
@@ -152,8 +155,13 @@ public class Inicio {
 				Inicio.jogo = new TodosIguais();
 			jogosJogados.setElementAt(true, jogo);
 		}
+		else{
+			JOptionPane.showMessageDialog(null, "Obrigado por jogar!");
+		}
+		jogo.setPb1(porcentagem1);
+		if(!oponente.equals("")) jogo.setPb2(porcentagem2);
 	}
-	
+
 	public static void proximoJogoSemCliente(){
 		if(!jogouTodos()){
 			int jogo = r.getIntRandom(jogosNomes.size());
@@ -177,8 +185,9 @@ public class Inicio {
 				Inicio.jogo = new TodosIguais();
 			jogosJogados.setElementAt(true, jogo);
 		}
+		jogo.setPb1(porcentagem1);
 	}
-	
+
 	private void Instrucoes(){
 		String instrucoes = "INSTRUÇÕES:\n";
 		instrucoes+= "Caça Palavras: Encontre a palavra desejada\n";
@@ -189,10 +198,10 @@ public class Inicio {
 		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente";
 		instrucoes+= "Sequência Númerica: Clique nos números em ordem crescente\n";
 		instrucoes+= "Todos Iguais: Clique no icone para muda-lo, deixe todos iguais\n";
-		
+
 		JOptionPane.showMessageDialog(null, instrucoes);
 	}
-	
+
 	private void Creditos(){
 		JOptionPane.showMessageDialog(null, "Desenvolvedores\n"+
 				"9293668 Andre S. Junior\n"+
@@ -201,7 +210,7 @@ public class Inicio {
 				"10295304 Paulo O. Carneiro\n"+
 				"10284952 Vitor G. Torres\n");
 	}
-	
+
 	public double tempoDecorrido(){
 		if(jogo != null)
 			return jogo.tempoDecorrido();
@@ -214,7 +223,7 @@ public class Inicio {
 				return false;
 		return true;
 	}
-	
+
 	private void ID(){
 		JTextArea textArea = new JTextArea();
 		while(nome.length() == 0){
@@ -237,9 +246,19 @@ public class Inicio {
 			}
 		}
 	}
-	
+
 	public static boolean isDupla(){
 		return !oponente.equals("");
 	}
-	
+
+	public static void increasePorcentagem1() {
+		Inicio.porcentagem1 += 125;
+		jogo.setPb1(porcentagem1);
+	}
+
+	public static void increasePorcentagem2() {
+		Inicio.porcentagem2 += 125;
+		jogo.setPb2(porcentagem2);
+	}
+
 }

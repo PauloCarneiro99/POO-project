@@ -3,13 +3,11 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Vector;
 
 public class Servidor {
-	
-	private static HashMap<String, HashMap<String, Vector<Double>>> usuarios;
-	private static HashMap<String, Boolean> usuariosOnline;
+
+	private static Vector<Usuario> usuarios;
 	public static final int port = 7777;
 	public static boolean verbose = false;
 
@@ -18,37 +16,69 @@ public class Servidor {
 	 * @param args
 	 */
 	public Servidor(){
-		usuarios = new HashMap<String, HashMap<String, Vector<Double>>>();
-		usuariosOnline = new HashMap<String, Boolean>();
+		usuarios = new Vector<Usuario>(){
+			private static final long serialVersionUID = 1L;
+			@Override
+			public boolean contains(Object o) {
+				for(int i = 0; i < this.size(); i++)
+					if(this.elementAt(i).getNome().equals(o))
+						return true;
+				return false;
+			}
+			@Override
+			public int indexOf(Object o) {
+				for(int i = 0; i < this.size(); i++)
+					if(this.elementAt(i).getNome().equals(o))
+						return i;
+				return -1;
+			}
+		};
 	}
-	
+
 	/**
 	 * Adiciona uma nova pontuação aos dados dos usuários.
-	 * Também cria um novo usuário se não conseguir encontrar o nome do usuário especificado.
 	 * @param usuario ID do usuário.
 	 * @param pontuacao Pontuação do usuário a ser adicionada.
 	 */
 	synchronized public void addPontuacao(String usuario, String jogo, double pontuacao){
-		if(!usuarios.containsKey(usuario)){
-			HashMap<String, Vector<Double>> jogos = new HashMap<String, Vector<Double>>();
-			usuarios.put(usuario, jogos);
+		if(usuarios.contains(usuario)){
+			usuarios.elementAt(usuarios.indexOf(usuario)).addPontuacoes(jogo, pontuacao);
+			usuarios.elementAt(usuarios.indexOf(usuario)).setAtualizou(true);
 		}
-		if(!usuarios.get(usuario).containsKey(jogo)){
-			Vector<Double> pontuacoes = new Vector<Double>();
-			usuarios.get(usuario).put(jogo, pontuacoes);
-		}
-		usuarios.get(usuario).get(jogo).add(pontuacao);
 	}
 	
-	synchronized public void setUsuario(String nome, boolean onoff){
-		if(!nome.isEmpty())
-			usuariosOnline.put(nome, onoff);
+	synchronized public void newUsuario(String nome, String IP){
+		if(!nome.isEmpty() && !IP.isEmpty()){
+			if(!usuarios.contains(nome))
+				usuarios.add(new Usuario(nome, IP));
+			else{
+				usuarios.elementAt(usuarios.indexOf(nome)).setIP(IP);
+				usuarios.elementAt(usuarios.indexOf(nome)).setOnline(true);
+			}
+		}
 	}
-	
+
+	synchronized public void setUsuarioOnline(String nome, boolean onoff){
+		if(!nome.isEmpty() && usuarios.contains(nome))
+			usuarios.elementAt(usuarios.indexOf(nome)).setOnline(onoff);
+	}
+
 	synchronized public boolean isUsuarioOnline(String nome){
-		if(!usuariosOnline.containsKey(nome))
-			setUsuario(nome, false);
-		return usuariosOnline.get(nome);
+		if(!nome.isEmpty() && usuarios.contains(nome))
+			return usuarios.elementAt(usuarios.indexOf(nome)).isOnline();
+		return false;
+	}
+	
+	public synchronized boolean temAtualizacao(String nome){
+		if(usuarios.contains(nome))
+			return usuarios.elementAt(usuarios.indexOf(nome)).temAtualizacao();
+		return false;
+	}
+	
+	public synchronized Usuario getUsuario(String nome){
+		if(usuarios.contains(nome))
+			return usuarios.elementAt(usuarios.indexOf(nome));
+		return null;
 	}
 
 	/**
@@ -56,31 +86,47 @@ public class Servidor {
 	 */
 	synchronized static void printPontuacoes(){
 		System.out.println();
-		for(String usuario : usuarios.keySet()){
-			System.out.println(usuario+":");
-			printPontuacoes(usuario);
+		for(int i = 0; i < usuarios.size(); i++){
+			printPontuacoes(usuarios.elementAt(i).getNome());
 		}
 	}
-	
+
 	/**
 	 * Imprime as pontuacoes de uma pessoa
 	 */
 	synchronized static void printPontuacoes(String usuario){
-		if(usuarios.containsKey(usuario))
-			for(String jogo : usuarios.get(usuario).keySet()){
-				System.out.println("\tJogou "+jogo+" "+usuarios.get(usuario).get(jogo).size()+" vezes");
+		double somaTotal = 0;
+		if(usuarios.contains(usuario)){
+			System.out.println(usuarios.elementAt(usuarios.indexOf(usuario)));
+			for(String jogo : usuarios.elementAt(usuarios.indexOf(usuario)).getPontuacoes().keySet()){
+				int vezes = usuarios.elementAt(usuarios.indexOf(usuario)).getPontuacoes().get(jogo).size();
+				System.out.println("\tJogou "+jogo+" "+vezes+" vezes");
 				double soma = 0;
-				for(Double pontuacao : usuarios.get(usuario).get(jogo))
+				for(Double pontuacao : usuarios.elementAt(usuarios.indexOf(usuario)).getPontuacoes().get(jogo))
 					soma += pontuacao;
-				System.out.println("\t\tPontuacao total: "+soma+" segundos");
-				System.out.println("\t\tMédia: "+(soma/usuarios.get(usuario).get(jogo).size())+" segundos");
+				System.out.println("\t\tTempo total: "+parseTempo(soma));
+				System.out.println("\t\tMédia: "+parseTempo(soma/vezes));
+				somaTotal += soma;
 			}
+			System.out.println("\tTempo jogando esse jogo: "+parseTempo(somaTotal));
+		}
 	}
 	
+	public static String parseTempo(double tempo){
+		String parse = "";
+		if(tempo > 60){
+			int minutos = (int)(tempo/60);
+			parse += minutos + " minuto" + (minutos > 1 ? "s " : " ");
+		}
+		int segundos = (int)((tempo*1000)%60000);
+		parse += ((double)segundos)/1000 + " segundos";
+		return parse;
+	}
+
 	synchronized static void printOnline(){
 		System.out.println();
-		for(String usuario : usuariosOnline.keySet())
-			System.out.println(usuario+" está "+(usuariosOnline.get(usuario)?"online":"offline"));
+		for(int i = 0; i < usuarios.size(); i++)
+			System.out.println(usuarios.elementAt(i).getNome()+" ("+usuarios.elementAt(i).getIP()+") está "+(usuarios.elementAt(i).isOnline()?"online":"offline"));
 	}
 
 	/**
@@ -97,21 +143,21 @@ public class Servidor {
 		Enumeration e = NetworkInterface.getNetworkInterfaces();
 		int count = 0;
 		while(e.hasMoreElements()){
-		    NetworkInterface n = (NetworkInterface) e.nextElement();
-		    Enumeration ee = n.getInetAddresses();
-		    while (ee.hasMoreElements()){
-		        count++;
-		        InetAddress i = (InetAddress) ee.nextElement();
-		        if(count == 2) System.out.println(i.getHostAddress());
-		    }
+			NetworkInterface n = (NetworkInterface) e.nextElement();
+			Enumeration ee = n.getInetAddresses();
+			while (ee.hasMoreElements()){
+				count++;
+				InetAddress i = (InetAddress) ee.nextElement();
+				if(count == 2) System.out.println(i.getHostAddress());
+			}
 		}
 		Servidor servidor = new Servidor();
-		new ThreadPontuacao().start();
+		new ServidorComandosThread().start();
 		while(true){
-			Socket client = socket.accept();
-			new ServerThread(client, servidor).start();
-			System.out.println("Nova conexão com o cliente "+client.getInetAddress().getHostAddress());
+			Socket cliente = socket.accept();
+			new ServidorThread(cliente, servidor).start();
+			System.out.println("Nova conexão com o cliente "+cliente.getInetAddress().getHostAddress());
 		}
 	}
-	
+
 }

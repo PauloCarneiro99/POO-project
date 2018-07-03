@@ -11,12 +11,12 @@ public class TodosIguais extends BaseJogos {
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
-	
+
 	@Override
 	void montaTabuleiro(){
-		cor1 = cor2 = r.getIntRandom(4);
+		cor1 = cor2 = r.getIntRandom(5);
 		while(cor1 == cor2)
-			cor2 = r.getIntRandom(4);
+			cor2 = r.getIntRandom(5);
 		simb1 = simb2 = r.getIntRandom(8);
 		while(simb1 == simb2)
 			simb2 = r.getIntRandom(8);

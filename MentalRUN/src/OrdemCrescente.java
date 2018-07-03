@@ -9,12 +9,10 @@ public class OrdemCrescente extends BaseJogos {
 	private Vector<Integer> numeros = new Vector<Integer>();
 	private HashSet<Integer> foi  = new HashSet<Integer>();
 	private int quantidade = 3, atual = 0, rodada = 0;
-	
-	
+
+
 	public OrdemCrescente() {
 		super("Ordem Crescente", "Clique nos números em ordem crescente");
-		
-		
 		r = new Random();//criando o rand
 		montaTabuleiro();
 	}
@@ -26,9 +24,7 @@ public class OrdemCrescente extends BaseJogos {
 
 	@Override
 	void clicouBotao(int i) {
-		
 		int num = Integer.parseInt(botoes.elementAt(i).getText());
-		
 		if(numeros.elementAt(atual) != num){ // errado
 			penalidade(3);
 		}else {
@@ -44,26 +40,23 @@ public class OrdemCrescente extends BaseJogos {
 				montaTabuleiro();
 			}
 		}
-		
 	}
 
 	@Override
 	void montaTabuleiro() {
-		
 		foi.clear();
 		numeros.clear();
 		atual = 0;
 		limpaTabuleiro();
-		
+
 		for(int i=0;i<quantidade;i++){
 			int at;
-			
 			int ini = 0 , fin = 20;
 			if(rodada >= 3){
 				ini = -9;
 				fin = 20;
 			}
-			
+
 			while(true){
 				at = r.getIntRandom(ini, fin);
 				if(!foi.contains(at)){ // se ainda não foi usado nesse tabuleiro 
@@ -71,12 +64,9 @@ public class OrdemCrescente extends BaseJogos {
 					break;
 				}
 			}
-		
 			numeros.add(at);
 		}
-		
 		Collections.sort(numeros);
-		
 		for(int i=0;i<quantidade;i++){
 			int pos;
 			while(true){
@@ -85,13 +75,11 @@ public class OrdemCrescente extends BaseJogos {
 					break;
 				}
 			}
-			
 			botoes.elementAt(pos).setText(numeros.elementAt(i).toString());//coloco no botao o numero
-			botoes.elementAt(pos).setForeground(cores[r.getIntRandom(4)]);
+			botoes.elementAt(pos).setForeground(cores[r.getIntRandom(5)]);
 			botoes.elementAt(pos).setVisible(true);
 			botoes.elementAt(pos).setFont(new Font("Arial", Font.PLAIN, 20));
 		}
-		
 	}
 
 }

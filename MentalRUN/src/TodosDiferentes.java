@@ -3,7 +3,7 @@
 import java.awt.Font;
 
 public class TodosDiferentes extends BaseJogos {
-	
+
 	private Random r = null;
 	private int dificuldade = 4;
 	private int[] seq;
@@ -14,7 +14,7 @@ public class TodosDiferentes extends BaseJogos {
 		r = new Random();
 		montaTabuleiro();
 	}
-	
+
 	@Override
 	void montaTabuleiro() {
 		seq = new int[dificuldade*2]; //Vetor com o par(cor, simbolo). [0..dif-1] = cor, [dif..dif-1] = simbolo
@@ -31,8 +31,8 @@ public class TodosDiferentes extends BaseJogos {
 				for(int i = j+1; i < dificuldade; i++) {
 					if((auxCor == seq[i]) && (auxSimb == seq[i+dificuldade])) //Checa se há repetição na sequência
 						hasRep = true;
-						seq[i] = r.getIntRandom(4); //Gerando novos valores
-						seq[i+dificuldade] = r.getIntRandom(8);
+					seq[i] = r.getIntRandom(4); //Gerando novos valores
+					seq[i+dificuldade] = r.getIntRandom(8);
 				}
 			}
 		}while(hasRep);
@@ -55,7 +55,7 @@ public class TodosDiferentes extends BaseJogos {
 			botoes.elementAt(tmp).setForeground(cores[seq[pos]]);
 			botoes.elementAt(tmp).setVisible(true);
 		}
-		
+
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class TodosDiferentes extends BaseJogos {
 		//Atualizando novo ícone do vetor como próximo elemento da sequência
 		botoes.elementAt(i).setText(simb[seq[((pos+1)%dificuldade)+dificuldade]]);
 		botoes.elementAt(i).setForeground(cores[seq[(pos+1)%dificuldade]]);
-		
+
 		//Checar se não há repetição entre os botões
 		int howManyRep = 0;
 		for(int j = 0; (j < dificuldade) && (howManyRep < 2); j++) {
