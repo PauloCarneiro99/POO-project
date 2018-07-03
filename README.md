@@ -1,25 +1,34 @@
-# Mental RUN
+# MentalRUN <img src="/MentalRUN/imagens/mental.png" width="25px"/>
 
-Esse projeto foi desenvolvido para a disciplica SSC0103 - Programação Orientada a Objetos
+[![Java 1.7](https://img.shields.io/badge/Java-1.7-red.svg)](https://java.com)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PauloCarneiro99/POO-project/blob/master/LICENSE)
+[![Issues](https://img.shields.io/badge/issues-1-yellow.svg)](https://github.com/PauloCarneiro99/POO-project/issues)
+[![Download](https://img.shields.io/badge/download-%20857%20KB-brightgreen.svg)](https://github.com/PauloCarneiro99/POO-project/archive/master.zip)
 
-Linguagem :
+Projeto Final da disciplina [SSC0103 - Programação Orientada a Objetos](https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SSC0103)
 
-[![Java: 1.7](https://img.shields.io/badge/Java-1.7-red.svg)](http://www.oracle.com/technetwork/java/index.html)
+Desenvolvido com [Eclipse](https://www.eclipse.org/)
 
-Utilizamos a IDE eclipse para o desenvolvimento do programa
+## Para jogar 🕹️🎮
 
-Passo a passo para execução do jogo:
+* [Baixe](https://github.com/PauloCarneiro99/POO-project/archive/master.zip) ou Clone este Repositório
+* Descomprima o arquivo `.zip`
+* No terminal entre na pasta `/MentalRUN/`
+* Para jogar sozinho **offline**
+    * No terminal digite o comando: `make runSolo`
+* Para jogar sozinho ou em dupla **online**
+    * Em um terminal abra um servidor com o comando: `make runServidor`
+    * Em outros terminais abra quantos clientes (players) quiser em quantas máquinas quiser: `make runCliente`
+    * Os clientes perguntarão pelo IP do Servidor que pode ser encontrado no terminal do Servidor
 
-    clone o repositorio do github
-    
-    entre na pasta MentalRUN
-    
-    Caso deseje jogar sozinho digite no terminal: make runSolo
-    
-    Caso deseje jogar em rede siga os seguintes passos:
-    
-          digite no terminal o comando para abrir o servidor: make runServidor
-          
-          digite no terminal o comando para abrir um cliente(um player): make runCliente
-          
-          Abra um segundo cliente e comece o jogo contra seu oponente
+## Desenvolvedores 👨‍💻
+
+[Andre S. Junior](https://github.com/andrestorino)
+
+[Fabio F. Destro](https://github.com/FbFDestro)
+
+[Gabriel B. Domingos](https://github.com/bielbaltazar)
+
+[Paulo O. Carneiro](https://github.com/PauloCarneiro99)
+
+[Vitor Gratiere](https://vitorgt.github.io)
