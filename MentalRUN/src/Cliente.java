@@ -57,9 +57,7 @@ public class Cliente {
 			@Override
 			public void run() {
 				while(hasNext()){
-					System.out.println("yo2");
 					if(hasNext("POR2")){
-						System.out.println("yo3");
 						nextLine();
 						Inicio.increasePorcentagem2();
 					}
@@ -80,12 +78,13 @@ public class Cliente {
 	}
 
 	public void escreveP(String nomeJogo, double tempoDecorrido) {
-		System.out.println("Cli Env: "+"P;"+nomeJogo+";"+tempoDecorrido);
 		out.println("P;"+nomeJogo+";"+tempoDecorrido);
 		if(Inicio.jogouTodos()){
-			if(in.hasNext())
-				while(in.hasNext("S;.*"))
-					JOptionPane.showMessageDialog(null, in.nextLine());
+			if(hasNext())
+				while(hasNext("S;.*")){
+					String read = nextLine();
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
+				}
 			System.exit(0);
 		}
 	}
@@ -93,32 +92,25 @@ public class Cliente {
 	public void escreveID(boolean Dupla, int qtd, String nome, String oponente) {
 		int dupla = Dupla ? 1 : 0;
 		if(Dupla){
-			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			out.println("I;"+dupla+";"+qtd+";"+nome+";"+oponente);
 			String read = "";
-			
 			while(hasNext()){
-				System.out.println("AA");
 				if(hasNext("D;.*")){
 					esperandoOp = false;
 					read = nextLine();
-					System.out.println("Cli Leu: "+read);
 					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
 				}
 				else if(hasNext("S;.*")){
 					read = nextLine();
-					System.out.println("Cli Leu: "+read);
-					JOptionPane.showMessageDialog(null, read);
+					JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
 				}
 			}
 		}
 		else{
-			System.out.println("Cli Env: "+"I;"+dupla+";"+qtd+";"+nome);
 			out.println("I;"+dupla+";"+qtd+";"+nome);
-			if(in.hasNext("S;.*")){
-				String read = in.next();
-				System.out.println("Cli Leu: "+read);
-				JOptionPane.showMessageDialog(null, read);
+			if(hasNext("S;.*")){
+				String read = nextLine();
+				JOptionPane.showMessageDialog(null, read.substring(2, read.length()));
 			}
 		}
 	}
@@ -133,10 +125,6 @@ public class Cliente {
 	
 	public synchronized boolean hasNext(String pattern){
 		return in.hasNext(pattern);
-	}
-	
-	public synchronized boolean hasNextLine(){
-		return in.hasNextLine();
 	}
 
 	public boolean isEsperandoOp() {
