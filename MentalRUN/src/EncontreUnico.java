@@ -30,7 +30,7 @@ public class EncontreUnico extends BaseJogos {
 	void clicouBotao(int i) { //acertei, gero um novo tabuleiro e aumento o numero de simbolos que serao gerados
 		if(i == posUnico){
 			rodadas++;
-			nroSimbolos += 2;
+			nroSimbolos += r.getIntRandom(1, 3);
 			if(rodadas == 6){ //cheguei no maximo de rodadas, finalizo o jogo
 				finaliza();
 			}

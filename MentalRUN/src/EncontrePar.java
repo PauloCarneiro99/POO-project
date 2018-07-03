@@ -45,7 +45,7 @@ public class EncontrePar extends BaseJogos {
 				rodada++;//incrementa 1 em rodadas ganhas
 				if(rodada == 12)//Finaliza o jogo
 					finaliza();
-				nroSimbolos+= 2; //incrementando os simbolos que irao aparecer no jogo
+				nroSimbolos += r.getIntRandom(1, 3); //incrementando os simbolos que irao aparecer no jogo
 				montaTabuleiro();//monto novamente o tabuleiro
 			}else{//errei o par, sofro penalidade e monto um novo tabuleiro
 				botao = false;

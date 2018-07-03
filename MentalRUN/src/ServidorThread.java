@@ -69,8 +69,8 @@ public class ServidorThread extends Thread {
 			else{
 				if(Servidor.verbose) System.out.println("Ser Env: "+"S;VOCÊ PERDEU!");
 				out.println("S;VOCÊ PERDEU!");
-				if(Servidor.verbose) System.out.println("Ser Env: "+"S;O tempo do seu oponente foi "+servidor.getUsuario(oponente).getPontuacoes().get("Jogo Total").lastElement());
-				out.println("S;O tempo do seu oponente foi "+servidor.getUsuario(oponente).getPontuacoes().get("Jogo Total").lastElement());
+				if(Servidor.verbose) System.out.println("Ser Env: "+"S;O tempo do seu oponente foi "+Servidor.parseTempo(servidor.getUsuario(oponente).getPontuacoes().get("Jogo Total").lastElement()));
+				out.println("S;O tempo do seu oponente foi "+Servidor.parseTempo(servidor.getUsuario(oponente).getPontuacoes().get("Jogo Total").lastElement()));
 			}
 		}
 		if(Servidor.verbose) System.out.println("Ser Env: "+"S;Seu tempo total foi: "+Servidor.parseTempo(tempoTotal));
