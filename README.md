@@ -2,8 +2,8 @@
 
 [![Java 1.7](https://img.shields.io/badge/Java-1.7-red.svg?longCache=true&style=flat-square)](https://java.com)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/blob/master/LICENSE)
-[![Issues](https://img.shields.io/badge/issues-1%20open-yellow.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/issues)
-[![Download](https://img.shields.io/badge/download-857%20KB-brightgreen.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/archive/master.zip)
+[![Issues](https://img.shields.io/badge/issues-2%20open-yellow.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/issues)
+[![Download](https://img.shields.io/badge/download-1.6%20MB-brightgreen.svg?longCache=true&style=flat-square)](https://github.com/PauloCarneiro99/POO-project/archive/master.zip)
 
 Projeto Final da disciplina [SSC0103 - Programação Orientada a Objetos](https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=SSC0103)
 
