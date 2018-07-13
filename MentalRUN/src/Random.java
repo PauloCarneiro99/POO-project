@@ -17,7 +17,7 @@ public class Random {
 	 * Class constructor that sets a random seed.
 	 */
 	public Random(){
-		this.x = -Calendar.getInstance().getTimeInMillis();
+		this.x = Math.abs(Calendar.getInstance().getTimeInMillis());
 		try {
 			Thread.sleep(50);
 		} catch (Exception e) {}
