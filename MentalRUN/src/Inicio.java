@@ -195,7 +195,7 @@ public class Inicio {
 		instrucoes+= "Encontre o único: Encontre o único simbolo que é único\n";
 		instrucoes+= "Olhos de Águia: Encontre o caractere diferente\n";
 		instrucoes+= "Ordem Crescente: Clique nos números em ordem crescente\n";
-		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente";
+		instrucoes+= "Qual tem mais: Clique em qualquer icone que é o mais frequente\n";
 		instrucoes+= "Sequência Númerica: Clique nos números em ordem crescente\n";
 		instrucoes+= "Todos Iguais: Clique no icone para muda-lo, deixe todos iguais\n";
 
